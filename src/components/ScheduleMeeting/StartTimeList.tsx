@@ -11,25 +11,14 @@ type Props = {
 };
 
 const Container = styled.div`
-  border: 1px solid rgba(0,0,0,.3);
   position: relative;
   display: flex;
-  max-height: 100%;
-  height: inherit;
-  overflow: scroll;
-  padding: 16px;
-  display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
-const SelectedDayTitle = styled.h3`
-  margin: 0;
-  padding: 0;
-  font-weight: 700;
-`;
 
 const ScrollContainer = styled.div`
-  overflow: scroll;
   border: 1px solid red;
   max-height: 100%;
   flex: 1;
@@ -37,12 +26,9 @@ const ScrollContainer = styled.div`
 
 const StartTimeList: React.FC<Props> = ({ startTimeListItems =[], selectedDay,  onStartTimeSelect }) => (
   <Container>
-    <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
-    <ScrollContainer>
       {startTimeListItems.map((startTimeEvent: any, i: number) => (
         <StartTimeListItem startTimeEvent={startTimeEvent} onStartTimeSelect={onStartTimeSelect} key={i} />
       ))}
-    </ScrollContainer>
   </Container>
 );
 

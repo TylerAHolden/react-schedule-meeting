@@ -14,7 +14,8 @@ const Container = styled.button`
   background-color: transparent;
   border-radius: 8px;
   outline: none;
-
+  width: 100%;
+  
   :hover {
     background-color: #F0F0F0;
     cursor: pointer;

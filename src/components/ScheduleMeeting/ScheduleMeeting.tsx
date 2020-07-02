@@ -3,9 +3,16 @@ import React, {useEffect} from 'react';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
 import styled from 'styled-components';
-import {differenceInMinutes, addMinutes, isSameDay ,isSameMinute, isPast} from 'date-fns';
+import {differenceInMinutes,format, addMinutes, isSameDay ,isSameMinute, isPast} from 'date-fns';
 
 const Container = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Inner = styled.div`
   display: flex;
   max-width: 1000px;
   border-radius: 6px;
@@ -13,12 +20,21 @@ const Container = styled.div`
     0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const Divider = styled.div`
   width: 1px;
   background: rgba(0,0,0,.1);
   margin: 16px;
+  @media (max-width: 768px) {
+    width: auto;
+    height: 1px;
+  }
 `;
 
 const CalendarContainer = styled.div`
@@ -27,7 +43,27 @@ const CalendarContainer = styled.div`
 
 const StartTimeListContainer = styled.div`
   flex: 1;
-  max-height: 100%;
+  overflow: hidden;
+  position: relative;
+  @media (max-width: 768px) {
+    min-height: 250px;
+  }
+`;
+
+const StartTimeListContainerAbsolute = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+
+const SelectedDayTitle = styled.h3`
+  margin: 0;
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 700;
 `;
 
 export type AvailableTimeslot = {
@@ -45,7 +81,7 @@ type Props = {
   eventDurationInMinutes: number,
   eventStartTimeSpreadInMinutes?: number,
   availableTimeslots: AvailableTimeslot[];
-  onSelectedDayChange?: (day: Date) => Date;
+  onSelectedDayChange?: (day: Date) => void;
   onStartTimeSelect?: (startTimeEvent: StartTimeEvent) => void;
 }
 
@@ -117,13 +153,18 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], event
 
   return (
     <Container>
+      <Inner>
       <CalendarContainer>
         <ScheduleCalendar availableTimeslots={availableTimeslots} onDaySelected={onDaySelected} />
       </CalendarContainer>
       <Divider />
       <StartTimeListContainer>
-        <StartTimeList onStartTimeSelect={_onStartTimeSelect} startTimeListItems={selectedDayStartTimeEventsList} selectedDay={selectedDay} />
+        <StartTimeListContainerAbsolute>
+          <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+          <StartTimeList onStartTimeSelect={_onStartTimeSelect} startTimeListItems={selectedDayStartTimeEventsList} selectedDay={selectedDay} />
+        </StartTimeListContainerAbsolute>
       </StartTimeListContainer>
+      </Inner>
     </Container>
   );
 };

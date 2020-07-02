@@ -1,32 +1,35 @@
-# react-component-lib
+# React Schedule Meeting
 
-This is a boilerplate repository for creating npm packages with React components written in TypeScript and using styled-components.
-
-Medium article explaining step by step how to use this repo to publish your own library to NPM:
-https://medium.com/@xfor/developing-publishing-react-component-library-to-npm-styled-components-typescript-cc8274305f5a
 
 ## Installation:
 
-To install all dependencies run:
-
 ```
-npm i
+npm i react-schedule-meeting
 ```
 
-It will install:
+or 
 
-- `dependencies` and `devDependencies` from ./package.json
-- `peerDependencies` from ./package.json thanks to `install-peers-cli`
-- `dependencies` and `devDependencies` from ./example/package.json (example `create react app` for testing)
+```
+yarn add react-schedule-meeting
+```
 
-## Developing your library:
 
-To start developing your library, run `npm run dev`. It will build your library and run example `create-react-app` where you can test your components. Each time you make changes to your library or example app, app will be reloaded to reflect your changes.
+## Quick Start
+```
+import { ScheduleMeeting } from 'react-schedule-meeting';
 
-## Styled-components:
+<ScheduleMeeting eventDurationInMinutes={30} availableTimeslots={availableTimeslots}   />
 
-Developing library with components built with styled-components is challenging because you have to keep only one instance of styled-components. If you would just symlink your library (`file:../` or `npm link`) to example app that is also using styled-components you'll get a console warning about multiple instances of styled-components (even though styled-components are peer dependency) and your styles will be possibly broken. To be able to conveniently develop styled components I am injecting bundled files directly into example app's /src folder and importing it in App.tsx along with type declaration.
+```
 
-## Typescript
+## ScheduleMeeting
 
-This boilerplate lets you develop your libraries in Typescript and you can simultaneously test it in Typescript example create-react-app.
+### Props
+
+| Name          | Type          | Default       | Explanation   |
+| ------------- | ------------- | ------------- | ------------- |
+| eventDurationInMinutes  | number | Required  | The number of minutes each event will be scheduled. |
+| availableTimeslots | AvailableTimeslot[] | Required | Timeslots of available time that events can be scheduled in. *Example: If you are available every day from 9am to 5pm, you would pass in an array of AvailableTimeslots with those datetimes so tha
+| eventStartTimeSpreadInMinutes  | number  | 30 | The length between the next possible event start time. *Example: For 30, an event start time will be available every 30 minutes.* |
+| onSelectedDayChange | (day: Date) => void; | -- | Callback for when the selected day changes on the calendar |
+| onStartTimeSelect | (startTimeEvent: StartTimeEvent) => void; | -- | Callback for when a start time is clicked|

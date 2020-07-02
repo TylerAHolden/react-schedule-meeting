@@ -1,13 +1,11 @@
 {
-  "name": "react-component-lib",
-  "version": "1.0.0",
+  "name": "react-schedule-meeting",
+  "version": "0.0.1",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "repository": {
-    "url": "https://github.com/michal-wrzosek/react-component-lib",
-    "type": "git"
-  },
+  "repository": "git@github.com:NextGen-Code-Company/react-schedule-meeting.git",
   "license": "MIT",
+  "author": "Devion Villegas, Justin Mozley, Tyler Holden",
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/react": "^16.9.29",
