@@ -11,11 +11,12 @@ type Props = {
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  height: inherit;
   overflow: scroll;
   padding: 16px;
-  border: 1px solid black;
+  border: 1px solid #A0A096;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SelectedDayTitle = styled.h3`

@@ -9,8 +9,21 @@ type Props = {
 };
 
 const Container = styled.button`
-  width: 100%;
   padding: 16px;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  outline: none;
+
+  :hover {
+    background-color: #F0F0F0;
+    cursor: pointer;
+
+  }
+
+  :focus {
+    background-color: #e0e0e0;
+  }
 `;
 
 const EventListItem: React.FC<Props> = ({ children, onStartTimeSelect, startTimeEvent }) => <Container onClick={() => onStartTimeSelect(startTimeEvent)}>{format(startTimeEvent.startTime, 'h:mm aaaa')}</Container>;
