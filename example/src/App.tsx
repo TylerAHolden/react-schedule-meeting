@@ -16,7 +16,7 @@ const availableTimeslots = [{
   {
     id: 2,
     startTime: new Date(2020,6,3,9,0),
-    endTime: new Date(2020,6,3,10,0),
+    endTime: new Date(2020,6,3,9.5,0),
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ScheduleMeeting eventDurationInMinutes={30} availableTimeslots={availableTimeslots}   />
+        <ScheduleMeeting eventDurationInMinutes={60} availableTimeslots={availableTimeslots}   />
       </div>
     );
   }

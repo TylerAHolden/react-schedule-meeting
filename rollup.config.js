@@ -1,4 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
+import postcss from 'rollup-plugin-postcss';
 import pkg from './package.json';
 
 export default [
@@ -8,6 +9,9 @@ export default [
     plugins: [
       typescript({
         typescript: require('typescript'),
+      }),
+      postcss({
+        extensions: [ '.css' ],
       }),
     ],
     output: [

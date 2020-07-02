@@ -13,6 +13,6 @@ const Container = styled.button`
   padding: 16px;
 `;
 
-const EventListItem: React.FC<Props> = ({ children, onStartTimeSelect, startTimeEvent }) => <Container onClick={() => onStartTimeSelect(startTimeEvent)}>{format(startTimeEvent.startTime, 'h:mm aaaa')}</Container>;
+const EventListItem: React.FC<Props> = ({ children, onStartTimeSelect, startTimeEvent }) => <Container onClick={() => onStartTimeSelect(startTimeEvent)}>{format(startTimeEvent.startTime, 'h:mmaaaa')}</Container>;
 
 export default EventListItem;

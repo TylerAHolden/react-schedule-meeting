@@ -4,6 +4,7 @@ import { AvailableTimeslot } from './ScheduleMeeting'
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { getDay, isValid, format } from 'date-fns'
+import './ScheduleCalendar.css'
 
 const StyledBackgroundEl = styled.div`
   width: 100%;
@@ -46,8 +47,13 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ availableTimeslots, onDaySe
     return props.view === 'month' && !daysAvailable.some(date => date === formatDate(props.date))
   }
 
-  const _renderTileContent = (props: CalendarTileProperties) => {
-    return props.view === 'month' && daysAvailable.some(date => date === formatDate(props.date)) ? <StyledBackgroundEl /> : null
+  // const _renderTileContent = (props: CalendarTileProperties) => {
+  //   return props.view === 'month' && daysAvailable.some(date => date === formatDate(props.date)) ? <StyledBackgroundEl /> : null
+  // }
+
+  const _renderClassName = (props: CalendarTileProperties) => {
+    if (daysAvailable.some(date => date === formatDate(props.date))) return ['day-tile', 'active-day-tile']
+    return props.view === 'month' && 'day-tile' || null
   }
 
   return (
@@ -56,7 +62,7 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ availableTimeslots, onDaySe
       defaultView={'month'} 
       onClickDay={_onClickDay} 
       tileDisabled={_isTileDisabled} 
-      tileContent={_renderTileContent}  
+      tileClassName={_renderClassName} 
     />
   </div>
 );
