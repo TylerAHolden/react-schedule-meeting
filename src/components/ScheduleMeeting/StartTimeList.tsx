@@ -15,7 +15,10 @@ const Container = styled.div`
   position: relative;
   display: flex;
   max-height: 100%;
-  height: 100%;
+  height: inherit;
+  overflow: scroll;
+  padding: 16px;
+  display: flex;
   flex-direction: column;
 `;
 
