@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
 import styled from 'styled-components';
-import {differenceInMinutes, addMinutes, isSameDay} from 'date-fns';
+import {differenceInMinutes, addMinutes, isSameDay ,isSameMinute} from 'date-fns';
 
 const Container = styled.div`
   width: 100%;
@@ -94,19 +94,40 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], event
   }, [availableTimeslots]);
 
   useEffect(() => {
-    console.log(startTimeEventsList)
     // set the displayed list to start time events for that specific day.
-    const selectedDayStartTimeEvents = startTimeEventsList.filter((startTimeEvent)=> {
-      console.log(isSameDay(startTimeEvent.startTime, selectedDay));
-      console.log(typeof startTimeEvent.startTime, typeof selectedDay);
-      return isSameDay(startTimeEvent.startTime, selectedDay);
-      
+    const selectedDayStartTimeEvents = startTimeEventsList.filter((startTimeEvent)=> isSameDay(startTimeEvent.startTime, selectedDay));
+
+    console.log("selectedDayStartTimeEvents",selectedDayStartTimeEvents)
+    // remove duplicate start times - if we have overlapping "shifts" we dont need to keep displaying multiple available start times for each "shift"
+    const duplicatesToKeep: StartTimeEvent[] = [];
+    const duplicatesRemoved = selectedDayStartTimeEvents.filter((startTimeEvent: StartTimeEvent) => {
+      const matchingTime = selectedDayStartTimeEvents.filter((item: StartTimeEvent) => isSameMinute(item.startTime, startTimeEvent.startTime));
+      console.log("matchingTime",matchingTime)
+
+      // if more than one matching start time is found,
+      if (matchingTime.length > 0) {
+        // check to see if we have already added one to the list
+        const alreadyKeptMatchingTime = duplicatesToKeep.filter((item: StartTimeEvent) => isSameMinute(item.startTime, startTimeEvent.startTime));
+      console.log("alreadyKeptMatchingTime",alreadyKeptMatchingTime)
+      if (alreadyKeptMatchingTime.length > 0) {
+          return true;
+        } else {
+          // we want to keep at least one.
+          duplicatesToKeep.push(matchingTime[0]);
+          return false;
+        }
+      } else {
+        return true;
+      }
     });
 
-    console.log('selectedDay', selectedDay);
-    console.log('selectedDayStartTimeEvents', selectedDayStartTimeEvents);
+    console.log("duplicatesToKeep",duplicatesToKeep)
+    console.log("duplicatesRemoved",duplicatesRemoved)
 
-    setSelectedDayStartTimeEventsList(selectedDayStartTimeEvents);
+    const orderedEvents = [...duplicatesRemoved,...duplicatesToKeep].sort((a: StartTimeEvent, b:StartTimeEvent) => b.startTime.getTime() - a.startTime.getTime());
+    console.log("orderedEvents",orderedEvents)
+    
+    setSelectedDayStartTimeEventsList(orderedEvents);
 
   }, [selectedDay, startTimeEventsList])
 

@@ -9,6 +9,11 @@ const availableTimeslots = [{
     endTime: new Date(2020,6,2,17,0),
   },
   {
+    id: 10,
+    startTime: new Date(2020,6,2,9,0),
+    endTime: new Date(2020,6,2,17,0),
+  },
+  {
     id: 2,
     startTime: new Date(2020,6,3,9,0),
     endTime: new Date(2020,6,3,10,0),
