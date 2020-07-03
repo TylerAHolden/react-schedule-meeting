@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect} from 'react';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
@@ -83,10 +82,10 @@ type Props = {
   availableTimeslots: AvailableTimeslot[];
   onSelectedDayChange?: (day: Date) => void;
   onStartTimeSelect?: (startTimeEvent: StartTimeEvent) => void;
+  scheduleMeetingStyles?: React.CSSProperties;
 }
 
-export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect}) => {
-  const [timeslots, setTimeslots] = React.useState([]);
+export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles}) => {
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -153,7 +152,7 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], event
 
   return (
     <Container>
-      <Inner>
+      <Inner style={scheduleMeetingStyles}>
       <CalendarContainer>
         <ScheduleCalendar availableTimeslots={availableTimeslots} onDaySelected={onDaySelected} />
       </CalendarContainer>
