@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
 import styled from 'styled-components';
-import {differenceInMinutes,format, addMinutes, isSameDay ,isSameMinute, isPast} from 'date-fns';
+import { differenceInMinutes, format, addMinutes, isSameDay, isSameMinute, isPast } from 'date-fns';
 
 const Container = styled.div`
   width: 100%;
@@ -15,8 +15,7 @@ const Inner = styled.div`
   display: flex;
   max-width: 1000px;
   border-radius: 6px;
-  box-shadow: 0 5px 18px rgba(20, 21, 21, 0.32),
-    0px 1px 4px rgba(20, 21, 21, 0.14);
+  box-shadow: 0 5px 18px rgba(20, 21, 21, 0.32), 0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
   flex-direction: column;
@@ -28,7 +27,7 @@ const Inner = styled.div`
 
 const Divider = styled.div`
   width: 1px;
-  background: rgba(0,0,0,.1);
+  background: rgba(0, 0, 0, 0.1);
   margin: 16px;
   @media (max-width: 768px) {
     width: auto;
@@ -57,7 +56,6 @@ const StartTimeListContainerAbsolute = styled.div`
   flex-direction: column;
 `;
 
-
 const SelectedDayTitle = styled.h3`
   margin: 0;
   margin-bottom: 8px;
@@ -69,116 +67,134 @@ export type AvailableTimeslot = {
   startTime: Date;
   endTime: Date;
   id?: string | number | undefined;
-}
+};
 
-export type SplitTimeslot = AvailableTimeslot & {
-  old_id: string | number | undefined;
-} | null;
+export type SplitTimeslot =
+  | (AvailableTimeslot & {
+      old_id: string | number | undefined;
+    })
+  | null;
 
 export type StartTimeEvent = {
   availableTimeslot: AvailableTimeslot;
   startTime: Date;
-}
+};
 
 export type StartTimeEventEmit = StartTimeEvent & {
   splitTimeslot?: [SplitTimeslot, SplitTimeslot];
-}
+};
 
 type Props = {
-  eventDurationInMinutes: number,
-  eventStartTimeSpreadInMinutes?: number,
+  eventDurationInMinutes: number;
+  eventStartTimeSpreadInMinutes?: number;
   availableTimeslots: AvailableTimeslot[];
   onSelectedDayChange?: (day: Date) => void;
   onStartTimeSelect?: (startTimeEventEmit: StartTimeEventEmit) => void;
   scheduleMeetingStyles?: React.CSSProperties;
   emptyListContentEl?: React.ElementType;
-}
+};
 
-export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], emptyListContentEl, eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles}) => {
+export const ScheduleMeeting: React.FC<Props> = ({
+  availableTimeslots = [],
+  emptyListContentEl,
+  eventStartTimeSpreadInMinutes = 30,
+  eventDurationInMinutes = 30,
+  onSelectedDayChange,
+  onStartTimeSelect,
+  scheduleMeetingStyles,
+}) => {
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
 
   const onDaySelected = (day: Date) => {
-    setSelectedDay(day); 
+    setSelectedDay(day);
     onSelectedDayChange && onSelectedDayChange(day);
-  }
+  };
 
   const splitTimeslot = (startTimeEvent: StartTimeEvent) => {
     const splitTimeslots: [SplitTimeslot, SplitTimeslot] = [null, null];
-    const minutesIntoTimeslotEventWillStart = differenceInMinutes(startTimeEvent.startTime, startTimeEvent.availableTimeslot.startTime);
+    const minutesIntoTimeslotEventWillStart = differenceInMinutes(
+      startTimeEvent.startTime,
+      startTimeEvent.availableTimeslot.startTime,
+    );
 
-    if (minutesIntoTimeslotEventWillStart !== 0){
+    if (minutesIntoTimeslotEventWillStart !== 0) {
       const newFirstTimeslot: SplitTimeslot = {
         old_id: startTimeEvent.availableTimeslot.id,
         startTime: startTimeEvent.availableTimeslot.startTime,
-        endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart)
-      }
+        endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart),
+      };
       splitTimeslots[0] = newFirstTimeslot;
     }
 
-    const startTimeOfEndingSplitTimeslot = addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart + eventDurationInMinutes);
-    if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0){
+    const startTimeOfEndingSplitTimeslot = addMinutes(
+      startTimeEvent.availableTimeslot.startTime,
+      minutesIntoTimeslotEventWillStart + eventDurationInMinutes,
+    );
+    if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0) {
       const newSecondTimeslot: SplitTimeslot = {
         old_id: startTimeEvent.availableTimeslot.id,
         startTime: startTimeOfEndingSplitTimeslot,
         endTime: startTimeEvent.availableTimeslot.endTime,
-      }
+      };
       splitTimeslots[1] = newSecondTimeslot;
     }
 
     return splitTimeslots;
-  }
+  };
 
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent) => {
-    
     const splitTimeslots = splitTimeslot(startTimeEvent);
     const startTimeEventEmitObject: StartTimeEventEmit = {
       ...startTimeEvent,
-      splitTimeslot: splitTimeslots
-    }
+      splitTimeslot: splitTimeslots,
+    };
 
     if (onStartTimeSelect) {
       onStartTimeSelect(startTimeEventEmitObject);
     }
-  }
+  };
 
   useEffect(() => {
-      // compile a list of all possible event start times given all timeslots
-      let startTimeEvents = [];
+    // compile a list of all possible event start times given all timeslots
+    let startTimeEvents = [];
 
-      // iterate through all available timeslots
-      for (let availableTimeslot of availableTimeslots) {
-        const timeslotDuration = differenceInMinutes(availableTimeslot.endTime, availableTimeslot.startTime);
+    // iterate through all available timeslots
+    for (let availableTimeslot of availableTimeslots) {
+      const timeslotDuration = differenceInMinutes(availableTimeslot.endTime, availableTimeslot.startTime);
 
-        // this prevents start times from being created where the event duration runs past the available timeslot
-        const adjustedTimeslotDuration = timeslotDuration - eventDurationInMinutes;
-        let startTimesPossible = Math.floor(adjustedTimeslotDuration / eventStartTimeSpreadInMinutes);
+      // this prevents start times from being created where the event duration runs past the available timeslot
+      const adjustedTimeslotDuration = timeslotDuration - eventDurationInMinutes;
+      let startTimesPossible = Math.floor(adjustedTimeslotDuration / eventStartTimeSpreadInMinutes);
 
-        while (startTimesPossible >= 0) {
-            const newStartTimeEvent: StartTimeEvent = {
-              availableTimeslot,
-              startTime: addMinutes(availableTimeslot.startTime, (startTimesPossible * eventStartTimeSpreadInMinutes))
-            }
-            startTimeEvents.push(newStartTimeEvent);
-            startTimesPossible--;
-          
-        }
+      while (startTimesPossible >= 0) {
+        const newStartTimeEvent: StartTimeEvent = {
+          availableTimeslot,
+          startTime: addMinutes(availableTimeslot.startTime, startTimesPossible * eventStartTimeSpreadInMinutes),
+        };
+        startTimeEvents.push(newStartTimeEvent);
+        startTimesPossible--;
       }
+    }
 
-      setStartTimeEventsList(startTimeEvents);
+    setStartTimeEventsList(startTimeEvents);
   }, [availableTimeslots]);
 
   useEffect(() => {
-    const startTimeEventsToDisplay: StartTimeEvent[]  = [];
+    const startTimeEventsToDisplay: StartTimeEvent[] = [];
 
     // filter out startTimeEvents so we get the list of ones to display next to the calendar
     for (let startTimeEvent of startTimeEventsList) {
       // make sure its the same day as the selected day
       if (isSameDay(startTimeEvent.startTime, selectedDay)) {
         // prevents duplicate times (in case there are multiple overlapping shifts)
-        if (startTimeEventsToDisplay.filter((item: StartTimeEvent) => isSameMinute(item.startTime, startTimeEvent.startTime)).length === 0) {
-          if (!isPast(startTimeEvent.startTime)){
+        if (
+          startTimeEventsToDisplay.filter((item: StartTimeEvent) =>
+            isSameMinute(item.startTime, startTimeEvent.startTime),
+          ).length === 0
+        ) {
+          if (!isPast(startTimeEvent.startTime)) {
             startTimeEventsToDisplay.push(startTimeEvent);
           }
         }
@@ -186,25 +202,30 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], empty
     }
 
     // order the events by first in the day
-    const orderedEvents = startTimeEventsToDisplay.sort((a: StartTimeEvent, b:StartTimeEvent) =>  a.startTime.getTime() - b.startTime.getTime());
-    
-    setSelectedDayStartTimeEventsList(orderedEvents);
+    const orderedEvents = startTimeEventsToDisplay.sort(
+      (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
+    );
 
-  }, [selectedDay, startTimeEventsList])
+    setSelectedDayStartTimeEventsList(orderedEvents);
+  }, [selectedDay, startTimeEventsList]);
 
   return (
     <Container>
       <Inner style={scheduleMeetingStyles}>
-      <CalendarContainer>
-        <ScheduleCalendar availableTimeslots={availableTimeslots} onDaySelected={onDaySelected} />
-      </CalendarContainer>
-      <Divider />
-      <StartTimeListContainer>
-        <StartTimeListContainerAbsolute>
-          <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
-          <StartTimeList emptyListContentEl={emptyListContentEl} onStartTimeSelect={_onStartTimeSelect} startTimeListItems={selectedDayStartTimeEventsList} selectedDay={selectedDay} />
-        </StartTimeListContainerAbsolute>
-      </StartTimeListContainer>
+        <CalendarContainer>
+          <ScheduleCalendar availableTimeslots={availableTimeslots} onDaySelected={onDaySelected} />
+        </CalendarContainer>
+        <Divider />
+        <StartTimeListContainer>
+          <StartTimeListContainerAbsolute>
+            <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+            <StartTimeList
+              emptyListContentEl={emptyListContentEl}
+              onStartTimeSelect={_onStartTimeSelect}
+              startTimeListItems={selectedDayStartTimeEventsList}
+            />
+          </StartTimeListContainerAbsolute>
+        </StartTimeListContainer>
       </Inner>
     </Container>
   );
