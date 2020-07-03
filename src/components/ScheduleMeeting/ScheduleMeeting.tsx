@@ -83,9 +83,10 @@ type Props = {
   onSelectedDayChange?: (day: Date) => void;
   onStartTimeSelect?: (startTimeEvent: StartTimeEvent) => void;
   scheduleMeetingStyles?: React.CSSProperties;
+  emptyListContentEl?: React.ElementType;
 }
 
-export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles}) => {
+export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], emptyListContentEl, eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles}) => {
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -160,7 +161,7 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], event
       <StartTimeListContainer>
         <StartTimeListContainerAbsolute>
           <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
-          <StartTimeList onStartTimeSelect={_onStartTimeSelect} startTimeListItems={selectedDayStartTimeEventsList} selectedDay={selectedDay} />
+          <StartTimeList emptyListContentEl={emptyListContentEl} onStartTimeSelect={_onStartTimeSelect} startTimeListItems={selectedDayStartTimeEventsList} selectedDay={selectedDay} />
         </StartTimeListContainerAbsolute>
       </StartTimeListContainer>
       </Inner>
