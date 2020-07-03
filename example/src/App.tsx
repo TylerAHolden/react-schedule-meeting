@@ -33,7 +33,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ScheduleMeeting eventDurationInMinutes={60} availableTimeslots={availableTimeslots}   />
+        <ScheduleMeeting eventDurationInMinutes={60} availableTimeslots={availableTimeslots} onStartTimeSelect={console.log}  />
       </div>
     );
   }

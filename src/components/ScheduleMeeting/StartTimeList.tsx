@@ -5,8 +5,8 @@ import { StartTimeEvent } from './ScheduleMeeting';
 
 type Props = {
   startTimeListItems?: StartTimeEvent[];
-  selectedDay: Date;
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
+  emptyListContentEl?: React.ElementType;
 };
 
 const Container = styled.div`
@@ -45,9 +45,23 @@ const ListItemDivider = styled.div<any>`
   background: ${({ makeTransparent }) => (makeTransparent ? `transparent` : `rgba(0, 0, 0, 0.05)`)};
 `;
 
-const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], selectedDay, onStartTimeSelect }) => {
-  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+const StyledP = styled.p`
+  margin: 0;
+  opacity: 0.5;
+  margin-bottom: 24px;
+`;
+const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
+const NoTimesAvailableContainer = styled.div`
+  height: 100%;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl }) => {
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
     if (selectedItemIndex === index) {
       onStartTimeSelect(startTimeEvent);
@@ -56,27 +70,38 @@ const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], selectedDay, 
     }
   };
 
+  const emptyListElement = emptyListContentEl || (
+    <NoTimesAvailableContainer>
+      <StyledP>No times available</StyledP>
+    </NoTimesAvailableContainer>
+  );
+
   return (
     <>
-      <ScrollEdgeFade className="top" />
-      <ScrollEdgeFade className="bottom" />
-      <Container>
-        {startTimeListItems.map((startTimeEvent: any, i: number) => (
-          <React.Fragment key={i}>
-            <StartTimeListItem
-              onCancelClicked={() => setSelectedItemIndex(-1)}
-              selected={i === selectedItemIndex}
-              startTimeEvent={startTimeEvent}
-              onStartTimeSelect={() => _onStartTimeSelect(startTimeEvent, i)}
-            />
-            {i !== startTimeListItems.length - 1 && (
-              <ListItemDivider makeTransparent={selectedItemIndex === i || selectedItemIndex === i + 1} />
-            )}
-          </React.Fragment>
-        ))}
-      </Container>
+      {startTimeListItems.length === 0 ? (
+        emptyListElement
+      ) : (
+        <>
+          <ScrollEdgeFade className="top" />
+          <ScrollEdgeFade className="bottom" />
+          <Container>
+            {startTimeListItems.map((startTimeEvent: any, i: number) => (
+              <React.Fragment key={i}>
+                <StartTimeListItem
+                  onCancelClicked={() => setSelectedItemIndex(-1)}
+                  selected={i === selectedItemIndex}
+                  startTimeEvent={startTimeEvent}
+                  onStartTimeSelect={() => _onStartTimeSelect(startTimeEvent, i)}
+                />
+                {i !== startTimeListItems.length - 1 && (
+                  <ListItemDivider makeTransparent={selectedItemIndex === i || selectedItemIndex === i + 1} />
+                )}
+              </React.Fragment>
+            ))}
+          </Container>
+        </>
+      )}
     </>
   );
 };
-
 export default StartTimeList;
