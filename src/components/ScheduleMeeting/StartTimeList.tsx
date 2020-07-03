@@ -50,7 +50,6 @@ const StyledP = styled.p`
   opacity: 0.5;
   margin-bottom: 24px;
 `;
-const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
 const NoTimesAvailableContainer = styled.div`
   height: 100%;
@@ -62,6 +61,8 @@ const NoTimesAvailableContainer = styled.div`
 `;
 
 const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl }) => {
+  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
     if (selectedItemIndex === index) {
       onStartTimeSelect(startTimeEvent);
