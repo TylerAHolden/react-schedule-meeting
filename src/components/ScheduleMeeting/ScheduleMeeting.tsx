@@ -68,12 +68,20 @@ const SelectedDayTitle = styled.h3`
 export type AvailableTimeslot = {
   startTime: Date;
   endTime: Date;
-  id: string | number;
+  id?: string | number | undefined;
 }
+
+export type SplitTimeslot = AvailableTimeslot & {
+  old_id: string | number | undefined;
+} | null;
 
 export type StartTimeEvent = {
   availableTimeslot: AvailableTimeslot;
   startTime: Date;
+}
+
+export type StartTimeEventEmit = StartTimeEvent & {
+  splitTimeslot?: [SplitTimeslot, SplitTimeslot];
 }
 
 type Props = {
@@ -81,7 +89,7 @@ type Props = {
   eventStartTimeSpreadInMinutes?: number,
   availableTimeslots: AvailableTimeslot[];
   onSelectedDayChange?: (day: Date) => void;
-  onStartTimeSelect?: (startTimeEvent: StartTimeEvent) => void;
+  onStartTimeSelect?: (startTimeEventEmit: StartTimeEventEmit) => void;
   scheduleMeetingStyles?: React.CSSProperties;
   emptyListContentEl?: React.ElementType;
 }
@@ -96,9 +104,42 @@ export const ScheduleMeeting: React.FC<Props> = ({availableTimeslots = [], empty
     onSelectedDayChange && onSelectedDayChange(day);
   }
 
-  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent) =>{
+  const splitTimeslot = (startTimeEvent: StartTimeEvent) => {
+    const splitTimeslots: [SplitTimeslot, SplitTimeslot] = [null, null];
+    const minutesIntoTimeslotEventWillStart = differenceInMinutes(startTimeEvent.startTime, startTimeEvent.availableTimeslot.startTime);
+
+    if (minutesIntoTimeslotEventWillStart !== 0){
+      const newFirstTimeslot: SplitTimeslot = {
+        old_id: startTimeEvent.availableTimeslot.id,
+        startTime: startTimeEvent.availableTimeslot.startTime,
+        endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart)
+      }
+      splitTimeslots[0] = newFirstTimeslot;
+    }
+
+    const startTimeOfEndingSplitTimeslot = addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart + eventDurationInMinutes);
+    if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0){
+      const newSecondTimeslot: SplitTimeslot = {
+        old_id: startTimeEvent.availableTimeslot.id,
+        startTime: startTimeOfEndingSplitTimeslot,
+        endTime: startTimeEvent.availableTimeslot.endTime,
+      }
+      splitTimeslots[1] = newSecondTimeslot;
+    }
+
+    return splitTimeslots;
+  }
+
+  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent) => {
+    
+    const splitTimeslots = splitTimeslot(startTimeEvent);
+    const startTimeEventEmitObject: StartTimeEventEmit = {
+      ...startTimeEvent,
+      splitTimeslot: splitTimeslots
+    }
+
     if (onStartTimeSelect) {
-      onStartTimeSelect(startTimeEvent);
+      onStartTimeSelect(startTimeEventEmitObject);
     }
   }
 

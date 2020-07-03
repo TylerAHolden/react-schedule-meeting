@@ -17,7 +17,7 @@ yarn add react-schedule-meeting
 ```
 import { ScheduleMeeting } from 'react-schedule-meeting';
 
-<ScheduleMeeting eventDurationInMinutes={30} availableTimeslots={availableTimeslots}   />
+<ScheduleMeeting eventDurationInMinutes={30} availableTimeslots={availableTimeslots} onStartTimeSelect={console.log}  />
 
 ```
 
