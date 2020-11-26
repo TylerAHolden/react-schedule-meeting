@@ -10,6 +10,7 @@ type Props = {
   onCancelClicked: () => void;
   borderRadius: number;
   primaryColor: string;
+  primaryColorFaded: string;
 };
 
 const Container = styled.div`
@@ -18,7 +19,14 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button<{ selected: boolean; primaryColor: string; borderRadius: number }>`
+type ButtonProps = {
+  selected: boolean;
+  primaryColor: string;
+  borderRadius: number;
+  primaryColorFaded: string;
+};
+
+const Button = styled.button<ButtonProps>`
   padding: 16px;
   border: none;
   color: ${({ selected }) => (selected ? `rgb(255, 255, 255)` : `rgb(20,20,20)`)};
@@ -30,7 +38,9 @@ const Button = styled.button<{ selected: boolean; primaryColor: string; borderRa
   font-size: 16px;
   opacity: 1;
   :hover {
-    opacity: 0.74;
+    opacity: 0.8;
+    background-color: ${({ selected, primaryColor, primaryColorFaded }) =>
+      selected ? primaryColor : primaryColorFaded};
   }
 `;
 
@@ -59,12 +69,14 @@ const EventListItem: React.FC<Props> = ({
   onCancelClicked,
   borderRadius,
   primaryColor,
+  primaryColorFaded,
 }) => {
   return (
     <Container>
       <Button
         selected={Boolean(selected)}
         borderRadius={borderRadius}
+        primaryColorFaded={primaryColorFaded}
         primaryColor={primaryColor}
         onClick={onStartTimeSelect}
       >

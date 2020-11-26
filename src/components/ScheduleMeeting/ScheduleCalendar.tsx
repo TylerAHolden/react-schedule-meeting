@@ -19,6 +19,9 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
   .day-tile {
     width: 60px;
     height: 60px;
+    @media (max-width: 768px) {
+      height: 45px;
+    }
     color: rgb(167, 167, 167);
     padding: 5px;
     position: relative;
@@ -127,6 +130,9 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
     border: none !important;
     width: 100% !important;
     min-height: 390px;
+    @media (max-width: 768px) {
+      min-height: 302px;
+    }
   }
 `;
 
@@ -136,6 +142,7 @@ type CalendarProps = {
   selectedDay: Date;
   borderRadius: number;
   primaryColor: string;
+  primaryColorFaded: string;
 };
 
 const formatDate = (date: Date) => {
@@ -148,10 +155,10 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
   selectedDay,
   borderRadius,
   primaryColor,
+  primaryColorFaded,
 }) => {
   const [daysAvailable, setDaysAvailable] = useState<Array<any>>([]);
   const [r, g, b, alpha] = rgba(primaryColor)!;
-  const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
   const primaryColorToday = `rgba(${r},${g},${b},${alpha / 4.5})`;
 
   useEffect(() => {

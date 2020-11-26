@@ -10,6 +10,7 @@ type Props = {
   emptyListContentEl?: React.ElementType;
   borderRadius: number;
   primaryColor: string;
+  primaryColorFaded: string;
 };
 
 const Container = styled.div`
@@ -68,6 +69,7 @@ const StartTimeList: React.FC<Props> = ({
   onStartTimeSelect,
   emptyListContentEl,
   borderRadius,
+  primaryColorFaded,
   primaryColor,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
@@ -98,6 +100,7 @@ const StartTimeList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <StartTimeListItem
+                primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}
                   onCancelClicked={() => setSelectedItemIndex(-1)}

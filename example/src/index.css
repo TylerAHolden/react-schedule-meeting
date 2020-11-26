@@ -29,6 +29,7 @@ body {
 .main-content-inner {
   max-width: 1100px;
   padding-bottom: 10vh;
+  overflow: scroll;
 }
 
 h1 {

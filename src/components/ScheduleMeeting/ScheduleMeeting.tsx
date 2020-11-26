@@ -15,7 +15,7 @@ import {
 import { Arrow } from '../ArrowSVG';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
-import rgba from 'color-rgba'
+import rgba from 'color-rgba';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -35,6 +35,10 @@ const Inner = styled.div<{ borderRadius: number }>`
   background: white;
   @media (min-width: 768px) {
     flex-direction: row;
+  }
+  @media (max-width: 768px) {
+    padding: 8px;
+    margin: 8px;
   }
 `;
 
@@ -57,7 +61,7 @@ const StartTimeListContainer = styled.div`
   overflow: hidden;
   position: relative;
   @media (max-width: 768px) {
-    min-height: 250px;
+    min-height: 301px;
   }
 `;
 
@@ -147,6 +151,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor)!;
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
+  const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -287,6 +292,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
             primaryColor={primaryColorRGB}
             selectedDay={selectedDay}
             availableTimeslots={availableTimeslots}
+            primaryColorFaded={primaryColorFaded}
             onDaySelected={onDaySelected}
           />
         </CalendarContainer>
@@ -303,6 +309,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               </ArrowButton>
             </Header>
             <StartTimeList
+              primaryColorFaded={primaryColorFaded}
               primaryColor={primaryColorRGB}
               borderRadius={borderRadius}
               emptyListContentEl={emptyListContentEl}
