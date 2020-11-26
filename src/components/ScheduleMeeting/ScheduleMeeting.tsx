@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import {
   addDays,
   addMinutes,
@@ -14,12 +13,10 @@ import {
 } from 'date-fns';
 
 import { Arrow } from '../ArrowSVG';
-
 import ScheduleCalendar from './ScheduleCalendar';
-import StartTimeList from './StartTimeList';
+import StartTimeList from './EventList';
 import rgba from 'color-rgba';
 import styled from 'styled-components';
-
 
 const Container = styled.div`
   width: 100%;

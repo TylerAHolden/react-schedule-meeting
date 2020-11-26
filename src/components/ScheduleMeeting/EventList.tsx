@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-
+import EventListItem from './EventListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
-import StartTimeListItem from './StartTimeListItem';
 import styled from 'styled-components';
-
 
 type Props = {
   startTimeListItems?: StartTimeEvent[];
@@ -67,7 +65,7 @@ const NoTimesAvailableContainer = styled.div`
   align-items: center;
 `;
 
-const StartTimeList: React.FC<Props> = ({
+const EventList: React.FC<Props> = ({
   startTimeListItems = [],
   onStartTimeSelect,
   emptyListContentEl,
@@ -103,7 +101,7 @@ const StartTimeList: React.FC<Props> = ({
           <Container>
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
-                <StartTimeListItem
+                <EventListItem
                 primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}
@@ -123,4 +121,4 @@ const StartTimeList: React.FC<Props> = ({
     </>
   );
 };
-export default StartTimeList;
+export default EventList;
