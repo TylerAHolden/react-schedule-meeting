@@ -41,7 +41,7 @@
     "prepublishOnly": "npm run build",
     "postinstall": "install-peers -f && cd example && npm i",
     "start-example": "cd example && npm start",
-    "deploy-example": "cd example && npm run deploy",
+    "deploy-example": "cd example && npm run build",
     "dev": "concurrently --kill-others \"npm run build-watch\" \"npm run start-example\"",
     "test": "npm run test:lint && npm run test:unit",
     "pretest": "npm run build",
