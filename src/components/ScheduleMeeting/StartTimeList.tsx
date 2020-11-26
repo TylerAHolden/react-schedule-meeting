@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import StartTimeListItem from './StartTimeListItem';
+
+
 import { StartTimeEvent } from './ScheduleMeeting';
+import StartTimeListItem from './StartTimeListItem';
+import styled from 'styled-components';
+
 
 type Props = {
   startTimeListItems?: StartTimeEvent[];
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
   emptyListContentEl?: React.ElementType;
+  borderRadius: number;
+  primaryColor: string;
+  primaryColorFaded: string;
 };
 
 const Container = styled.div`
@@ -28,13 +34,14 @@ const ScrollEdgeFade = styled.div`
   pointer-events: none;
   &.top {
     background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
-    top: 22px;
+    top: 42px;
   }
   &.bottom {
     bottom: 0;
     background: linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
   }
 `;
+
 
 const ListItemDivider = styled.div<any>`
   flex-shrink: 0;
@@ -60,7 +67,15 @@ const NoTimesAvailableContainer = styled.div`
   align-items: center;
 `;
 
-const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl }) => {
+const StartTimeList: React.FC<Props> = ({
+  startTimeListItems = [],
+  onStartTimeSelect,
+  emptyListContentEl,
+  borderRadius,
+  primaryColorFaded,
+  primaryColor,
+}) => {
+
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
@@ -89,6 +104,9 @@ const StartTimeList: React.FC<Props> = ({ startTimeListItems = [], onStartTimeSe
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <StartTimeListItem
+                primaryColorFaded={primaryColorFaded}
+                  borderRadius={borderRadius}
+                  primaryColor={primaryColor}
                   onCancelClicked={() => setSelectedItemIndex(-1)}
                   selected={i === selectedItemIndex}
                   startTimeEvent={startTimeEvent}

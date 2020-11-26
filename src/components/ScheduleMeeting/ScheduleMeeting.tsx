@@ -1,8 +1,25 @@
 import React, { useEffect } from 'react';
+
+import {
+  addDays,
+  addMinutes,
+  addMonths,
+  differenceInMinutes,
+  format,
+  isPast,
+  isSameDay,
+  isSameMinute,
+  subDays,
+  subMonths,
+} from 'date-fns';
+
+import { Arrow } from '../ArrowSVG';
+
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
+import rgba from 'color-rgba';
 import styled from 'styled-components';
-import { differenceInMinutes, format, addMinutes, isSameDay, isSameMinute, isPast } from 'date-fns';
+
 
 const Container = styled.div`
   width: 100%;
@@ -11,17 +28,20 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Inner = styled.div`
+const Inner = styled.div<{ borderRadius: number }>`
   display: flex;
-  max-width: 1000px;
-  border-radius: 6px;
-  box-shadow: 0 5px 18px rgba(20, 21, 21, 0.32), 0px 1px 4px rgba(20, 21, 21, 0.14);
+  border-radius: ${({ borderRadius }) => borderRadius}px;
+  box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
   flex-direction: column;
-
+  background: white;
   @media (min-width: 768px) {
     flex-direction: row;
+  }
+  @media (max-width: 768px) {
+    padding: 8px;
+    margin: 8px;
   }
 `;
 
@@ -44,7 +64,7 @@ const StartTimeListContainer = styled.div`
   overflow: hidden;
   position: relative;
   @media (max-width: 768px) {
-    min-height: 250px;
+    min-height: 301px;
   }
 `;
 
@@ -58,9 +78,34 @@ const StartTimeListContainerAbsolute = styled.div`
 
 const SelectedDayTitle = styled.h3`
   margin: 0;
-  margin-bottom: 8px;
   padding: 0;
   font-weight: 700;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+`;
+
+const ArrowButton = styled.button<{ borderRadius: number }>`
+  outline: none;
+  background: none;
+  border: none;
+  border-radius: ${({ borderRadius }) => borderRadius}px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  opacity: 0.4;
+  margin: 0;
+  &:hover {
+    opacity: 0.7;
+    background: rgba(0, 0, 0, 0.03);
+  }
 `;
 
 export type AvailableTimeslot = {
@@ -92,10 +137,14 @@ type Props = {
   onStartTimeSelect?: (startTimeEventEmit: StartTimeEventEmit) => void;
   scheduleMeetingStyles?: React.CSSProperties;
   emptyListContentEl?: React.ElementType;
+  borderRadius?: number;
+  primaryColor?: string;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
   availableTimeslots = [],
+  borderRadius = 0,
+  primaryColor = '#3f5b85',
   emptyListContentEl,
   eventStartTimeSpreadInMinutes = 30,
   eventDurationInMinutes = 30,
@@ -103,6 +152,10 @@ export const ScheduleMeeting: React.FC<Props> = ({
   onStartTimeSelect,
   scheduleMeetingStyles,
 }) => {
+  const [r, g, b, alpha] = rgba(primaryColor)!;
+  const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
+  const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
+  
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -206,20 +259,65 @@ export const ScheduleMeeting: React.FC<Props> = ({
       (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
     );
 
+
     setSelectedDayStartTimeEventsList(orderedEvents);
   }, [selectedDay, startTimeEventsList]);
 
+  const goToPreviousMonth = () => {
+    setSelectedDay(subMonths(selectedDay, 1));
+  };
+
+  const goToNextMonth = () => {
+    setSelectedDay(addMonths(selectedDay, 1));
+  };
+
+  const goToPreviousDay = () => {
+    setSelectedDay(subDays(selectedDay, 1));
+  };
+
+  const goToNextDay = () => {
+    setSelectedDay(addDays(selectedDay, 1));
+  };
+
   return (
     <Container>
-      <Inner style={scheduleMeetingStyles}>
+      <Inner borderRadius={borderRadius} style={scheduleMeetingStyles}>
         <CalendarContainer>
-          <ScheduleCalendar availableTimeslots={availableTimeslots} onDaySelected={onDaySelected} />
+          <Header>
+            <ArrowButton borderRadius={borderRadius} onClick={goToPreviousMonth}>
+              <Arrow direction="back" />
+            </ArrowButton>
+            <SelectedDayTitle>{format(selectedDay, 'LLLL yyyy')}</SelectedDayTitle>
+            <ArrowButton borderRadius={borderRadius} onClick={goToNextMonth}>
+              <Arrow direction="forward" />
+            </ArrowButton>
+          </Header>
+          <ScheduleCalendar
+            borderRadius={borderRadius}
+            primaryColor={primaryColorRGB}
+            selectedDay={selectedDay}
+            availableTimeslots={availableTimeslots}
+            primaryColorFaded={primaryColorFaded}
+            onDaySelected={onDaySelected}
+          />
+
         </CalendarContainer>
         <Divider />
         <StartTimeListContainer>
           <StartTimeListContainerAbsolute>
-            <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+            <Header>
+              <ArrowButton borderRadius={borderRadius} onClick={goToPreviousDay}>
+                <Arrow direction="back" />
+              </ArrowButton>
+              <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+              <ArrowButton borderRadius={borderRadius} onClick={goToNextDay}>
+                <Arrow direction="forward" />
+              </ArrowButton>
+            </Header>
             <StartTimeList
+              primaryColorFaded={primaryColorFaded}
+              primaryColor={primaryColorRGB}
+              borderRadius={borderRadius}
               emptyListContentEl={emptyListContentEl}
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}
