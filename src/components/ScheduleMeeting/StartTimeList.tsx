@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
+
 import { StartTimeEvent } from './ScheduleMeeting';
 import StartTimeListItem from './StartTimeListItem';
 import styled from 'styled-components';
+
 
 type Props = {
   startTimeListItems?: StartTimeEvent[];
@@ -40,6 +42,7 @@ const ScrollEdgeFade = styled.div`
   }
 `;
 
+
 const ListItemDivider = styled.div<any>`
   flex-shrink: 0;
   flex: 1;
@@ -72,6 +75,7 @@ const StartTimeList: React.FC<Props> = ({
   primaryColorFaded,
   primaryColor,
 }) => {
+
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {

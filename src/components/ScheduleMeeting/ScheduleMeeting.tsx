@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import {
   addDays,
   addMinutes,
@@ -13,10 +14,12 @@ import {
 } from 'date-fns';
 
 import { Arrow } from '../ArrowSVG';
+
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
 import rgba from 'color-rgba';
 import styled from 'styled-components';
+
 
 const Container = styled.div`
   width: 100%;
@@ -152,6 +155,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   const [r, g, b, alpha] = rgba(primaryColor)!;
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
   const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
+  
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -255,6 +259,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
       (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
     );
 
+
     setSelectedDayStartTimeEventsList(orderedEvents);
   }, [selectedDay, startTimeEventsList]);
 
@@ -295,6 +300,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
             primaryColorFaded={primaryColorFaded}
             onDaySelected={onDaySelected}
           />
+
         </CalendarContainer>
         <Divider />
         <StartTimeListContainer>
