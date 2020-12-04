@@ -49,6 +49,17 @@ const CancelButton = styled.button<{ borderRadius: number }>`
   border: none;
   background-color: rgb(0, 0, 0, 0);
   border-radius: ${({ borderRadius }) => borderRadius}px;
+  outline: none;
+  margin-left: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  height: 100%;
+  :hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
 `;
 
 const EventListItem: React.FC<Props> = ({

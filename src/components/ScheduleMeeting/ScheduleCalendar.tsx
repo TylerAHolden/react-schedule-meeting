@@ -158,15 +158,15 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
   primaryColorFaded,
 }) => {
   const [daysAvailable, setDaysAvailable] = useState<Array<any>>([]);
-  const [r, g, b, alpha] = rgba(primaryColor)!;
+  const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorToday = `rgba(${r},${g},${b},${alpha / 4.5})`;
 
   useEffect(() => {
     const daysInTimeslots = availableTimeslots.map((slot) => {
       if (!isValid(slot.startTime)) throw new Error(`Invalid date for start time on slot ${slot.id}`);
       if (!isValid(slot.endTime)) throw new Error(`Invalid date for end time on slot ${slot.id}`);
-      let startTimeDay = getDay(slot.startTime);
-      let endTimeDay = getDay(slot.endTime);
+      const startTimeDay = getDay(slot.startTime);
+      const endTimeDay = getDay(slot.endTime);
       if (startTimeDay !== endTimeDay)
         throw new Error(
           'Days should match in Timeslot start and end time' + startTimeDay.toString + ' | ' + endTimeDay.toString,

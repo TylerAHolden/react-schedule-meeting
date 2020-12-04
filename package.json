@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "repository": "git@github.com:NextGen-Code-Company/react-schedule-meeting.git",
+  "repository": "git@github.com:TylerAHolden/react-schedule-meeting.git",
   "license": "MIT",
   "author": "Devion Villegas, Justin Mozley, Tyler Holden",
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/color-rgba": "^2.1.0",
     "@types/react": "^16.9.29",
+    "@types/react-calendar": "^3.1.0",
     "@types/react-dom": "^16.9.5",
     "@types/styled-components": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
@@ -39,21 +40,20 @@
     "build": "rollup -c",
     "build-watch": "rollup -c -w",
     "prepublishOnly": "npm run build",
-    "postinstall": "install-peers -f && cd example && npm i",
-    "start-example": "cd example && npm start",
-    "deploy-example": "cd example && npm run build",
+    "postinstall": "install-peers -f && cd docs && npm i",
+    "start-example": "cd docs && npm start",
+    "deploy-example": "cd docs && npm run build",
     "dev": "concurrently --kill-others \"npm run build-watch\" \"npm run start-example\"",
     "test": "npm run test:lint && npm run test:unit",
     "pretest": "npm run build",
     "test:unit": "ts-node test/test.ts",
-    "test:lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./example/src/**/*.ts ./example/src/**/*.tsx",
+    "test:lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./docs/src/**/*.ts ./docs/src/**/*.tsx",
     "test:lint:fix": "npm run test:lint -- --fix"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "@types/react-calendar": "^3.1.0",
     "color-rgba": "^2.2.3",
     "date-fns": "^2.14.0",
     "react-calendar": "^3.1.0"

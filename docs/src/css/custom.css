@@ -1,0 +1,85 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #5d7fb3;
+  --ifm-color-primary-dark:  rgb(52, 76, 109);
+  --ifm-color-primary-darker:rgb(40, 56, 79);
+  --ifm-color-primary-darkest: rgb(33, 44, 60);
+  --ifm-color-primary-light: rgb(66, 97, 143);
+  --ifm-color-primary-lighter: rgb(74, 108, 160);
+  --ifm-color-primary-lightest: rgb(87, 128, 191);
+  --ifm-code-font-size: 95%;
+}
+
+nav.navbar {
+  background: #83a4d4; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #83a4d4, #b6fbff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #83a4d4,
+    #b6fbff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  box-shadow: none;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+
+
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-content-inner {
+  max-width: 1100px;
+  padding-bottom: 10vh;
+  overflow: scroll;
+}
+
+.main-content h1 {
+  margin: 32px;
+  margin-bottom: 0px;
+  text-align: center;
+  color: #2c3749;
+}
+
+.main-example-container {
+  background: #83a4d4; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #83a4d4, #b6fbff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #83a4d4,
+    #b6fbff
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.main-content h3 {
+  color: #2c3749;
+}
+
+.main-content p {
+  color: #2c3749;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+}

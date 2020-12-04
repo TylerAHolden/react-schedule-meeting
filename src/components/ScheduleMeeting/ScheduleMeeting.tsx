@@ -111,11 +111,11 @@ export type AvailableTimeslot = {
   id?: string | number | undefined;
 };
 
-export type SplitTimeslot =
-  | (AvailableTimeslot & {
-      old_id: string | number | undefined;
-    })
-  | null;
+export type SplitTimeslot = null | ModifiedTimeslot;
+
+export type ModifiedTimeslot = AvailableTimeslot & {
+  oldId: string | number | undefined;
+};
 
 export type StartTimeEvent = {
   availableTimeslot: AvailableTimeslot;
@@ -149,10 +149,10 @@ export const ScheduleMeeting: React.FC<Props> = ({
   onStartTimeSelect,
   scheduleMeetingStyles,
 }) => {
-  const [r, g, b, alpha] = rgba(primaryColor)!;
+  const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
   const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
-  
+
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -171,7 +171,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
 
     if (minutesIntoTimeslotEventWillStart !== 0) {
       const newFirstTimeslot: SplitTimeslot = {
-        old_id: startTimeEvent.availableTimeslot.id,
+        oldId: startTimeEvent.availableTimeslot.id,
         startTime: startTimeEvent.availableTimeslot.startTime,
         endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart),
       };
@@ -184,7 +184,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
     );
     if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0) {
       const newSecondTimeslot: SplitTimeslot = {
-        old_id: startTimeEvent.availableTimeslot.id,
+        oldId: startTimeEvent.availableTimeslot.id,
         startTime: startTimeOfEndingSplitTimeslot,
         endTime: startTimeEvent.availableTimeslot.endTime,
       };
@@ -208,10 +208,10 @@ export const ScheduleMeeting: React.FC<Props> = ({
 
   useEffect(() => {
     // compile a list of all possible event start times given all timeslots
-    let startTimeEvents = [];
+    const startTimeEvents = [];
 
     // iterate through all available timeslots
-    for (let availableTimeslot of availableTimeslots) {
+    for (const availableTimeslot of availableTimeslots) {
       const timeslotDuration = differenceInMinutes(availableTimeslot.endTime, availableTimeslot.startTime);
 
       // this prevents start times from being created where the event duration runs past the available timeslot
@@ -235,7 +235,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
     const startTimeEventsToDisplay: StartTimeEvent[] = [];
 
     // filter out startTimeEvents so we get the list of ones to display next to the calendar
-    for (let startTimeEvent of startTimeEventsList) {
+    for (const startTimeEvent of startTimeEventsList) {
       // make sure its the same day as the selected day
       if (isSameDay(startTimeEvent.startTime, selectedDay)) {
         // prevents duplicate times (in case there are multiple overlapping shifts)
@@ -255,7 +255,6 @@ export const ScheduleMeeting: React.FC<Props> = ({
     const orderedEvents = startTimeEventsToDisplay.sort(
       (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
     );
-
 
     setSelectedDayStartTimeEventsList(orderedEvents);
   }, [selectedDay, startTimeEventsList]);
@@ -297,7 +296,6 @@ export const ScheduleMeeting: React.FC<Props> = ({
             primaryColorFaded={primaryColorFaded}
             onDaySelected={onDaySelected}
           />
-
         </CalendarContainer>
         <Divider />
         <StartTimeListContainer>

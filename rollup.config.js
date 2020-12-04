@@ -8,7 +8,7 @@ export default [
     external: Object.keys(pkg.peerDependencies || {}),
     plugins: [
       postcss({
-        extensions: [ '.css' ],
+        extensions: ['.css'],
       }),
       typescript({
         typescript: require('typescript'),
@@ -18,7 +18,7 @@ export default [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'esm' },
       {
-        file: 'example/src/reactComponentLib/index.js',
+        file: 'docs/src/reactComponentLib/index.js',
         format: 'es',
         banner: '/* eslint-disable */',
       },

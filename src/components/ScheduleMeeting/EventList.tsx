@@ -40,7 +40,6 @@ const ScrollEdgeFade = styled.div`
   }
 `;
 
-
 const ListItemDivider = styled.div<any>`
   flex-shrink: 0;
   flex: 1;
@@ -73,7 +72,6 @@ const EventList: React.FC<Props> = ({
   primaryColorFaded,
   primaryColor,
 }) => {
-
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
@@ -102,7 +100,7 @@ const EventList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
-                primaryColorFaded={primaryColorFaded}
+                  primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}
                   onCancelClicked={() => setSelectedItemIndex(-1)}
