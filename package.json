@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
+  "homepage": "https://react-schedule-meeting.netlify.app",
   "repository": "git@github.com:TylerAHolden/react-schedule-meeting.git",
   "license": "MIT",
   "author": "Devion Villegas, Justin Mozley, Tyler Holden",
