@@ -6,7 +6,21 @@
   "homepage": "https://react-schedule-meeting.netlify.app",
   "repository": "git@github.com:TylerAHolden/react-schedule-meeting.git",
   "license": "MIT",
-  "author": "Devion Villegas, Justin Mozley, Tyler Holden",
+  "author": "Tyler Holden",
+  "contributors": [
+    {
+    "name": "Tyler Holden",
+    "url": "https://github.com/TylerAHolden"
+    },
+    {
+      "name": "Justin Mozley",
+      "url": "https://github.com/jtmozley"
+    },
+    {
+      "name": "Devion Villegas",
+      "url": "https://github.com/d3vhound"
+    }
+  ],
   "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/color-rgba": "^2.1.0",
@@ -58,5 +72,6 @@
     "color-rgba": "^2.2.3",
     "date-fns": "^2.14.0",
     "react-calendar": "^3.1.0"
-  }
+  }, 
+  "keywords": ["react","schedule","meeting","calendar", "scheduler", "event", "timeslot"]
 }
