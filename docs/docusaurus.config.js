@@ -62,6 +62,32 @@ module.exports = {
       },
       links: [
         {
+          title: 'Getting Started',
+          items: [
+            {
+              label: 'Installation',
+              to: 'docs/installation',
+            },
+            {
+              label: 'Usage',
+              to: 'docs/usage',
+            },
+          ],
+        },
+        {
+          title: 'Overview',
+          items: [
+            {
+              label: 'Introduction',
+              to: 'docs/',
+            },
+            {
+              label: 'Contributing',
+              to: 'docs/contributing',
+            },
+          ],
+        },
+        {
           title: 'Creators',
           items: [
             {
