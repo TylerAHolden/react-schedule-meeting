@@ -1,6 +1,6 @@
 {
   "name": "react-schedule-meeting",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "homepage": "https://react-schedule-meeting.netlify.app",
@@ -9,8 +9,8 @@
   "author": "Tyler Holden",
   "contributors": [
     {
-    "name": "Tyler Holden",
-    "url": "https://github.com/TylerAHolden"
+      "name": "Tyler Holden",
+      "url": "https://github.com/TylerAHolden"
     },
     {
       "name": "Justin Mozley",
@@ -72,6 +72,14 @@
     "color-rgba": "^2.2.3",
     "date-fns": "^2.14.0",
     "react-calendar": "^3.1.0"
-  }, 
-  "keywords": ["react","schedule","meeting","calendar", "scheduler", "event", "timeslot"]
+  },
+  "keywords": [
+    "react",
+    "schedule",
+    "meeting",
+    "calendar",
+    "scheduler",
+    "event",
+    "timeslot"
+  ]
 }
