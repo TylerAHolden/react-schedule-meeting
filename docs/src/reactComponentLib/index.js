@@ -412,7 +412,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
             }
         }
         setStartTimeEventsList(startTimeEvents);
-    }, [availableTimeslots]);
+    }, [availableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes]);
     useEffect(() => {
         const startTimeEventsToDisplay = [];
         // filter out startTimeEvents so we get the list of ones to display next to the calendar
