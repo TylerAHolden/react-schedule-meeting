@@ -235,7 +235,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
     }
 
     setStartTimeEventsList(startTimeEvents);
-  }, [availableTimeslots]);
+  }, [availableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes]);
 
   useEffect(() => {
     const startTimeEventsToDisplay: StartTimeEvent[] = [];
