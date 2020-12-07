@@ -31,7 +31,7 @@ function Home() {
               <ScheduleMeeting
                 borderRadius={10}
                 primaryColor="#3f5b85"
-                eventDurationInMinutes={60}
+                eventDurationInMinutes={30}
                 availableTimeslots={availableTimeslots}
                 onStartTimeSelect={handleTimeslotClicked}
               />

@@ -138,15 +138,15 @@ const ScheduleCalendar = ({ availableTimeslots, onDaySelected, selectedDay, bord
     const primaryColorToday = `rgba(${r},${g},${b},${alpha / 4.5})`;
     useEffect(() => {
         const daysInTimeslots = availableTimeslots.map((slot) => {
-            if (!isValid(slot.startTime))
+            if (!isValid(new Date(slot.startTime)))
                 throw new Error(`Invalid date for start time on slot ${slot.id}`);
-            if (!isValid(slot.endTime))
+            if (!isValid(new Date(slot.endTime)))
                 throw new Error(`Invalid date for end time on slot ${slot.id}`);
-            const startTimeDay = getDay(slot.startTime);
-            const endTimeDay = getDay(slot.endTime);
+            const startTimeDay = getDay(new Date(slot.startTime));
+            const endTimeDay = getDay(new Date(slot.endTime));
             if (startTimeDay !== endTimeDay)
                 throw new Error('Days should match in Timeslot start and end time' + startTimeDay.toString + ' | ' + endTimeDay.toString);
-            return formatDate(slot.startTime);
+            return formatDate(new Date(slot.startTime));
         });
         setDaysAvailable([...new Set(daysInTimeslots)]);
     }, [availableTimeslots]);
@@ -354,7 +354,7 @@ const ArrowButton = styled.button `
     background: rgba(0, 0, 0, 0.03);
   }
 `;
-const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, eventStartTimeSpreadInMinutes = 30, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, }) => {
+const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, }) => {
     const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
     const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
     const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
@@ -367,17 +367,17 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
     };
     const splitTimeslot = (startTimeEvent) => {
         const splitTimeslots = [null, null];
-        const minutesIntoTimeslotEventWillStart = differenceInMinutes(startTimeEvent.startTime, startTimeEvent.availableTimeslot.startTime);
+        const minutesIntoTimeslotEventWillStart = differenceInMinutes(startTimeEvent.startTime, new Date(startTimeEvent.availableTimeslot.startTime));
         if (minutesIntoTimeslotEventWillStart !== 0) {
             const newFirstTimeslot = {
                 oldId: startTimeEvent.availableTimeslot.id,
                 startTime: startTimeEvent.availableTimeslot.startTime,
-                endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart),
+                endTime: addMinutes(new Date(startTimeEvent.availableTimeslot.startTime), minutesIntoTimeslotEventWillStart),
             };
             splitTimeslots[0] = newFirstTimeslot;
         }
-        const startTimeOfEndingSplitTimeslot = addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart + eventDurationInMinutes);
-        if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0) {
+        const startTimeOfEndingSplitTimeslot = addMinutes(new Date(startTimeEvent.availableTimeslot.startTime), minutesIntoTimeslotEventWillStart + eventDurationInMinutes);
+        if (differenceInMinutes(startTimeOfEndingSplitTimeslot, new Date(startTimeEvent.availableTimeslot.endTime)) !== 0) {
             const newSecondTimeslot = {
                 oldId: startTimeEvent.availableTimeslot.id,
                 startTime: startTimeOfEndingSplitTimeslot,
@@ -399,14 +399,13 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         const startTimeEvents = [];
         // iterate through all available timeslots
         for (const availableTimeslot of availableTimeslots) {
-            const timeslotDuration = differenceInMinutes(availableTimeslot.endTime, availableTimeslot.startTime);
+            const timeslotDuration = differenceInMinutes(new Date(availableTimeslot.endTime), new Date(availableTimeslot.startTime));
             // this prevents start times from being created where the event duration runs past the available timeslot
-            const adjustedTimeslotDuration = timeslotDuration - eventDurationInMinutes;
-            let startTimesPossible = Math.floor(adjustedTimeslotDuration / eventStartTimeSpreadInMinutes);
+            let startTimesPossible = Math.floor(timeslotDuration / (eventDurationInMinutes + eventStartTimeSpreadInMinutes)) - 1;
             while (startTimesPossible >= 0) {
                 const newStartTimeEvent = {
                     availableTimeslot,
-                    startTime: addMinutes(availableTimeslot.startTime, startTimesPossible * eventStartTimeSpreadInMinutes),
+                    startTime: addMinutes(new Date(availableTimeslot.startTime), startTimesPossible * (eventDurationInMinutes + eventStartTimeSpreadInMinutes)),
                 };
                 startTimeEvents.push(newStartTimeEvent);
                 startTimesPossible--;

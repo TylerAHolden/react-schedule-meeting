@@ -163,15 +163,15 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
 
   useEffect(() => {
     const daysInTimeslots = availableTimeslots.map((slot) => {
-      if (!isValid(slot.startTime)) throw new Error(`Invalid date for start time on slot ${slot.id}`);
-      if (!isValid(slot.endTime)) throw new Error(`Invalid date for end time on slot ${slot.id}`);
-      const startTimeDay = getDay(slot.startTime);
-      const endTimeDay = getDay(slot.endTime);
+      if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.id}`);
+      if (!isValid(new Date(slot.endTime))) throw new Error(`Invalid date for end time on slot ${slot.id}`);
+      const startTimeDay = getDay(new Date(slot.startTime));
+      const endTimeDay = getDay(new Date(slot.endTime));
       if (startTimeDay !== endTimeDay)
         throw new Error(
           'Days should match in Timeslot start and end time' + startTimeDay.toString + ' | ' + endTimeDay.toString,
         );
-      return formatDate(slot.startTime);
+      return formatDate(new Date(slot.startTime));
     });
 
     setDaysAvailable([...new Set(daysInTimeslots)]);

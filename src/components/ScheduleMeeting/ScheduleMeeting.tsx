@@ -106,8 +106,8 @@ const ArrowButton = styled.button<{ borderRadius: number }>`
 `;
 
 export type AvailableTimeslot = {
-  startTime: Date;
-  endTime: Date;
+  startTime: Date | string;
+  endTime: Date | string;
   id?: string | number | undefined;
 };
 
@@ -143,7 +143,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   borderRadius = 0,
   primaryColor = '#3f5b85',
   emptyListContentEl,
-  eventStartTimeSpreadInMinutes = 30,
+  eventStartTimeSpreadInMinutes = 0,
   eventDurationInMinutes = 30,
   onSelectedDayChange,
   onStartTimeSelect,
@@ -166,23 +166,23 @@ export const ScheduleMeeting: React.FC<Props> = ({
     const splitTimeslots: [SplitTimeslot, SplitTimeslot] = [null, null];
     const minutesIntoTimeslotEventWillStart = differenceInMinutes(
       startTimeEvent.startTime,
-      startTimeEvent.availableTimeslot.startTime,
+      new Date(startTimeEvent.availableTimeslot.startTime),
     );
 
     if (minutesIntoTimeslotEventWillStart !== 0) {
       const newFirstTimeslot: SplitTimeslot = {
         oldId: startTimeEvent.availableTimeslot.id,
         startTime: startTimeEvent.availableTimeslot.startTime,
-        endTime: addMinutes(startTimeEvent.availableTimeslot.startTime, minutesIntoTimeslotEventWillStart),
+        endTime: addMinutes(new Date(startTimeEvent.availableTimeslot.startTime), minutesIntoTimeslotEventWillStart),
       };
       splitTimeslots[0] = newFirstTimeslot;
     }
 
     const startTimeOfEndingSplitTimeslot = addMinutes(
-      startTimeEvent.availableTimeslot.startTime,
+      new Date(startTimeEvent.availableTimeslot.startTime),
       minutesIntoTimeslotEventWillStart + eventDurationInMinutes,
     );
-    if (differenceInMinutes(startTimeOfEndingSplitTimeslot, startTimeEvent.availableTimeslot.endTime) !== 0) {
+    if (differenceInMinutes(startTimeOfEndingSplitTimeslot, new Date(startTimeEvent.availableTimeslot.endTime)) !== 0) {
       const newSecondTimeslot: SplitTimeslot = {
         oldId: startTimeEvent.availableTimeslot.id,
         startTime: startTimeOfEndingSplitTimeslot,
@@ -212,16 +212,22 @@ export const ScheduleMeeting: React.FC<Props> = ({
 
     // iterate through all available timeslots
     for (const availableTimeslot of availableTimeslots) {
-      const timeslotDuration = differenceInMinutes(availableTimeslot.endTime, availableTimeslot.startTime);
+      const timeslotDuration = differenceInMinutes(
+        new Date(availableTimeslot.endTime),
+        new Date(availableTimeslot.startTime),
+      );
 
       // this prevents start times from being created where the event duration runs past the available timeslot
-      const adjustedTimeslotDuration = timeslotDuration - eventDurationInMinutes;
-      let startTimesPossible = Math.floor(adjustedTimeslotDuration / eventStartTimeSpreadInMinutes);
+      let startTimesPossible =
+        Math.floor(timeslotDuration / (eventDurationInMinutes + eventStartTimeSpreadInMinutes)) - 1;
 
       while (startTimesPossible >= 0) {
         const newStartTimeEvent: StartTimeEvent = {
           availableTimeslot,
-          startTime: addMinutes(availableTimeslot.startTime, startTimesPossible * eventStartTimeSpreadInMinutes),
+          startTime: addMinutes(
+            new Date(availableTimeslot.startTime),
+            startTimesPossible * (eventDurationInMinutes + eventStartTimeSpreadInMinutes),
+          ),
         };
         startTimeEvents.push(newStartTimeEvent);
         startTimesPossible--;

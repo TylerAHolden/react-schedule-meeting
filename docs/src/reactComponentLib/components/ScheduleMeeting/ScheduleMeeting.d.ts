@@ -1,7 +1,7 @@
 import React from 'react';
 export declare type AvailableTimeslot = {
-    startTime: Date;
-    endTime: Date;
+    startTime: Date | string;
+    endTime: Date | string;
     id?: string | number | undefined;
 };
 export declare type SplitTimeslot = null | ModifiedTimeslot;
