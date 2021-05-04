@@ -77,6 +77,7 @@ const SelectedDayTitle = styled.h3`
   margin: 0;
   padding: 0;
   font-weight: 700;
+  font-size: 24px;
 `;
 
 const Header = styled.div`
