@@ -1,4 +1,3 @@
-import 'react-calendar/dist/Calendar.css';
 import React from 'react';
 import { AvailableTimeslot } from './ScheduleMeeting';
 declare type CalendarProps = {
