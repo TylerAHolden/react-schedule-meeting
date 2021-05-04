@@ -1,13 +1,14 @@
 /* eslint-disable */
-import React, { createElement, useState, useEffect } from 'react';
+import * as React from 'react';
+import React__default, { useState, useEffect } from 'react';
 import { isValid, getDay, format, startOfMonth, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, subMonths, addMonths, subDays, addDays } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 import Calendar from 'react-calendar';
 import rgba from 'color-rgba';
 import styled from 'styled-components';
 
-const Arrow = ({ direction }) => (createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", viewBox: "0 0 512 512" },
-    createElement("path", { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "48", d: direction === "back" ? "M328 112L184 256l144 144" : "M184.001 400L328.001 256L184.001 112" })));
+const Arrow = ({ direction }) => (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", viewBox: "0 0 512 512" },
+    React.createElement("path", { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "48", d: direction === 'back' ? 'M328 112L184 256l144 144' : 'M184.001 400L328.001 256L184.001 112' })));
 
 const StyledCalendar = styled(Calendar) `
   .day-tile {
@@ -161,10 +162,10 @@ const ScheduleCalendar = ({ availableTimeslots, onDaySelected, selectedDay, bord
             return ['day-tile', 'active-day-tile'];
         return (props.view === 'month' && 'day-tile') || null;
     };
-    return (React.createElement(StyledCalendar, { borderRadius: borderRadius, primaryColor: primaryColor, primaryColorFaded: primaryColorFaded, primaryColorToday: primaryColorToday, defaultView: 'month', onClickDay: _onClickDay, showNavigation: false, tileDisabled: _isTileDisabled, tileClassName: _renderClassName, value: selectedDay, activeStartDate: startOfMonth(selectedDay) }));
+    return (React__default.createElement(StyledCalendar, { borderRadius: borderRadius, primaryColor: primaryColor, primaryColorFaded: primaryColorFaded, primaryColorToday: primaryColorToday, defaultView: 'month', onClickDay: _onClickDay, showNavigation: false, tileDisabled: _isTileDisabled, tileClassName: _renderClassName, value: selectedDay, activeStartDate: startOfMonth(selectedDay) }));
 };
 
-const Container = styled.div `
+const Container$2 = styled.div `
   display: flex;
   width: 100%;
   align-items: center;
@@ -203,11 +204,11 @@ const CancelButton = styled.button `
   }
 `;
 const EventListItem = ({ onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, }) => {
-    return (React.createElement(Container, null,
-        React.createElement(Button, { selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
+    return (React__default.createElement(Container$2, null,
+        React__default.createElement(Button, { selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
             selected && 'Confirm ',
             format(startTimeEvent.startTime, 'h:mm a')),
-        selected && (React.createElement(CancelButton, { borderRadius: borderRadius, onClick: onCancelClicked }, "Cancel"))));
+        selected && (React__default.createElement(CancelButton, { borderRadius: borderRadius, onClick: onCancelClicked }, "Cancel"))));
 };
 
 const Container$1 = styled.div `
@@ -266,17 +267,17 @@ const EventList = ({ startTimeListItems = [], onStartTimeSelect, emptyListConten
             setSelectedItemIndex(index);
         }
     };
-    const emptyListElement = emptyListContentEl || (React.createElement(NoTimesAvailableContainer, null,
-        React.createElement(StyledP, null, "No times available")));
-    return (React.createElement(React.Fragment, null, startTimeListItems.length === 0 ? (emptyListElement) : (React.createElement(React.Fragment, null,
-        React.createElement(ScrollEdgeFade, { className: "top" }),
-        React.createElement(ScrollEdgeFade, { className: "bottom" }),
-        React.createElement(Container$1, null, startTimeListItems.map((startTimeEvent, i) => (React.createElement(React.Fragment, { key: i },
-            React.createElement(EventListItem, { primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
-            i !== startTimeListItems.length - 1 && (React.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 }))))))))));
+    const emptyListElement = emptyListContentEl || (React__default.createElement(NoTimesAvailableContainer, null,
+        React__default.createElement(StyledP, null, "No times available")));
+    return (React__default.createElement(React__default.Fragment, null, startTimeListItems.length === 0 ? (emptyListElement) : (React__default.createElement(React__default.Fragment, null,
+        React__default.createElement(ScrollEdgeFade, { className: "top" }),
+        React__default.createElement(ScrollEdgeFade, { className: "bottom" }),
+        React__default.createElement(Container$1, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(React__default.Fragment, { key: i },
+            React__default.createElement(EventListItem, { primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
+            i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 }))))))))));
 };
 
-const Container$2 = styled.div `
+const Container = styled.div `
   width: 100%;
   display: flex;
   align-items: center;
@@ -358,9 +359,9 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
     const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
     const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
     const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
-    const [selectedDay, setSelectedDay] = React.useState(new Date());
-    const [startTimeEventsList, setStartTimeEventsList] = React.useState([]);
-    const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([]);
+    const [selectedDay, setSelectedDay] = React__default.useState(new Date());
+    const [startTimeEventsList, setStartTimeEventsList] = React__default.useState([]);
+    const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React__default.useState([]);
     const onDaySelected = (day) => {
         setSelectedDay(day);
         onSelectedDayChange && onSelectedDayChange(day);
@@ -443,26 +444,26 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
     const goToNextDay = () => {
         setSelectedDay(addDays(selectedDay, 1));
     };
-    return (React.createElement(Container$2, null,
-        React.createElement(Inner, { borderRadius: borderRadius, style: scheduleMeetingStyles },
-            React.createElement(CalendarContainer, null,
-                React.createElement(Header, null,
-                    React.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousMonth },
-                        React.createElement(Arrow, { direction: "back" })),
-                    React.createElement(SelectedDayTitle, null, format(selectedDay, 'LLLL yyyy')),
-                    React.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextMonth },
-                        React.createElement(Arrow, { direction: "forward" }))),
-                React.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
-            React.createElement(Divider, null),
-            React.createElement(StartTimeListContainer, null,
-                React.createElement(StartTimeListContainerAbsolute, null,
-                    React.createElement(Header, null,
-                        React.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousDay },
-                            React.createElement(Arrow, { direction: "back" })),
-                        React.createElement(SelectedDayTitle, null, format(selectedDay, 'cccc, LLLL do')),
-                        React.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextDay },
-                            React.createElement(Arrow, { direction: "forward" }))),
-                    React.createElement(EventList, { primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList }))))));
+    return (React__default.createElement(Container, null,
+        React__default.createElement(Inner, { borderRadius: borderRadius, style: scheduleMeetingStyles },
+            React__default.createElement(CalendarContainer, null,
+                React__default.createElement(Header, null,
+                    React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousMonth },
+                        React__default.createElement(Arrow, { direction: "back" })),
+                    React__default.createElement(SelectedDayTitle, null, format(selectedDay, 'LLLL yyyy')),
+                    React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextMonth },
+                        React__default.createElement(Arrow, { direction: "forward" }))),
+                React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
+            React__default.createElement(Divider, null),
+            React__default.createElement(StartTimeListContainer, null,
+                React__default.createElement(StartTimeListContainerAbsolute, null,
+                    React__default.createElement(Header, null,
+                        React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousDay },
+                            React__default.createElement(Arrow, { direction: "back" })),
+                        React__default.createElement(SelectedDayTitle, null, format(selectedDay, 'cccc, LLLL do')),
+                        React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextDay },
+                            React__default.createElement(Arrow, { direction: "forward" }))),
+                    React__default.createElement(EventList, { primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList }))))));
 };
 
 export { ScheduleMeeting };

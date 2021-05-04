@@ -1,2 +1,1 @@
-import { ScheduleMeeting } from './components/ScheduleMeeting/ScheduleMeeting';
-export { ScheduleMeeting };
+export * from './components/ScheduleMeeting/ScheduleMeeting';
