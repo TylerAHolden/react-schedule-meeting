@@ -223,16 +223,17 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
   const primaryColorToday = `rgba(${r},${g},${b},${alpha / 4.5})`;
 
   useEffect(() => {
-    const daysInTimeslots = availableTimeslots.map((slot) => {
+    const daysInTimeslots: string[] = [];
+    availableTimeslots.map((slot) => {
       if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.id}`);
       if (!isValid(new Date(slot.endTime))) throw new Error(`Invalid date for end time on slot ${slot.id}`);
       const startTimeDay = getDay(new Date(slot.startTime));
       const endTimeDay = getDay(new Date(slot.endTime));
-      if (startTimeDay !== endTimeDay)
-        throw new Error(
-          'Days should match in Timeslot start and end time' + startTimeDay.toString + ' | ' + endTimeDay.toString,
-        );
-      return formatDate(new Date(slot.startTime));
+      if (startTimeDay !== endTimeDay) {
+        daysInTimeslots.push(formatDate(new Date(slot.endTime)));
+      }
+      daysInTimeslots.push(formatDate(new Date(slot.startTime)));
+      return null;
     });
 
     setDaysAvailable([...new Set(daysInTimeslots)]);
