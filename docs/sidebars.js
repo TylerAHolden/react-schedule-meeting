@@ -1,6 +1,3 @@
 module.exports = {
-  someSidebar: {
-    'React Schedule Meeting': ['introduction', 'contributing'],
-    'Getting Started': ['installation', 'usage'],
-  },
+  normal: ['introduction', 'contributing', 'installation', 'usage'],
 };
