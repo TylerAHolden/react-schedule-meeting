@@ -9,9 +9,6 @@ module.exports = {
   organizationName: 'TylerAHolden', // Usually your GitHub org/user name.
   projectName: 'react-schedule-meeting', // Usually your repo name.
   themeConfig: {
-    gtag: {
-      trackingID: 'UA-255141691',
-    },
     announcementBar: {
       id: 'supportus',
       backgroundColor: '#222',
@@ -116,6 +113,12 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl: 'https://github.com/TylerAHolden/react-schedule-meeting/edit/master/docs/',
+        },
+        gtag: {
+          trackingID: 'UA-255141691',
+        },
+        googleAnalytics: {
+          trackingID: 'UA-255141691',
         },
         // blog: {
         //   showReadingTime: true,
