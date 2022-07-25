@@ -57,6 +57,7 @@ const CancelButton = styled.button<{ borderRadius: number }>`
   align-items: center;
   font-size: 16px;
   height: 100%;
+  color: #222320;
   :hover {
     background-color: rgba(0, 0, 0, 0.03);
   }

@@ -100,6 +100,7 @@ const ArrowButton = styled.button<{ borderRadius: number }>`
   padding: 8px;
   opacity: 0.4;
   margin: 0;
+  color: #222320;
   &:hover {
     opacity: 0.7;
     background: rgba(0, 0, 0, 0.03);
