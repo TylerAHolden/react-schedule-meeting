@@ -66,8 +66,12 @@ module.exports = {
               to: 'docs/installation',
             },
             {
-              label: 'Usage',
-              to: 'docs/usage',
+              label: 'Quick Start',
+              to: 'docs/quick-start',
+            },
+            {
+              label: 'All Props',
+              to: 'docs/all-props',
             },
           ],
         },

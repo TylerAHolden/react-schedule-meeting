@@ -1,6 +1,6 @@
 ---
-id: usage
-title: Usage
+id: quick-start
+title: Quick Start
 ---
 
 ## Quick Start
@@ -30,14 +30,3 @@ export default function Example() {
   );
 }
 ```
-
-## Usage Flow Overview (Methodology)
-
-1. Pass in an array of date ranges that are available for meetings
-1. The ScheduleMeeting component will split them into start times based on the event duration prop
-1. When a user confirms a start time, the component returns:
-   - The start time selected
-   - The original time slot that was used
-   - The original time slot now split into two separate time slots _(in case you need to keep track of availabilities)_
-
-> Visit [StartTimeEventEmit](./types/#StartTimeEventEmit) to see exactly what is returned
