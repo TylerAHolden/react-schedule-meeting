@@ -34,6 +34,7 @@ function Home() {
                 eventDurationInMinutes={30}
                 availableTimeslots={availableTimeslots}
                 onStartTimeSelect={handleTimeslotClicked}
+                onNoFutureTimesAvailable={console.log}
               />
             </div>
           </div>

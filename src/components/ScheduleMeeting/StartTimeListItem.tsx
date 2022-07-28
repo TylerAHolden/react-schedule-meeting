@@ -1,5 +1,7 @@
+/* eslint-disable  */
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
+import { ThemedButton } from '../ThemedButton';
 import { format } from 'date-fns';
 import styled from 'styled-components';
 
@@ -11,40 +13,15 @@ type Props = {
   borderRadius: number;
   primaryColor: string;
   primaryColorFaded: string;
-  startTimeFormatString: string;
-  confirmButtonText: string;
-  cancelButtonText: string;
+  format_startTimeFormatString: string;
+  lang_confirmButtonText: string;
+  lang_cancelButtonText: string;
 };
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-`;
-
-type ButtonProps = {
-  selected: boolean;
-  primaryColor: string;
-  borderRadius: number;
-  primaryColorFaded: string;
-};
-
-const Button = styled.button<ButtonProps>`
-  padding: 16px;
-  border: none;
-  color: ${({ selected }) => (selected ? `rgb(255, 255, 255)` : `rgb(20,20,20)`)};
-  background-color: ${({ selected, primaryColor }) => (selected ? primaryColor : `rgba(0,0,0,0)`)};
-  border-radius: ${({ borderRadius }) => borderRadius}px;
-  outline: none;
-  width: 100%;
-  cursor: pointer;
-  font-size: 16px;
-  opacity: 1;
-  :hover {
-    opacity: 0.8;
-    background-color: ${({ selected, primaryColor, primaryColorFaded }) =>
-      selected ? primaryColor : primaryColorFaded};
-  }
 `;
 
 const CancelButton = styled.button<{ borderRadius: number }>`
@@ -74,13 +51,13 @@ const StartTimeListItem: React.FC<Props> = ({
   borderRadius,
   primaryColor,
   primaryColorFaded,
-  startTimeFormatString,
-  confirmButtonText,
-  cancelButtonText,
+  format_startTimeFormatString,
+  lang_confirmButtonText,
+  lang_cancelButtonText,
 }) => {
   return (
     <Container className="rsm-start-time-item">
-      <Button
+      <ThemedButton
         className="rsm-confirm-button"
         selected={Boolean(selected)}
         borderRadius={borderRadius}
@@ -88,12 +65,12 @@ const StartTimeListItem: React.FC<Props> = ({
         primaryColor={primaryColor}
         onClick={onStartTimeSelect}
       >
-        {selected && `${confirmButtonText} `}
-        {format(startTimeEvent.startTime, startTimeFormatString)}
-      </Button>
+        {selected && `${lang_confirmButtonText} `}
+        {format(startTimeEvent.startTime, format_startTimeFormatString)}
+      </ThemedButton>
       {selected && (
         <CancelButton className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
-          {cancelButtonText}
+          {lang_cancelButtonText}
         </CancelButton>
       )}
     </Container>

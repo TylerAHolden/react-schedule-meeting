@@ -75,7 +75,8 @@ nav.navbar {
   color: #2c3749;
 }
 
-.main-content p {
+
+.main-content-inner > p {
   color: #2c3749;
   text-align: center;
   font-weight: 700;

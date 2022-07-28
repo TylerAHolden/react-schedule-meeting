@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
+import { Arrow } from '../ArrowSVG';
 import EventListItem from './StartTimeListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
+import { ThemedButton } from '../ThemedButton';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 
 type Props = {
@@ -11,10 +14,15 @@ type Props = {
   borderRadius: number;
   primaryColor: string;
   primaryColorFaded: string;
-  startTimeFormatString: string;
-  emptyListText: string;
-  confirmButtonText: string;
-  cancelButtonText: string;
+  format_startTimeFormatString: string;
+  lang_emptyListText: string;
+  lang_confirmButtonText: string;
+  lang_cancelButtonText: string;
+  lang_goToNextAvailableDayText: string;
+  lang_noFutureTimesText: string;
+  onGoToNextAvailableDayClick: () => void;
+  nextFutureStartTimeAvailable: undefined | Date;
+  format_nextFutureStartTimeAvailableFormatString: string;
 };
 
 const Container = styled.div`
@@ -57,6 +65,7 @@ const StyledP = styled.p`
   margin: 0;
   opacity: 0.5;
   margin-bottom: 24px;
+  font-size: 18px;
 `;
 
 const NoTimesAvailableContainer = styled.div`
@@ -66,19 +75,55 @@ const NoTimesAvailableContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+`;
+
+const GoToNextAvailableDayButton = styled(ThemedButton)`
+  border: none;
+  padding: 6px 18px;
+  width: auto;
+  text-align: left;
+  p {
+    margin: 0;
+    color: inherit;
+    font-weight: inherit;
+    text-align: inherit;
+  }
+  small {
+    font-weight: 700;
+  }
+  display: flex;
+  align-items: center;
+  svg {
+    margin-left: 14px;
+    margin-right: -4px;
+  }
+`;
+
+const NoFutureTimesText = styled(StyledP)<{ borderRadius: number }>`
+  font-size: 90%;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: ${({ borderRadius }) => borderRadius}px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 `;
 
 const StartTimeList: React.FC<Props> = ({
   startTimeListItems = [],
   onStartTimeSelect,
   emptyListContentEl,
-  emptyListText,
+  lang_emptyListText,
   borderRadius,
   primaryColorFaded,
   primaryColor,
-  startTimeFormatString,
-  confirmButtonText,
-  cancelButtonText,
+  format_startTimeFormatString,
+  lang_confirmButtonText,
+  lang_cancelButtonText,
+  lang_goToNextAvailableDayText,
+  lang_noFutureTimesText,
+  onGoToNextAvailableDayClick,
+  nextFutureStartTimeAvailable,
+  format_nextFutureStartTimeAvailableFormatString,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
@@ -90,9 +135,31 @@ const StartTimeList: React.FC<Props> = ({
     }
   };
 
-  const emptyListElement = emptyListContentEl || (
+  const emptyListElement = (
     <NoTimesAvailableContainer>
-      <StyledP>{emptyListText}</StyledP>
+      {emptyListContentEl || <StyledP className="rsm-empty-list-text">{lang_emptyListText}</StyledP>}
+      {nextFutureStartTimeAvailable ? (
+        <GoToNextAvailableDayButton
+          selected
+          className="rsm-next-available-date-button"
+          borderRadius={borderRadius}
+          primaryColorFaded={primaryColorFaded}
+          primaryColor={primaryColor}
+          onClick={onGoToNextAvailableDayClick}
+        >
+          <p>
+            <small>{lang_goToNextAvailableDayText}</small>
+            <br />
+            {format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString)}
+          </p>
+
+          <Arrow direction="forward" />
+        </GoToNextAvailableDayButton>
+      ) : (
+        <NoFutureTimesText borderRadius={borderRadius} className="rsm-no-future-times-text">
+          {lang_noFutureTimesText}
+        </NoFutureTimesText>
+      )}
     </NoTimesAvailableContainer>
   );
 
@@ -108,9 +175,9 @@ const StartTimeList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
-                  confirmButtonText={confirmButtonText}
-                  cancelButtonText={cancelButtonText}
-                  startTimeFormatString={startTimeFormatString}
+                  lang_confirmButtonText={lang_confirmButtonText}
+                  lang_cancelButtonText={lang_cancelButtonText}
+                  format_startTimeFormatString={format_startTimeFormatString}
                   primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}

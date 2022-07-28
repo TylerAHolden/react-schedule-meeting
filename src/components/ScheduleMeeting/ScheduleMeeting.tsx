@@ -5,9 +5,11 @@ import {
   addMonths,
   differenceInMinutes,
   format,
+  isAfter,
   isPast,
   isSameDay,
   isSameMinute,
+  isToday,
   subDays,
   subMonths,
 } from 'date-fns';
@@ -139,12 +141,16 @@ type Props = {
   borderRadius?: number;
   primaryColor?: string;
   defaultDate?: Date;
-  selectedDateMonthTitleFormatString?: string;
-  selectedDateDayTitleFormatString?: string;
-  startTimeFormatString?: string;
-  emptyListText?: string;
-  confirmButtonText?: string;
-  cancelButtonText?: string;
+  format_selectedDateMonthTitleFormatString?: string;
+  format_selectedDateDayTitleFormatString?: string;
+  format_startTimeFormatString?: string;
+  lang_emptyListText?: string;
+  lang_confirmButtonText?: string;
+  lang_cancelButtonText?: string;
+  lang_noFutureTimesText?: string;
+  lang_goToNextAvailableDayText: string;
+  format_nextFutureStartTimeAvailableFormatString?: string;
+  onNoFutureTimesAvailable?: (selectedDate: Date) => void;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
@@ -152,18 +158,22 @@ export const ScheduleMeeting: React.FC<Props> = ({
   borderRadius = 0,
   primaryColor = '#3f5b85',
   emptyListContentEl,
-  emptyListText = 'No times available',
+  lang_emptyListText = 'No times available',
   eventStartTimeSpreadInMinutes = 0,
   eventDurationInMinutes = 30,
   onSelectedDayChange,
   onStartTimeSelect,
   scheduleMeetingStyles,
   defaultDate,
-  selectedDateDayTitleFormatString = 'cccc, LLLL do',
-  selectedDateMonthTitleFormatString = 'LLLL yyyy',
-  startTimeFormatString = 'h:mm a',
-  confirmButtonText = 'Confirm',
-  cancelButtonText = 'Cancel',
+  format_selectedDateDayTitleFormatString = 'cccc, LLLL do',
+  format_selectedDateMonthTitleFormatString = 'LLLL yyyy',
+  format_startTimeFormatString = 'h:mm a',
+  lang_confirmButtonText = 'Confirm',
+  lang_cancelButtonText = 'Cancel',
+  lang_noFutureTimesText = 'No future times available',
+  lang_goToNextAvailableDayText = 'Next Available',
+  format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
+  onNoFutureTimesAvailable,
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
@@ -172,6 +182,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
+  const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React.useState<undefined | Date>();
 
   const onDaySelected = (day: Date) => {
     setSelectedDay(day);
@@ -282,6 +293,20 @@ export const ScheduleMeeting: React.FC<Props> = ({
       (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
     );
 
+    const _nextFutureStartTimeAvailable = startTimeEventsList.find(
+      (startTime) => isAfter(startTime.startTime, selectedDay) && !isToday(startTime.startTime),
+    )?.startTime;
+
+    if (
+      startTimeEventsList.length > 0 &&
+      onNoFutureTimesAvailable &&
+      !_nextFutureStartTimeAvailable &&
+      orderedEvents.length === 0
+    ) {
+      onNoFutureTimesAvailable(selectedDay);
+    }
+
+    setNextFutureStartTimeAvailable(_nextFutureStartTimeAvailable);
     setSelectedDayStartTimeEventsList(orderedEvents);
   }, [selectedDay, startTimeEventsList]);
 
@@ -301,6 +326,12 @@ export const ScheduleMeeting: React.FC<Props> = ({
     setSelectedDay(addDays(selectedDay, 1));
   };
 
+  const handleGoToNextAvailableDay = () => {
+    if (nextFutureStartTimeAvailable) {
+      setSelectedDay(nextFutureStartTimeAvailable);
+    }
+  };
+
   return (
     <Container>
       <Inner borderRadius={borderRadius} style={scheduleMeetingStyles}>
@@ -310,7 +341,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               <Arrow direction="back" />
             </ArrowButton>
             <SelectedDayTitle className="rsm-date-title">
-              {format(selectedDay, selectedDateMonthTitleFormatString)}
+              {format(selectedDay, format_selectedDateMonthTitleFormatString)}
             </SelectedDayTitle>
             <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
@@ -333,23 +364,28 @@ export const ScheduleMeeting: React.FC<Props> = ({
                 <Arrow direction="back" />
               </ArrowButton>
               <SelectedDayTitle className="rsm-date-title">
-                {format(selectedDay, selectedDateDayTitleFormatString)}
+                {format(selectedDay, format_selectedDateDayTitleFormatString)}
               </SelectedDayTitle>
               <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
             </Header>
             <StartTimeList
-              confirmButtonText={confirmButtonText}
-              cancelButtonText={cancelButtonText}
-              emptyListText={emptyListText}
+              format_nextFutureStartTimeAvailableFormatString={format_nextFutureStartTimeAvailableFormatString}
+              nextFutureStartTimeAvailable={nextFutureStartTimeAvailable}
+              lang_goToNextAvailableDayText={lang_goToNextAvailableDayText}
+              lang_noFutureTimesText={lang_noFutureTimesText}
+              onGoToNextAvailableDayClick={handleGoToNextAvailableDay}
+              lang_confirmButtonText={lang_confirmButtonText}
+              lang_cancelButtonText={lang_cancelButtonText}
+              lang_emptyListText={lang_emptyListText}
               primaryColorFaded={primaryColorFaded}
               primaryColor={primaryColorRGB}
               borderRadius={borderRadius}
               emptyListContentEl={emptyListContentEl}
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}
-              startTimeFormatString={startTimeFormatString}
+              format_startTimeFormatString={format_startTimeFormatString}
             />
           </StartTimeListContainerAbsolute>
         </StartTimeListContainer>

@@ -8,9 +8,9 @@ declare type Props = {
     borderRadius: number;
     primaryColor: string;
     primaryColorFaded: string;
-    startTimeFormatString: string;
-    confirmButtonText: string;
-    cancelButtonText: string;
+    format_startTimeFormatString: string;
+    lang_confirmButtonText: string;
+    lang_cancelButtonText: string;
 };
 declare const StartTimeListItem: React.FC<Props>;
 export default StartTimeListItem;

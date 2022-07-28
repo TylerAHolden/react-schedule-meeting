@@ -66,8 +66,17 @@ Since this UI only has a few spots where language text is used, simple props hav
 ```jsx
 <ScheduleMeeting
   // ... other props
-  cancelButtonText="Cancel"
-  confirmButtonText="Confirm"
-  emptyListText="No times available"
+
+  // Language props
+  lang_cancelButtonText="Cancel"
+  lang_confirmButtonText="Confirm"
+  lang_emptyListText="No times available"
+  lang_goToNextAvailableDayText="Next Available"
+  lang_noFutureTimesText="No future times available"
+  // Date format props
+  format_nextFutureStartTimeAvailableFormatString="cccc, LLLL do"
+  format_selectedDateDayTitleFormatString="cccc, LLLL do"
+  format_selectedDateMonthTitleFormatString="LLLL yyyy"
+  format_startTimeFormatString="h:mm a"
 />
 ```

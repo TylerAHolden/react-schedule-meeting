@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as React from 'react';
 import React__default, { useState, useEffect } from 'react';
-import { isValid, getDay, format, startOfMonth, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, subMonths, addMonths, subDays, addDays } from 'date-fns';
+import { isValid, getDay, format, startOfMonth, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, isAfter, isToday, subMonths, addMonths, subDays, addDays } from 'date-fns';
 import Calendar from 'react-calendar';
 import rgba from 'color-rgba';
 import styled from 'styled-components';
@@ -230,12 +230,7 @@ const ScheduleCalendar = ({ availableTimeslots, onDaySelected, selectedDay, bord
     return (React__default.createElement(StyledCalendar, { borderRadius: borderRadius, primaryColor: primaryColor, primaryColorFaded: primaryColorFaded, primaryColorToday: primaryColorToday, defaultView: 'month', onClickDay: _onClickDay, showNavigation: false, tileDisabled: _isTileDisabled, tileClassName: _renderClassName, value: selectedDay, activeStartDate: startOfMonth(selectedDay) }));
 };
 
-const Container$2 = styled.div `
-  display: flex;
-  width: 100%;
-  align-items: center;
-`;
-const Button = styled.button `
+const ThemedButton = styled.button `
   padding: 16px;
   border: none;
   color: ${({ selected }) => (selected ? `rgb(255, 255, 255)` : `rgb(20,20,20)`)};
@@ -250,6 +245,13 @@ const Button = styled.button `
     opacity: 0.8;
     background-color: ${({ selected, primaryColor, primaryColorFaded }) => selected ? primaryColor : primaryColorFaded};
   }
+`;
+
+/* eslint-disable  */
+const Container$2 = styled.div `
+  display: flex;
+  width: 100%;
+  align-items: center;
 `;
 const CancelButton = styled.button `
   padding: 8px 24px;
@@ -269,12 +271,12 @@ const CancelButton = styled.button `
     background-color: rgba(0, 0, 0, 0.03);
   }
 `;
-const StartTimeListItem = ({ onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, startTimeFormatString, confirmButtonText, cancelButtonText, }) => {
+const StartTimeListItem = ({ onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, }) => {
     return (React__default.createElement(Container$2, { className: "rsm-start-time-item" },
-        React__default.createElement(Button, { className: "rsm-confirm-button", selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
-            selected && `${confirmButtonText} `,
-            format(startTimeEvent.startTime, startTimeFormatString)),
-        selected && (React__default.createElement(CancelButton, { className: "rsm-cancel-button", borderRadius: borderRadius, onClick: onCancelClicked }, cancelButtonText))));
+        React__default.createElement(ThemedButton, { className: "rsm-confirm-button", selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
+            selected && `${lang_confirmButtonText} `,
+            format(startTimeEvent.startTime, format_startTimeFormatString)),
+        selected && (React__default.createElement(CancelButton, { className: "rsm-cancel-button", borderRadius: borderRadius, onClick: onCancelClicked }, lang_cancelButtonText))));
 };
 
 const Container$1 = styled.div `
@@ -314,6 +316,7 @@ const StyledP = styled.p `
   margin: 0;
   opacity: 0.5;
   margin-bottom: 24px;
+  font-size: 18px;
 `;
 const NoTimesAvailableContainer = styled.div `
   height: 100%;
@@ -322,8 +325,37 @@ const NoTimesAvailableContainer = styled.div `
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
-const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl, emptyListText, borderRadius, primaryColorFaded, primaryColor, startTimeFormatString, confirmButtonText, cancelButtonText, }) => {
+const GoToNextAvailableDayButton = styled(ThemedButton) `
+  border: none;
+  padding: 6px 18px;
+  width: auto;
+  text-align: left;
+  p {
+    margin: 0;
+    color: inherit;
+    font-weight: inherit;
+    text-align: inherit;
+  }
+  small {
+    font-weight: 700;
+  }
+  display: flex;
+  align-items: center;
+  svg {
+    margin-left: 14px;
+    margin-right: -4px;
+  }
+`;
+const NoFutureTimesText = styled(StyledP) `
+  font-size: 90%;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: ${({ borderRadius }) => borderRadius}px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+`;
+const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl, lang_emptyListText, borderRadius, primaryColorFaded, primaryColor, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, lang_goToNextAvailableDayText, lang_noFutureTimesText, onGoToNextAvailableDayClick, nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const _onStartTimeSelect = (startTimeEvent, index) => {
         if (selectedItemIndex === index) {
@@ -333,13 +365,19 @@ const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListCo
             setSelectedItemIndex(index);
         }
     };
-    const emptyListElement = emptyListContentEl || (React__default.createElement(NoTimesAvailableContainer, null,
-        React__default.createElement(StyledP, null, emptyListText)));
+    const emptyListElement = (React__default.createElement(NoTimesAvailableContainer, null,
+        emptyListContentEl || React__default.createElement(StyledP, { className: "rsm-empty-list-text" }, lang_emptyListText),
+        nextFutureStartTimeAvailable ? (React__default.createElement(GoToNextAvailableDayButton, { selected: true, className: "rsm-next-available-date-button", borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onGoToNextAvailableDayClick },
+            React__default.createElement("p", null,
+                React__default.createElement("small", null, lang_goToNextAvailableDayText),
+                React__default.createElement("br", null),
+                format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString)),
+            React__default.createElement(Arrow, { direction: "forward" }))) : (React__default.createElement(NoFutureTimesText, { borderRadius: borderRadius, className: "rsm-no-future-times-text" }, lang_noFutureTimesText))));
     return (React__default.createElement(React__default.Fragment, null, startTimeListItems.length === 0 ? (emptyListElement) : (React__default.createElement(React__default.Fragment, null,
         React__default.createElement(ScrollEdgeFade, { className: "top" }),
         React__default.createElement(ScrollEdgeFade, { className: "bottom" }),
         React__default.createElement(Container$1, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(React__default.Fragment, { key: i },
-            React__default.createElement(StartTimeListItem, { confirmButtonText: confirmButtonText, cancelButtonText: cancelButtonText, startTimeFormatString: startTimeFormatString, primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
+            React__default.createElement(StartTimeListItem, { lang_confirmButtonText: lang_confirmButtonText, lang_cancelButtonText: lang_cancelButtonText, format_startTimeFormatString: format_startTimeFormatString, primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
             i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 }))))))))));
 };
 
@@ -423,13 +461,14 @@ const ArrowButton = styled.button `
     background: rgba(0, 0, 0, 0.03);
   }
 `;
-const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, emptyListText = 'No times available', eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, selectedDateDayTitleFormatString = 'cccc, LLLL do', selectedDateMonthTitleFormatString = 'LLLL yyyy', startTimeFormatString = 'h:mm a', confirmButtonText = 'Confirm', cancelButtonText = 'Cancel', }) => {
+const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, lang_emptyListText = 'No times available', eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, format_selectedDateDayTitleFormatString = 'cccc, LLLL do', format_selectedDateMonthTitleFormatString = 'LLLL yyyy', format_startTimeFormatString = 'h:mm a', lang_confirmButtonText = 'Confirm', lang_cancelButtonText = 'Cancel', lang_noFutureTimesText = 'No future times available', lang_goToNextAvailableDayText = 'Next Available', format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do', onNoFutureTimesAvailable, }) => {
     const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
     const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
     const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
     const [selectedDay, setSelectedDay] = React__default.useState(new Date());
     const [startTimeEventsList, setStartTimeEventsList] = React__default.useState([]);
     const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React__default.useState([]);
+    const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React__default.useState();
     const onDaySelected = (day) => {
         setSelectedDay(day);
         onSelectedDayChange && onSelectedDayChange(day);
@@ -487,6 +526,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         setStartTimeEventsList(startTimeEvents);
     }, [availableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
     useEffect(() => {
+        var _a;
         const startTimeEventsToDisplay = [];
         // filter out startTimeEvents so we get the list of ones to display next to the calendar
         for (const startTimeEvent of startTimeEventsList) {
@@ -502,6 +542,14 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         }
         // order the events by first in the day
         const orderedEvents = startTimeEventsToDisplay.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+        const _nextFutureStartTimeAvailable = (_a = startTimeEventsList.find((startTime) => isAfter(startTime.startTime, selectedDay) && !isToday(startTime.startTime))) === null || _a === void 0 ? void 0 : _a.startTime;
+        if (startTimeEventsList.length > 0 &&
+            onNoFutureTimesAvailable &&
+            !_nextFutureStartTimeAvailable &&
+            orderedEvents.length === 0) {
+            onNoFutureTimesAvailable(selectedDay);
+        }
+        setNextFutureStartTimeAvailable(_nextFutureStartTimeAvailable);
         setSelectedDayStartTimeEventsList(orderedEvents);
     }, [selectedDay, startTimeEventsList]);
     const goToPreviousMonth = () => {
@@ -516,13 +564,18 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
     const goToNextDay = () => {
         setSelectedDay(addDays(selectedDay, 1));
     };
+    const handleGoToNextAvailableDay = () => {
+        if (nextFutureStartTimeAvailable) {
+            setSelectedDay(nextFutureStartTimeAvailable);
+        }
+    };
     return (React__default.createElement(Container, null,
         React__default.createElement(Inner, { borderRadius: borderRadius, style: scheduleMeetingStyles },
             React__default.createElement(CalendarContainer, null,
                 React__default.createElement(Header, null,
                     React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToPreviousMonth },
                         React__default.createElement(Arrow, { direction: "back" })),
-                    React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, selectedDateMonthTitleFormatString)),
+                    React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, format_selectedDateMonthTitleFormatString)),
                     React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToNextMonth },
                         React__default.createElement(Arrow, { direction: "forward" }))),
                 React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
@@ -532,10 +585,10 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
                     React__default.createElement(Header, null,
                         React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToPreviousDay },
                             React__default.createElement(Arrow, { direction: "back" })),
-                        React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, selectedDateDayTitleFormatString)),
+                        React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, format_selectedDateDayTitleFormatString)),
                         React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToNextDay },
                             React__default.createElement(Arrow, { direction: "forward" }))),
-                    React__default.createElement(StartTimeList, { confirmButtonText: confirmButtonText, cancelButtonText: cancelButtonText, emptyListText: emptyListText, primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList, startTimeFormatString: startTimeFormatString }))))));
+                    React__default.createElement(StartTimeList, { format_nextFutureStartTimeAvailableFormatString: format_nextFutureStartTimeAvailableFormatString, nextFutureStartTimeAvailable: nextFutureStartTimeAvailable, lang_goToNextAvailableDayText: lang_goToNextAvailableDayText, lang_noFutureTimesText: lang_noFutureTimesText, onGoToNextAvailableDayClick: handleGoToNextAvailableDay, lang_confirmButtonText: lang_confirmButtonText, lang_cancelButtonText: lang_cancelButtonText, lang_emptyListText: lang_emptyListText, primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList, format_startTimeFormatString: format_startTimeFormatString }))))));
 };
 
 export { ScheduleMeeting };
