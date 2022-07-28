@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import EventListItem from './EventListItem';
+import EventListItem from './StartTimeListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
 import styled from 'styled-components';
 
@@ -12,6 +12,9 @@ type Props = {
   primaryColor: string;
   primaryColorFaded: string;
   startTimeFormatString: string;
+  emptyListText: string;
+  confirmButtonText: string;
+  cancelButtonText: string;
 };
 
 const Container = styled.div`
@@ -65,14 +68,17 @@ const NoTimesAvailableContainer = styled.div`
   align-items: center;
 `;
 
-const EventList: React.FC<Props> = ({
+const StartTimeList: React.FC<Props> = ({
   startTimeListItems = [],
   onStartTimeSelect,
   emptyListContentEl,
+  emptyListText,
   borderRadius,
   primaryColorFaded,
   primaryColor,
   startTimeFormatString,
+  confirmButtonText,
+  cancelButtonText,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
@@ -86,7 +92,7 @@ const EventList: React.FC<Props> = ({
 
   const emptyListElement = emptyListContentEl || (
     <NoTimesAvailableContainer>
-      <StyledP>No times available</StyledP>
+      <StyledP>{emptyListText}</StyledP>
     </NoTimesAvailableContainer>
   );
 
@@ -102,6 +108,8 @@ const EventList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
+                  confirmButtonText={confirmButtonText}
+                  cancelButtonText={cancelButtonText}
                   startTimeFormatString={startTimeFormatString}
                   primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
@@ -122,4 +130,4 @@ const EventList: React.FC<Props> = ({
     </>
   );
 };
-export default EventList;
+export default StartTimeList;

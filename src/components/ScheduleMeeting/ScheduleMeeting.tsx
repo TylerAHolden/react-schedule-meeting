@@ -14,7 +14,7 @@ import {
 
 import { Arrow } from '../ArrowSVG';
 import ScheduleCalendar from './ScheduleCalendar';
-import StartTimeList from './EventList';
+import StartTimeList from './StartTimeList';
 import rgba from 'color-rgba';
 import styled from 'styled-components';
 
@@ -142,6 +142,9 @@ type Props = {
   selectedDateMonthTitleFormatString?: string;
   selectedDateDayTitleFormatString?: string;
   startTimeFormatString?: string;
+  emptyListText?: string;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
@@ -149,6 +152,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   borderRadius = 0,
   primaryColor = '#3f5b85',
   emptyListContentEl,
+  emptyListText = 'No times available',
   eventStartTimeSpreadInMinutes = 0,
   eventDurationInMinutes = 30,
   onSelectedDayChange,
@@ -158,6 +162,8 @@ export const ScheduleMeeting: React.FC<Props> = ({
   selectedDateDayTitleFormatString = 'cccc, LLLL do',
   selectedDateMonthTitleFormatString = 'LLLL yyyy',
   startTimeFormatString = 'h:mm a',
+  confirmButtonText = 'Confirm',
+  cancelButtonText = 'Cancel',
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
@@ -300,13 +306,13 @@ export const ScheduleMeeting: React.FC<Props> = ({
       <Inner borderRadius={borderRadius} style={scheduleMeetingStyles}>
         <CalendarContainer>
           <Header>
-            <ArrowButton borderRadius={borderRadius} onClick={goToPreviousMonth}>
+            <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToPreviousMonth}>
               <Arrow direction="back" />
             </ArrowButton>
             <SelectedDayTitle className="rsm-date-title">
               {format(selectedDay, selectedDateMonthTitleFormatString)}
             </SelectedDayTitle>
-            <ArrowButton borderRadius={borderRadius} onClick={goToNextMonth}>
+            <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
           </Header>
@@ -323,17 +329,20 @@ export const ScheduleMeeting: React.FC<Props> = ({
         <StartTimeListContainer>
           <StartTimeListContainerAbsolute>
             <Header>
-              <ArrowButton borderRadius={borderRadius} onClick={goToPreviousDay}>
+              <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToPreviousDay}>
                 <Arrow direction="back" />
               </ArrowButton>
               <SelectedDayTitle className="rsm-date-title">
                 {format(selectedDay, selectedDateDayTitleFormatString)}
               </SelectedDayTitle>
-              <ArrowButton borderRadius={borderRadius} onClick={goToNextDay}>
+              <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
             </Header>
             <StartTimeList
+              confirmButtonText={confirmButtonText}
+              cancelButtonText={cancelButtonText}
+              emptyListText={emptyListText}
               primaryColorFaded={primaryColorFaded}
               primaryColor={primaryColorRGB}
               borderRadius={borderRadius}

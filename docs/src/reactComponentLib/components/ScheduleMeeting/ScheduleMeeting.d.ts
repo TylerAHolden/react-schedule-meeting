@@ -29,6 +29,9 @@ declare type Props = {
     selectedDateMonthTitleFormatString?: string;
     selectedDateDayTitleFormatString?: string;
     startTimeFormatString?: string;
+    emptyListText?: string;
+    confirmButtonText?: string;
+    cancelButtonText?: string;
 };
 export declare const ScheduleMeeting: React.FC<Props>;
 export {};

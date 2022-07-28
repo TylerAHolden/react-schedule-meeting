@@ -269,12 +269,12 @@ const CancelButton = styled.button `
     background-color: rgba(0, 0, 0, 0.03);
   }
 `;
-const EventListItem = ({ onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, startTimeFormatString, }) => {
-    return (React__default.createElement(Container$2, null,
-        React__default.createElement(Button, { selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
-            selected && 'Confirm ',
+const StartTimeListItem = ({ onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, startTimeFormatString, confirmButtonText, cancelButtonText, }) => {
+    return (React__default.createElement(Container$2, { className: "rsm-start-time-item" },
+        React__default.createElement(Button, { className: "rsm-confirm-button", selected: Boolean(selected), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
+            selected && `${confirmButtonText} `,
             format(startTimeEvent.startTime, startTimeFormatString)),
-        selected && (React__default.createElement(CancelButton, { borderRadius: borderRadius, onClick: onCancelClicked }, "Cancel"))));
+        selected && (React__default.createElement(CancelButton, { className: "rsm-cancel-button", borderRadius: borderRadius, onClick: onCancelClicked }, cancelButtonText))));
 };
 
 const Container$1 = styled.div `
@@ -323,7 +323,7 @@ const NoTimesAvailableContainer = styled.div `
   justify-content: center;
   align-items: center;
 `;
-const EventList = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl, borderRadius, primaryColorFaded, primaryColor, startTimeFormatString, }) => {
+const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListContentEl, emptyListText, borderRadius, primaryColorFaded, primaryColor, startTimeFormatString, confirmButtonText, cancelButtonText, }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const _onStartTimeSelect = (startTimeEvent, index) => {
         if (selectedItemIndex === index) {
@@ -334,12 +334,12 @@ const EventList = ({ startTimeListItems = [], onStartTimeSelect, emptyListConten
         }
     };
     const emptyListElement = emptyListContentEl || (React__default.createElement(NoTimesAvailableContainer, null,
-        React__default.createElement(StyledP, null, "No times available")));
+        React__default.createElement(StyledP, null, emptyListText)));
     return (React__default.createElement(React__default.Fragment, null, startTimeListItems.length === 0 ? (emptyListElement) : (React__default.createElement(React__default.Fragment, null,
         React__default.createElement(ScrollEdgeFade, { className: "top" }),
         React__default.createElement(ScrollEdgeFade, { className: "bottom" }),
         React__default.createElement(Container$1, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(React__default.Fragment, { key: i },
-            React__default.createElement(EventListItem, { startTimeFormatString: startTimeFormatString, primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
+            React__default.createElement(StartTimeListItem, { confirmButtonText: confirmButtonText, cancelButtonText: cancelButtonText, startTimeFormatString: startTimeFormatString, primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
             i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 }))))))))));
 };
 
@@ -423,7 +423,7 @@ const ArrowButton = styled.button `
     background: rgba(0, 0, 0, 0.03);
   }
 `;
-const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, selectedDateDayTitleFormatString = 'cccc, LLLL do', selectedDateMonthTitleFormatString = 'LLLL yyyy', startTimeFormatString = 'h:mm a', }) => {
+const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, emptyListText = 'No times available', eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, selectedDateDayTitleFormatString = 'cccc, LLLL do', selectedDateMonthTitleFormatString = 'LLLL yyyy', startTimeFormatString = 'h:mm a', confirmButtonText = 'Confirm', cancelButtonText = 'Cancel', }) => {
     const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
     const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
     const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
@@ -520,22 +520,22 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         React__default.createElement(Inner, { borderRadius: borderRadius, style: scheduleMeetingStyles },
             React__default.createElement(CalendarContainer, null,
                 React__default.createElement(Header, null,
-                    React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousMonth },
+                    React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToPreviousMonth },
                         React__default.createElement(Arrow, { direction: "back" })),
                     React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, selectedDateMonthTitleFormatString)),
-                    React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextMonth },
+                    React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToNextMonth },
                         React__default.createElement(Arrow, { direction: "forward" }))),
                 React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
             React__default.createElement(Divider, null),
             React__default.createElement(StartTimeListContainer, null,
                 React__default.createElement(StartTimeListContainerAbsolute, null,
                     React__default.createElement(Header, null,
-                        React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousDay },
+                        React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToPreviousDay },
                             React__default.createElement(Arrow, { direction: "back" })),
                         React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, selectedDateDayTitleFormatString)),
-                        React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextDay },
+                        React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToNextDay },
                             React__default.createElement(Arrow, { direction: "forward" }))),
-                    React__default.createElement(EventList, { primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList, startTimeFormatString: startTimeFormatString }))))));
+                    React__default.createElement(StartTimeList, { confirmButtonText: confirmButtonText, cancelButtonText: cancelButtonText, emptyListText: emptyListText, primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList, startTimeFormatString: startTimeFormatString }))))));
 };
 
 export { ScheduleMeeting };

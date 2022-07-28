@@ -12,6 +12,8 @@ type Props = {
   primaryColor: string;
   primaryColorFaded: string;
   startTimeFormatString: string;
+  confirmButtonText: string;
+  cancelButtonText: string;
 };
 
 const Container = styled.div`
@@ -64,7 +66,7 @@ const CancelButton = styled.button<{ borderRadius: number }>`
   }
 `;
 
-const EventListItem: React.FC<Props> = ({
+const StartTimeListItem: React.FC<Props> = ({
   onStartTimeSelect,
   startTimeEvent,
   selected,
@@ -73,26 +75,29 @@ const EventListItem: React.FC<Props> = ({
   primaryColor,
   primaryColorFaded,
   startTimeFormatString,
+  confirmButtonText,
+  cancelButtonText,
 }) => {
   return (
-    <Container>
+    <Container className="rsm-start-time-item">
       <Button
+        className="rsm-confirm-button"
         selected={Boolean(selected)}
         borderRadius={borderRadius}
         primaryColorFaded={primaryColorFaded}
         primaryColor={primaryColor}
         onClick={onStartTimeSelect}
       >
-        {selected && 'Confirm '}
+        {selected && `${confirmButtonText} `}
         {format(startTimeEvent.startTime, startTimeFormatString)}
       </Button>
       {selected && (
-        <CancelButton borderRadius={borderRadius} onClick={onCancelClicked}>
-          Cancel
+        <CancelButton className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
+          {cancelButtonText}
         </CancelButton>
       )}
     </Container>
   );
 };
 
-export default EventListItem;
+export default StartTimeListItem;
