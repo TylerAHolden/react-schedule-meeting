@@ -36,6 +36,7 @@ declare type Props = {
     lang_goToNextAvailableDayText: string;
     format_nextFutureStartTimeAvailableFormatString?: string;
     onNoFutureTimesAvailable?: (selectedDate: Date) => void;
+    startTimeListStyle?: 'scroll-list' | 'grid';
 };
 export declare const ScheduleMeeting: React.FC<Props>;
 export {};

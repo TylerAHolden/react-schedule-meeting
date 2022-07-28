@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { StartTimeGridItemButton, ThemedButton } from '../ThemedButton';
 
 import { Arrow } from '../ArrowSVG';
 import EventListItem from './StartTimeListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
-import { ThemedButton } from '../ThemedButton';
 import { format } from 'date-fns';
 import styled from 'styled-components';
 
+// @TODO okay this is getting a little silly maybe its time to consider context.
 type Props = {
   startTimeListItems?: StartTimeEvent[];
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
@@ -23,15 +24,25 @@ type Props = {
   onGoToNextAvailableDayClick: () => void;
   nextFutureStartTimeAvailable: undefined | Date;
   format_nextFutureStartTimeAvailableFormatString: string;
+  startTimeListStyle?: 'scroll-list' | 'grid';
 };
 
-const Container = styled.div`
+const ScrollListContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   padding-bottom: 24px;
   padding-top: 16px;
+`;
+
+const GridContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  align-items: stretch;
+  justify-content: flex-start;
 `;
 
 const ScrollEdgeFade = styled.div`
@@ -124,6 +135,7 @@ const StartTimeList: React.FC<Props> = ({
   onGoToNextAvailableDayClick,
   nextFutureStartTimeAvailable,
   format_nextFutureStartTimeAvailableFormatString,
+  startTimeListStyle,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
@@ -167,11 +179,11 @@ const StartTimeList: React.FC<Props> = ({
     <>
       {startTimeListItems.length === 0 ? (
         emptyListElement
-      ) : (
+      ) : startTimeListStyle === 'scroll-list' ? (
         <>
           <ScrollEdgeFade className="top" />
           <ScrollEdgeFade className="bottom" />
-          <Container>
+          <ScrollListContainer>
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
@@ -191,8 +203,22 @@ const StartTimeList: React.FC<Props> = ({
                 )}
               </React.Fragment>
             ))}
-          </Container>
+          </ScrollListContainer>
         </>
+      ) : (
+        <GridContainer>
+          {startTimeListItems.map((startTimeEvent: any, i: number) => (
+            <StartTimeGridItemButton
+              key={i}
+              primaryColorFaded={primaryColorFaded}
+              borderRadius={borderRadius}
+              primaryColor={primaryColor}
+              onClick={() => onStartTimeSelect(startTimeEvent)}
+            >
+              {format(startTimeEvent.startTime, format_startTimeFormatString)}
+            </StartTimeGridItemButton>
+          ))}
+        </GridContainer>
       )}
     </>
   );

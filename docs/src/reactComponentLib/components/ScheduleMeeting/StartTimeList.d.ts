@@ -16,6 +16,7 @@ declare type Props = {
     onGoToNextAvailableDayClick: () => void;
     nextFutureStartTimeAvailable: undefined | Date;
     format_nextFutureStartTimeAvailableFormatString: string;
+    startTimeListStyle?: 'scroll-list' | 'grid';
 };
 declare const StartTimeList: React.FC<Props>;
 export default StartTimeList;

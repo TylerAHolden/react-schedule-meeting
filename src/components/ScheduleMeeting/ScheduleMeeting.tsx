@@ -151,6 +151,7 @@ type Props = {
   lang_goToNextAvailableDayText: string;
   format_nextFutureStartTimeAvailableFormatString?: string;
   onNoFutureTimesAvailable?: (selectedDate: Date) => void;
+  startTimeListStyle?: 'scroll-list' | 'grid';
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
@@ -174,6 +175,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   lang_goToNextAvailableDayText = 'Next Available',
   format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
   onNoFutureTimesAvailable,
+  startTimeListStyle = 'grid',
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
@@ -386,6 +388,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}
               format_startTimeFormatString={format_startTimeFormatString}
+              startTimeListStyle={startTimeListStyle}
             />
           </StartTimeListContainerAbsolute>
         </StartTimeListContainer>
