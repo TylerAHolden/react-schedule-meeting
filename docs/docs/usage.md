@@ -31,7 +31,7 @@ export default function Example() {
 }
 ```
 
-## Usage Flow Overview
+## Usage Flow Overview (Methodology)
 
 1. Pass in an array of date ranges that are available for meetings
 1. The ScheduleMeeting component will split them into start times based on the event duration prop
@@ -40,49 +40,4 @@ export default function Example() {
    - The original time slot that was used
    - The original time slot now split into two separate time slots _(in case you need to keep track of availabilities)_
 
-## Props
-
-| Name                          | Type                                                                     | Default    | Explanation                                                                                                                                                                                   |
-| ----------------------------- | ------------------------------------------------------------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| availableTimeslots            | [AvailableTimeslot[]](#availabletimeslot)                                | Required   | Timeslots of available time that events can be scheduled in. _Example: If you are available every day from 9am to 5pm, you would pass in an array of AvailableTimeslots with those datetimes_ |
-| borderRadius                  | number                                                                   | 0          | Border radius for many of the components                                                                                                                                                      |
-| emptyListContentEl            | React.ElementType                                                        | --         | Element displayed when the start time events list is empty                                                                                                                                    |
-| eventDurationInMinutes        | number                                                                   | Required   | The number of minutes each event will be scheduled.                                                                                                                                           |
-| eventStartTimeSpreadInMinutes | number                                                                   | 30         | The length between the next possible event start time. _Example: For 30, an event start time will be available 30 minutes after the previous event END time._                                 |
-| onSelectedDayChange           | (day: Date) => void;                                                     | --         | Callback for when the selected day changes on the calendar                                                                                                                                    |
-| onStartTimeSelect             | (startTimeEventEmit: [StartTimeEventEmit](#starttimeeventemit)) => void; | --         | Callback for when a start time is clicked                                                                                                                                                     |
-| primaryColor                  | CSS Color                                                                | #3f5b85    | Primary color to use for the component                                                                                                                                                        |
-| scheduleMeetingStyles         | CSSProperties                                                            | undefined  | Styles Object for the Schedule Calendar paper container                                                                                                                                       |
-| defaultDate                   | Date                                                                     | new Date() | Sets the initially selected date on the calendar if you don't want it to be 'today'.                                                                                                          |
-
-## Types
-
-### AvailableTimeslot
-
-```ts
-type AvailableTimeslot = {
-  startTime: Date;
-  endTime: Date;
-  id?: string | number | undefined;
-};
-```
-
-### StartTimeEventEmit
-
-```ts
-type StartTimeEventEmit = {
-  availableTimeslot: AvailableTimeslot;
-  startTime: Date;
-  splitTimeslot?: [SplitTimeslot, SplitTimeslot];
-};
-```
-
-### SplitTimeslot
-
-```ts
-type SplitTimeslot = null | ModifiedTimeslot;
-
-type ModifiedTimeslot = AvailableTimeslot & {
-  oldId: string | number | undefined;
-};
-```
+> Visit [StartTimeEventEmit](./types/#StartTimeEventEmit) to see exactly what is returned
