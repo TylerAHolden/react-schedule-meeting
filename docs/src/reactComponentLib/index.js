@@ -264,6 +264,7 @@ const CancelButton = styled.button `
   align-items: center;
   font-size: 16px;
   height: 100%;
+  color: #222320;
   :hover {
     background-color: rgba(0, 0, 0, 0.03);
   }
@@ -416,6 +417,7 @@ const ArrowButton = styled.button `
   padding: 8px;
   opacity: 0.4;
   margin: 0;
+  color: #222320;
   &:hover {
     opacity: 0.7;
     background: rgba(0, 0, 0, 0.03);
@@ -520,7 +522,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
                 React__default.createElement(Header, null,
                     React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousMonth },
                         React__default.createElement(Arrow, { direction: "back" })),
-                    React__default.createElement(SelectedDayTitle, null, format(selectedDay, 'LLLL yyyy')),
+                    React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, 'LLLL yyyy')),
                     React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextMonth },
                         React__default.createElement(Arrow, { direction: "forward" }))),
                 React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
@@ -530,7 +532,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
                     React__default.createElement(Header, null,
                         React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToPreviousDay },
                             React__default.createElement(Arrow, { direction: "back" })),
-                        React__default.createElement(SelectedDayTitle, null, format(selectedDay, 'cccc, LLLL do')),
+                        React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, 'cccc, LLLL do')),
                         React__default.createElement(ArrowButton, { borderRadius: borderRadius, onClick: goToNextDay },
                             React__default.createElement(Arrow, { direction: "forward" }))),
                     React__default.createElement(EventList, { primaryColorFaded: primaryColorFaded, primaryColor: primaryColorRGB, borderRadius: borderRadius, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList }))))));

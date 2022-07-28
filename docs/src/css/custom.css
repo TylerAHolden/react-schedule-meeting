@@ -36,8 +36,6 @@ nav.navbar {
 }
 
 
-
-
 .main-content {
   display: flex;
   justify-content: center;
@@ -73,7 +71,7 @@ nav.navbar {
   min-width: 100vw;
 }
 
-.main-content h3 {
+.rsm-date-title {
   color: #2c3749;
 }
 

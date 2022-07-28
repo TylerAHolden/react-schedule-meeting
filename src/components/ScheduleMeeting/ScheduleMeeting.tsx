@@ -297,7 +297,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
             <ArrowButton borderRadius={borderRadius} onClick={goToPreviousMonth}>
               <Arrow direction="back" />
             </ArrowButton>
-            <SelectedDayTitle>{format(selectedDay, 'LLLL yyyy')}</SelectedDayTitle>
+            <SelectedDayTitle className="rsm-date-title">{format(selectedDay, 'LLLL yyyy')}</SelectedDayTitle>
             <ArrowButton borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
@@ -318,7 +318,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               <ArrowButton borderRadius={borderRadius} onClick={goToPreviousDay}>
                 <Arrow direction="back" />
               </ArrowButton>
-              <SelectedDayTitle>{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+              <SelectedDayTitle className="rsm-date-title">{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
               <ArrowButton borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
