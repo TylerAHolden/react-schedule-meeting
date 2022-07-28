@@ -8,6 +8,7 @@ declare type Props = {
     borderRadius: number;
     primaryColor: string;
     primaryColorFaded: string;
+    startTimeFormatString: string;
 };
 declare const EventListItem: React.FC<Props>;
 export default EventListItem;

@@ -11,6 +11,7 @@ type Props = {
   borderRadius: number;
   primaryColor: string;
   primaryColorFaded: string;
+  startTimeFormatString: string;
 };
 
 const Container = styled.div`
@@ -71,6 +72,7 @@ const EventList: React.FC<Props> = ({
   borderRadius,
   primaryColorFaded,
   primaryColor,
+  startTimeFormatString,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
@@ -100,6 +102,7 @@ const EventList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
+                  startTimeFormatString={startTimeFormatString}
                   primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}

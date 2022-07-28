@@ -139,6 +139,9 @@ type Props = {
   borderRadius?: number;
   primaryColor?: string;
   defaultDate?: Date;
+  selectedDateMonthTitleFormatString?: string;
+  selectedDateDayTitleFormatString?: string;
+  startTimeFormatString?: string;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
@@ -152,6 +155,9 @@ export const ScheduleMeeting: React.FC<Props> = ({
   onStartTimeSelect,
   scheduleMeetingStyles,
   defaultDate,
+  selectedDateDayTitleFormatString = 'cccc, LLLL do',
+  selectedDateMonthTitleFormatString = 'LLLL yyyy',
+  startTimeFormatString = 'h:mm a',
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
@@ -297,7 +303,9 @@ export const ScheduleMeeting: React.FC<Props> = ({
             <ArrowButton borderRadius={borderRadius} onClick={goToPreviousMonth}>
               <Arrow direction="back" />
             </ArrowButton>
-            <SelectedDayTitle className="rsm-date-title">{format(selectedDay, 'LLLL yyyy')}</SelectedDayTitle>
+            <SelectedDayTitle className="rsm-date-title">
+              {format(selectedDay, selectedDateMonthTitleFormatString)}
+            </SelectedDayTitle>
             <ArrowButton borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
@@ -318,7 +326,9 @@ export const ScheduleMeeting: React.FC<Props> = ({
               <ArrowButton borderRadius={borderRadius} onClick={goToPreviousDay}>
                 <Arrow direction="back" />
               </ArrowButton>
-              <SelectedDayTitle className="rsm-date-title">{format(selectedDay, 'cccc, LLLL do')}</SelectedDayTitle>
+              <SelectedDayTitle className="rsm-date-title">
+                {format(selectedDay, selectedDateDayTitleFormatString)}
+              </SelectedDayTitle>
               <ArrowButton borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
@@ -330,6 +340,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               emptyListContentEl={emptyListContentEl}
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}
+              startTimeFormatString={startTimeFormatString}
             />
           </StartTimeListContainerAbsolute>
         </StartTimeListContainer>

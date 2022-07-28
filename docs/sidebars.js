@@ -1,3 +1,3 @@
 module.exports = {
-  normal: ['introduction', 'contributing', 'installation', 'usage', 'all-props', 'types'],
+  normal: ['introduction', 'contributing', 'installation', 'usage', 'examples', 'all-props', 'types'],
 };

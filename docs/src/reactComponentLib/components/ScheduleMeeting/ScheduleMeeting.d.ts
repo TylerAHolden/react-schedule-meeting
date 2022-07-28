@@ -26,6 +26,9 @@ declare type Props = {
     borderRadius?: number;
     primaryColor?: string;
     defaultDate?: Date;
+    selectedDateMonthTitleFormatString?: string;
+    selectedDateDayTitleFormatString?: string;
+    startTimeFormatString?: string;
 };
 export declare const ScheduleMeeting: React.FC<Props>;
 export {};

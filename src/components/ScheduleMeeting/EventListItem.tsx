@@ -11,6 +11,7 @@ type Props = {
   borderRadius: number;
   primaryColor: string;
   primaryColorFaded: string;
+  startTimeFormatString: string;
 };
 
 const Container = styled.div`
@@ -71,6 +72,7 @@ const EventListItem: React.FC<Props> = ({
   borderRadius,
   primaryColor,
   primaryColorFaded,
+  startTimeFormatString,
 }) => {
   return (
     <Container>
@@ -82,7 +84,7 @@ const EventListItem: React.FC<Props> = ({
         onClick={onStartTimeSelect}
       >
         {selected && 'Confirm '}
-        {format(startTimeEvent.startTime, 'h:mm a')}
+        {format(startTimeEvent.startTime, startTimeFormatString)}
       </Button>
       {selected && (
         <CancelButton borderRadius={borderRadius} onClick={onCancelClicked}>
