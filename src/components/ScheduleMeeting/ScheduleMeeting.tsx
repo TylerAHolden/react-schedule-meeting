@@ -148,7 +148,7 @@ type Props = {
   lang_confirmButtonText?: string;
   lang_cancelButtonText?: string;
   lang_noFutureTimesText?: string;
-  lang_goToNextAvailableDayText: string;
+  lang_goToNextAvailableDayText?: string;
   format_nextFutureStartTimeAvailableFormatString?: string;
   onNoFutureTimesAvailable?: (selectedDate: Date) => void;
   startTimeListStyle?: 'scroll-list' | 'grid';
@@ -185,6 +185,16 @@ export const ScheduleMeeting: React.FC<Props> = ({
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React.useState<undefined | Date>();
+
+  const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React.useState<AvailableTimeslot[]>([]);
+
+  useEffect(() => {
+    const _orderedAvailableTimeslots = [...availableTimeslots];
+    _orderedAvailableTimeslots.sort((a, b) => {
+      return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+    });
+    setOrderedAvailableTimeslots(_orderedAvailableTimeslots);
+  }, [availableTimeslots]);
 
   const onDaySelected = (day: Date) => {
     setSelectedDay(day);
@@ -240,7 +250,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
     const startTimeEvents = [];
 
     // iterate through all available timeslots
-    for (const availableTimeslot of availableTimeslots) {
+    for (const availableTimeslot of orderedAvailableTimeslots) {
       const timeslotDuration = differenceInMinutes(
         new Date(availableTimeslot.endTime),
         new Date(availableTimeslot.startTime),
@@ -268,7 +278,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
       setSelectedDay(defaultDate);
     }
     setStartTimeEventsList(startTimeEvents);
-  }, [availableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
+  }, [orderedAvailableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
 
   useEffect(() => {
     const startTimeEventsToDisplay: StartTimeEvent[] = [];
@@ -353,7 +363,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
             borderRadius={borderRadius}
             primaryColor={primaryColorRGB}
             selectedDay={selectedDay}
-            availableTimeslots={availableTimeslots}
+            availableTimeslots={orderedAvailableTimeslots}
             primaryColorFaded={primaryColorFaded}
             onDaySelected={onDaySelected}
           />

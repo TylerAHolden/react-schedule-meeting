@@ -495,6 +495,14 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
     const [startTimeEventsList, setStartTimeEventsList] = React__default.useState([]);
     const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React__default.useState([]);
     const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React__default.useState();
+    const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React__default.useState([]);
+    useEffect(() => {
+        const _orderedAvailableTimeslots = [...availableTimeslots];
+        _orderedAvailableTimeslots.sort((a, b) => {
+            return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
+        });
+        setOrderedAvailableTimeslots(_orderedAvailableTimeslots);
+    }, [availableTimeslots]);
     const onDaySelected = (day) => {
         setSelectedDay(day);
         onSelectedDayChange && onSelectedDayChange(day);
@@ -532,7 +540,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         // compile a list of all possible event start times given all timeslots
         const startTimeEvents = [];
         // iterate through all available timeslots
-        for (const availableTimeslot of availableTimeslots) {
+        for (const availableTimeslot of orderedAvailableTimeslots) {
             const timeslotDuration = differenceInMinutes(new Date(availableTimeslot.endTime), new Date(availableTimeslot.startTime));
             // this prevents start times from being created where the event duration runs past the available timeslot
             let startTimesPossible = Math.floor(timeslotDuration / (eventDurationInMinutes + eventStartTimeSpreadInMinutes)) - 1;
@@ -550,7 +558,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
             setSelectedDay(defaultDate);
         }
         setStartTimeEventsList(startTimeEvents);
-    }, [availableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
+    }, [orderedAvailableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
     useEffect(() => {
         var _a;
         const startTimeEventsToDisplay = [];
@@ -604,7 +612,7 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
                     React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, format_selectedDateMonthTitleFormatString)),
                     React__default.createElement(ArrowButton, { className: "rsm-arrow-button", borderRadius: borderRadius, onClick: goToNextMonth },
                         React__default.createElement(Arrow, { direction: "forward" }))),
-                React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: availableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
+                React__default.createElement(ScheduleCalendar, { borderRadius: borderRadius, primaryColor: primaryColorRGB, selectedDay: selectedDay, availableTimeslots: orderedAvailableTimeslots, primaryColorFaded: primaryColorFaded, onDaySelected: onDaySelected })),
             React__default.createElement(Divider, null),
             React__default.createElement(StartTimeListContainer, null,
                 React__default.createElement(StartTimeListContainerAbsolute, null,

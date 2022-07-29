@@ -33,7 +33,7 @@ declare type Props = {
     lang_confirmButtonText?: string;
     lang_cancelButtonText?: string;
     lang_noFutureTimesText?: string;
-    lang_goToNextAvailableDayText: string;
+    lang_goToNextAvailableDayText?: string;
     format_nextFutureStartTimeAvailableFormatString?: string;
     onNoFutureTimesAvailable?: (selectedDate: Date) => void;
     startTimeListStyle?: 'scroll-list' | 'grid';
