@@ -58,6 +58,7 @@ const StartTimeListItem: React.FC<Props> = ({
   return (
     <Container className="rsm-start-time-item">
       <ThemedButton
+        type="button"
         className="rsm-confirm-button"
         selected={Boolean(selected)}
         borderRadius={borderRadius}
@@ -69,7 +70,7 @@ const StartTimeListItem: React.FC<Props> = ({
         {format(startTimeEvent.startTime, format_startTimeFormatString)}
       </ThemedButton>
       {selected && (
-        <CancelButton className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
+      <CancelButton type="button" className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
           {lang_cancelButtonText}
         </CancelButton>
       )}

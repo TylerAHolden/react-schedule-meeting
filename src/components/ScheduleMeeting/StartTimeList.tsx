@@ -152,6 +152,7 @@ const StartTimeList: React.FC<Props> = ({
       {emptyListContentEl || <StyledP className="rsm-empty-list-text">{lang_emptyListText}</StyledP>}
       {nextFutureStartTimeAvailable ? (
         <GoToNextAvailableDayButton
+          type="button"
           selected
           className="rsm-next-available-date-button"
           borderRadius={borderRadius}
@@ -210,6 +211,7 @@ const StartTimeList: React.FC<Props> = ({
           {startTimeListItems.map((startTimeEvent: any, i: number) => (
             <StartTimeGridItemButton
               key={i}
+              type="button"
               primaryColorFaded={primaryColorFaded}
               borderRadius={borderRadius}
               primaryColor={primaryColor}

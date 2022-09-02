@@ -349,13 +349,18 @@ export const ScheduleMeeting: React.FC<Props> = ({
       <Inner borderRadius={borderRadius} style={scheduleMeetingStyles}>
         <CalendarContainer>
           <Header>
-            <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToPreviousMonth}>
+            <ArrowButton
+              type="button"
+              className="rsm-arrow-button"
+              borderRadius={borderRadius}
+              onClick={goToPreviousMonth}
+            >
               <Arrow direction="back" />
             </ArrowButton>
             <SelectedDayTitle className="rsm-date-title">
               {format(selectedDay, format_selectedDateMonthTitleFormatString)}
             </SelectedDayTitle>
-            <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
+            <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
           </Header>
@@ -372,13 +377,18 @@ export const ScheduleMeeting: React.FC<Props> = ({
         <StartTimeListContainer>
           <StartTimeListContainerAbsolute>
             <Header>
-              <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToPreviousDay}>
+              <ArrowButton
+                type="button"
+                className="rsm-arrow-button"
+                borderRadius={borderRadius}
+                onClick={goToPreviousDay}
+              >
                 <Arrow direction="back" />
               </ArrowButton>
               <SelectedDayTitle className="rsm-date-title">
                 {format(selectedDay, format_selectedDateDayTitleFormatString)}
               </SelectedDayTitle>
-              <ArrowButton className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
+              <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
             </Header>
