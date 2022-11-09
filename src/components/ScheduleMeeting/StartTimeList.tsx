@@ -25,6 +25,7 @@ type Props = {
   nextFutureStartTimeAvailable: undefined | Date;
   format_nextFutureStartTimeAvailableFormatString: string;
   startTimeListStyle?: 'scroll-list' | 'grid';
+  locale?: Locale;
 };
 
 const ScrollListContainer = styled.div`
@@ -136,6 +137,7 @@ const StartTimeList: React.FC<Props> = ({
   nextFutureStartTimeAvailable,
   format_nextFutureStartTimeAvailableFormatString,
   startTimeListStyle,
+  locale,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
@@ -163,7 +165,7 @@ const StartTimeList: React.FC<Props> = ({
           <p>
             <small>{lang_goToNextAvailableDayText}</small>
             <br />
-            {format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString)}
+            {format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })}
           </p>
 
           <Arrow direction="forward" />
@@ -188,6 +190,7 @@ const StartTimeList: React.FC<Props> = ({
             {startTimeListItems.map((startTimeEvent: any, i: number) => (
               <React.Fragment key={i}>
                 <EventListItem
+                  locale={locale}
                   lang_confirmButtonText={lang_confirmButtonText}
                   lang_cancelButtonText={lang_cancelButtonText}
                   format_startTimeFormatString={format_startTimeFormatString}
@@ -217,7 +220,7 @@ const StartTimeList: React.FC<Props> = ({
               primaryColor={primaryColor}
               onClick={() => onStartTimeSelect(startTimeEvent)}
             >
-              {format(startTimeEvent.startTime, format_startTimeFormatString)}
+              {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
             </StartTimeGridItemButton>
           ))}
         </GridContainer>

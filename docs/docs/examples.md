@@ -61,9 +61,13 @@ Changes the format string passed into Date-Fns for each start time
 
 ## Internationalization & Languages
 
-Since this UI only has a few spots where language text is used, simple props have been added to replace the default text. A full-featured i18n could be added if there is enough of a need - [submit an issue](https://github.com/TylerAHolden/react-schedule-meeting/labels/enhancement) to let me know!
+Since this UI only has a few spots where language text is used, simple props have been added to replace the default text. The lang props, format props and the date-fns locale prop should be enough to translate everything to your needs.
+
+Make sure you pass a valid date-fns Locale to the locale prop... It can't be a string. Read more about date-fns locales [here](https://date-fns.org/v2.29.3/docs/I18n).
 
 ```jsx
+import { enUS } from 'date-fns/locale';
+
 <ScheduleMeeting
   // ... other props
 
@@ -78,5 +82,6 @@ Since this UI only has a few spots where language text is used, simple props hav
   format_selectedDateDayTitleFormatString="cccc, LLLL do"
   format_selectedDateMonthTitleFormatString="LLLL yyyy"
   format_startTimeFormatString="h:mm a"
-/>
+  locale={enUS}
+/>;
 ```

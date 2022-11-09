@@ -1,6 +1,6 @@
 import Calendar, { CalendarTileProperties } from 'react-calendar';
+import { Locale, format, getDay, isValid, startOfMonth } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { format, getDay, isValid, startOfMonth } from 'date-fns';
 
 import { AvailableTimeslot } from './ScheduleMeeting';
 import rgba from 'color-rgba';
@@ -204,10 +204,11 @@ type CalendarProps = {
   borderRadius: number;
   primaryColor: string;
   primaryColorFaded: string;
+  locale?: Locale;
 };
 
-const formatDate = (date: Date) => {
-  return format(date, 'MM/dd/yyyy');
+const formatDate = (date: Date, locale?: Locale) => {
+  return format(date, 'MM/dd/yyyy', { locale });
 };
 
 const ScheduleCalendar: React.FC<CalendarProps> = ({
@@ -217,6 +218,7 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
   borderRadius,
   primaryColor,
   primaryColorFaded,
+  locale,
 }) => {
   const [daysAvailable, setDaysAvailable] = useState<Array<any>>([]);
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
@@ -230,9 +232,9 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
       const startTimeDay = getDay(new Date(slot.startTime));
       const endTimeDay = getDay(new Date(slot.endTime));
       if (startTimeDay !== endTimeDay) {
-        daysInTimeslots.push(formatDate(new Date(slot.endTime)));
+        daysInTimeslots.push(formatDate(new Date(slot.endTime), locale));
       }
-      daysInTimeslots.push(formatDate(new Date(slot.startTime)));
+      daysInTimeslots.push(formatDate(new Date(slot.startTime), locale));
       return null;
     });
 
@@ -244,11 +246,11 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
   };
 
   const _isTileDisabled = (props: CalendarTileProperties) => {
-    return props.view === 'month' && !daysAvailable.some((date) => date === formatDate(props.date));
+    return props.view === 'month' && !daysAvailable.some((date) => date === formatDate(props.date, locale));
   };
 
   const _renderClassName = (props: CalendarTileProperties) => {
-    if (daysAvailable.some((date) => date === formatDate(props.date))) return ['day-tile', 'active-day-tile'];
+    if (daysAvailable.some((date) => date === formatDate(props.date, locale))) return ['day-tile', 'active-day-tile'];
     return (props.view === 'month' && 'day-tile') || null;
   };
 

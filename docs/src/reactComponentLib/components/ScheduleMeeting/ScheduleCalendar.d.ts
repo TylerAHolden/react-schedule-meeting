@@ -1,3 +1,4 @@
+import { Locale } from 'date-fns';
 import React from 'react';
 import { AvailableTimeslot } from './ScheduleMeeting';
 declare type CalendarProps = {
@@ -7,6 +8,7 @@ declare type CalendarProps = {
     borderRadius: number;
     primaryColor: string;
     primaryColorFaded: string;
+    locale?: Locale;
 };
 declare const ScheduleCalendar: React.FC<CalendarProps>;
 export default ScheduleCalendar;

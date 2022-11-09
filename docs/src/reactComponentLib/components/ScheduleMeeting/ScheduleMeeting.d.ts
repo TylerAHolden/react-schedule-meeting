@@ -1,3 +1,4 @@
+import { Locale } from 'date-fns';
 import React from 'react';
 export declare type AvailableTimeslot = {
     startTime: Date | string;
@@ -37,6 +38,7 @@ declare type Props = {
     format_nextFutureStartTimeAvailableFormatString?: string;
     onNoFutureTimesAvailable?: (selectedDate: Date) => void;
     startTimeListStyle?: 'scroll-list' | 'grid';
+    locale?: Locale;
 };
 export declare const ScheduleMeeting: React.FC<Props>;
 export {};

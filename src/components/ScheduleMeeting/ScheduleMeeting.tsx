@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import {
+  Locale,
   addDays,
   addMinutes,
   addMonths,
@@ -13,6 +13,7 @@ import {
   subDays,
   subMonths,
 } from 'date-fns';
+import React, { useEffect } from 'react';
 
 import { Arrow } from '../ArrowSVG';
 import ScheduleCalendar from './ScheduleCalendar';
@@ -152,6 +153,7 @@ type Props = {
   format_nextFutureStartTimeAvailableFormatString?: string;
   onNoFutureTimesAvailable?: (selectedDate: Date) => void;
   startTimeListStyle?: 'scroll-list' | 'grid';
+  locale?: Locale;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
@@ -176,6 +178,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
   onNoFutureTimesAvailable,
   startTimeListStyle = 'grid',
+  locale,
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
@@ -358,13 +361,14 @@ export const ScheduleMeeting: React.FC<Props> = ({
               <Arrow direction="back" />
             </ArrowButton>
             <SelectedDayTitle className="rsm-date-title">
-              {format(selectedDay, format_selectedDateMonthTitleFormatString)}
+              {format(selectedDay, format_selectedDateMonthTitleFormatString, { locale })}
             </SelectedDayTitle>
             <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
           </Header>
           <ScheduleCalendar
+            locale={locale}
             borderRadius={borderRadius}
             primaryColor={primaryColorRGB}
             selectedDay={selectedDay}
@@ -386,13 +390,14 @@ export const ScheduleMeeting: React.FC<Props> = ({
                 <Arrow direction="back" />
               </ArrowButton>
               <SelectedDayTitle className="rsm-date-title">
-                {format(selectedDay, format_selectedDateDayTitleFormatString)}
+                {format(selectedDay, format_selectedDateDayTitleFormatString, { locale })}
               </SelectedDayTitle>
               <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
             </Header>
             <StartTimeList
+              locale={locale}
               format_nextFutureStartTimeAvailableFormatString={format_nextFutureStartTimeAvailableFormatString}
               nextFutureStartTimeAvailable={nextFutureStartTimeAvailable}
               lang_goToNextAvailableDayText={lang_goToNextAvailableDayText}
