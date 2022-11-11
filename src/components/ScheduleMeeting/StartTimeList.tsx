@@ -10,7 +10,7 @@ import styled from 'styled-components';
 // @TODO okay this is getting a little silly maybe its time to consider context.
 type Props = {
   startTimeListItems?: StartTimeEvent[];
-  onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
+  onStartTimeSelect: (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => void;
   emptyListContentEl?: React.ElementType;
   borderRadius: number;
   primaryColor: string;
@@ -143,7 +143,7 @@ const StartTimeList: React.FC<Props> = ({
 
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
     if (selectedItemIndex === index) {
-      onStartTimeSelect(startTimeEvent);
+      onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1));
     } else {
       setSelectedItemIndex(index);
     }
@@ -218,7 +218,7 @@ const StartTimeList: React.FC<Props> = ({
               primaryColorFaded={primaryColorFaded}
               borderRadius={borderRadius}
               primaryColor={primaryColor}
-              onClick={() => onStartTimeSelect(startTimeEvent)}
+              onClick={() => onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1))}
             >
               {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
             </StartTimeGridItemButton>

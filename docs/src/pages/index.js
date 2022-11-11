@@ -12,6 +12,8 @@ function Home() {
   const [eventDurationInMinutes, setEventDurationInMinutes] = useState(30);
   const [eventStartTimeSpreadInMinutes, setEventStartTimeSpreadInMinutes] = useState(10);
   const [borderRadius, setBorderRadius] = useState(10);
+  const [resetDate, setResetDate] = useState(false);
+  const [resetConfirmState, setResetConfirmState] = useState(false);
   const [primaryColor, setPrimaryColor] = useState('#3f5b85');
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
@@ -25,6 +27,12 @@ function Home() {
   });
 
   const handleTimeslotClicked = (startTimeEventEmit) => {
+    if (resetDate) {
+      startTimeEventEmit.resetDate();
+    }
+    if (resetConfirmState) {
+      startTimeEventEmit.resetConfirmState();
+    }
     alert(`Time selected: ${format(startTimeEventEmit.startTime, 'cccc, LLLL do h:mm a')}`);
   };
 
@@ -117,6 +125,36 @@ function Home() {
                   onChange={(newValue) => setPrimaryColor(newValue.hex)}
                 />
                 <p>The primary color setting that restyles the entire UI.</p>
+              </div>
+              <div className="custom-card">
+                <h5>resetDate (onStartTimeSelect)</h5>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={resetDate ? 'YES' : 'NO'}
+                  exclusive
+                  onChange={(_, value) => setResetDate(value === 'YES')}
+                >
+                  <ToggleButton value="YES">YES</ToggleButton>
+                  <ToggleButton value="NO">NO</ToggleButton>
+                </ToggleButtonGroup>
+                <p>After a time slot has been selected, you can reset the date with onStartTimeSelect.resetDate()</p>
+              </div>
+              <div className="custom-card">
+                <h5>resetConfirmState (onStartTimeSelect)</h5>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={resetConfirmState ? 'YES' : 'NO'}
+                  exclusive
+                  onChange={(_, value) => setResetConfirmState(value === 'YES')}
+                >
+                  <ToggleButton value="YES">YES</ToggleButton>
+                  <ToggleButton value="NO">NO</ToggleButton>
+                </ToggleButtonGroup>
+                <p>
+                  After a time slot has been selected, you can reset the confirm state with
+                  onStartTimeSelect.resetConfirmState(). This action is only visible with the scroll-list
+                  startTimeListStyle
+                </p>
               </div>
               <div className="view-all-props">
                 <a href="/docs/all-props">View All Props {'->'}</a>

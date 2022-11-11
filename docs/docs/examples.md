@@ -59,6 +59,28 @@ Changes the format string passed into Date-Fns for each start time
 <br/>
 <br/>
 
+## Resetting State After a Start Time is Selected
+
+After a start time has been selected, resetDate and resetConfirmState are available on the StartTimeEventEmit object in the onStartTimeSelect callback. This could be useful if you want to keep the component in view after a start time has been selected... For example, when you need a user to select multiple start times.
+
+```jsx
+const handleTimeslotClicked = (startTimeEventEmit) => {
+  startTimeEventEmit.resetDate();
+  startTimeEventEmit.resetConfirmState();
+  alert(`Time selected: ${format(startTimeEventEmit.startTime, 'cccc, LLLL do h:mm a')}`);
+};
+
+<ScheduleMeeting
+  // ... other props
+  onStartTimeSelect={handleTimeslotClicked}
+/>;
+```
+
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## Internationalization & Languages
 
 Since this UI only has a few spots where language text is used, simple props have been added to replace the default text. The lang props, format props and the date-fns locale prop should be enough to translate everything to your needs.

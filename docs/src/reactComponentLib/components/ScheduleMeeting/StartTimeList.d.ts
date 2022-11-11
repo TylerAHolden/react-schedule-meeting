@@ -2,7 +2,7 @@ import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
 declare type Props = {
     startTimeListItems?: StartTimeEvent[];
-    onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
+    onStartTimeSelect: (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => void;
     emptyListContentEl?: React.ElementType;
     borderRadius: number;
     primaryColor: string;

@@ -385,7 +385,7 @@ const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListCo
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const _onStartTimeSelect = (startTimeEvent, index) => {
         if (selectedItemIndex === index) {
-            onStartTimeSelect(startTimeEvent);
+            onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1));
         }
         else {
             setSelectedItemIndex(index);
@@ -404,7 +404,7 @@ const StartTimeList = ({ startTimeListItems = [], onStartTimeSelect, emptyListCo
         React__default.createElement(ScrollEdgeFade, { className: "bottom" }),
         React__default.createElement(ScrollListContainer, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(React__default.Fragment, { key: i },
             React__default.createElement(StartTimeListItem, { locale: locale, lang_confirmButtonText: lang_confirmButtonText, lang_cancelButtonText: lang_cancelButtonText, format_startTimeFormatString: format_startTimeFormatString, primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onCancelClicked: () => setSelectedItemIndex(-1), selected: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
-            i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 })))))))) : (React__default.createElement(GridContainer, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(StartTimeGridItemButton, { key: i, type: "button", primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onClick: () => onStartTimeSelect(startTimeEvent) }, format(startTimeEvent.startTime, format_startTimeFormatString, { locale }))))))));
+            i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 })))))))) : (React__default.createElement(GridContainer, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(StartTimeGridItemButton, { key: i, type: "button", primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onClick: () => onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1)) }, format(startTimeEvent.startTime, format_startTimeFormatString, { locale }))))))));
 };
 
 const Container = styled.div `
@@ -529,9 +529,9 @@ const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryCol
         }
         return splitTimeslots;
     };
-    const _onStartTimeSelect = (startTimeEvent) => {
+    const _onStartTimeSelect = (startTimeEvent, resetConfirmState) => {
         const splitTimeslots = splitTimeslot(startTimeEvent);
-        const startTimeEventEmitObject = Object.assign(Object.assign({}, startTimeEvent), { splitTimeslot: splitTimeslots });
+        const startTimeEventEmitObject = Object.assign(Object.assign({}, startTimeEvent), { splitTimeslot: splitTimeslots, resetDate: () => setSelectedDay(defaultDate || new Date()), resetConfirmState });
         if (onStartTimeSelect) {
             onStartTimeSelect(startTimeEventEmitObject);
         }

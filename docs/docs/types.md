@@ -22,6 +22,8 @@ type StartTimeEventEmit = {
   availableTimeslot: AvailableTimeslot;
   startTime: Date;
   splitTimeslot?: [SplitTimeslot, SplitTimeslot];
+  resetDate: () => void;
+  resetConfirmState: () => void;
 };
 ```
 

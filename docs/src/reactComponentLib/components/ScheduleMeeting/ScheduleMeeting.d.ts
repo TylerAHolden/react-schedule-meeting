@@ -15,6 +15,8 @@ export declare type StartTimeEvent = {
 };
 export declare type StartTimeEventEmit = StartTimeEvent & {
     splitTimeslot?: [SplitTimeslot, SplitTimeslot];
+    resetDate: () => void;
+    resetConfirmState: () => void;
 };
 declare type Props = {
     eventDurationInMinutes: number;

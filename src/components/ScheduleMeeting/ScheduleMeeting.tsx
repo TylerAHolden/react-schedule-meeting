@@ -129,6 +129,8 @@ export type StartTimeEvent = {
 
 export type StartTimeEventEmit = StartTimeEvent & {
   splitTimeslot?: [SplitTimeslot, SplitTimeslot];
+  resetDate: () => void;
+  resetConfirmState: () => void;
 };
 
 type Props = {
@@ -236,11 +238,13 @@ export const ScheduleMeeting: React.FC<Props> = ({
     return splitTimeslots;
   };
 
-  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent) => {
+  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => {
     const splitTimeslots = splitTimeslot(startTimeEvent);
     const startTimeEventEmitObject: StartTimeEventEmit = {
       ...startTimeEvent,
       splitTimeslot: splitTimeslots,
+      resetDate: () => setSelectedDay(defaultDate || new Date()),
+      resetConfirmState,
     };
 
     if (onStartTimeSelect) {
