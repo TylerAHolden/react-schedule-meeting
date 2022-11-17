@@ -503,16 +503,19 @@ const ArrowButton = styled.button `
     background: rgba(0, 0, 0, 0.03);
   }
 `;
-const ScheduleMeeting = ({ availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, lang_emptyListText = 'No times available', eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, format_selectedDateDayTitleFormatString = 'cccc, LLLL do', format_selectedDateMonthTitleFormatString = 'LLLL yyyy', format_startTimeFormatString = 'h:mm a', lang_confirmButtonText = 'Confirm', lang_cancelButtonText = 'Cancel', lang_noFutureTimesText = 'No future times available', lang_goToNextAvailableDayText = 'Next Available', lang_selectedButtonText = 'Selected:', format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do', onNoFutureTimesAvailable, startTimeListStyle = 'grid', locale, skipConfirmCheck = false, }) => {
+const ScheduleMeeting = ({ selectedStartTime: _selectedStartTime, availableTimeslots = [], borderRadius = 0, primaryColor = '#3f5b85', emptyListContentEl, lang_emptyListText = 'No times available', eventStartTimeSpreadInMinutes = 0, eventDurationInMinutes = 30, onSelectedDayChange, onStartTimeSelect, scheduleMeetingStyles, defaultDate, format_selectedDateDayTitleFormatString = 'cccc, LLLL do', format_selectedDateMonthTitleFormatString = 'LLLL yyyy', format_startTimeFormatString = 'h:mm a', lang_confirmButtonText = 'Confirm', lang_cancelButtonText = 'Cancel', lang_noFutureTimesText = 'No future times available', lang_goToNextAvailableDayText = 'Next Available', lang_selectedButtonText = 'Selected:', format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do', onNoFutureTimesAvailable, startTimeListStyle = 'grid', locale, skipConfirmCheck = false, }) => {
     const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
     const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
     const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
-    const [selectedStartTime, setSelectedStartTime] = React__default.useState();
+    const [selectedStartTime, setSelectedStartTime] = React__default.useState(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
     const [selectedDay, setSelectedDay] = React__default.useState(new Date());
     const [startTimeEventsList, setStartTimeEventsList] = React__default.useState([]);
     const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React__default.useState([]);
     const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React__default.useState();
     const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React__default.useState([]);
+    useEffect(() => {
+        setSelectedStartTime(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
+    }, [_selectedStartTime]);
     useEffect(() => {
         const _orderedAvailableTimeslots = [...availableTimeslots];
         _orderedAvailableTimeslots.sort((a, b) => {

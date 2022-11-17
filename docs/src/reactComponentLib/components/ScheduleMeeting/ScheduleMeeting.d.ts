@@ -43,6 +43,7 @@ declare type Props = {
     onNoFutureTimesAvailable?: (selectedDate: Date) => void;
     startTimeListStyle?: 'scroll-list' | 'grid';
     locale?: Locale;
+    selectedStartTime?: Date;
 };
 export declare const ScheduleMeeting: React.FC<Props>;
 export {};
