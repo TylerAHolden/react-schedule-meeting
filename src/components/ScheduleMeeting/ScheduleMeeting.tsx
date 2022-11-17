@@ -158,9 +158,11 @@ type Props = {
   onNoFutureTimesAvailable?: (selectedDate: Date) => void;
   startTimeListStyle?: 'scroll-list' | 'grid';
   locale?: Locale;
+  selectedStartTime?: Date;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
+  selectedStartTime: _selectedStartTime,
   availableTimeslots = [],
   borderRadius = 0,
   primaryColor = '#3f5b85',
@@ -190,13 +192,19 @@ export const ScheduleMeeting: React.FC<Props> = ({
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
   const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
 
-  const [selectedStartTime, setSelectedStartTime] = React.useState<number | undefined>();
+  const [selectedStartTime, setSelectedStartTime] = React.useState<number | undefined>(
+    _selectedStartTime ? _selectedStartTime.getTime() : undefined,
+  );
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React.useState<undefined | Date>();
 
   const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React.useState<AvailableTimeslot[]>([]);
+
+  useEffect(() => {
+    setSelectedStartTime(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
+  }, [_selectedStartTime]);
 
   useEffect(() => {
     const _orderedAvailableTimeslots = [...availableTimeslots];
