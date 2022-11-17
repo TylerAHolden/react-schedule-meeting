@@ -1,8 +1,12 @@
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
 declare type Props = {
+    skipConfirmCheck: boolean;
+    selectedDay: Date;
+    setSelectedStartTime: (value: number | undefined) => void;
+    selectedStartTime?: number;
     startTimeListItems?: StartTimeEvent[];
-    onStartTimeSelect: (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => void;
+    onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
     emptyListContentEl?: React.ElementType;
     borderRadius: number;
     primaryColor: string;
@@ -13,6 +17,7 @@ declare type Props = {
     lang_cancelButtonText: string;
     lang_goToNextAvailableDayText: string;
     lang_noFutureTimesText: string;
+    lang_selectedButtonText: string;
     onGoToNextAvailableDayClick: () => void;
     nextFutureStartTimeAvailable: undefined | Date;
     format_nextFutureStartTimeAvailableFormatString: string;

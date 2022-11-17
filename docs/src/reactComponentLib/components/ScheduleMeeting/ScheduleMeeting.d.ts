@@ -16,9 +16,10 @@ export declare type StartTimeEvent = {
 export declare type StartTimeEventEmit = StartTimeEvent & {
     splitTimeslot?: [SplitTimeslot, SplitTimeslot];
     resetDate: () => void;
-    resetConfirmState: () => void;
+    resetSelectedTimeState: () => void;
 };
 declare type Props = {
+    skipConfirmCheck?: boolean;
     eventDurationInMinutes: number;
     eventStartTimeSpreadInMinutes?: number;
     availableTimeslots: AvailableTimeslot[];
@@ -37,6 +38,7 @@ declare type Props = {
     lang_cancelButtonText?: string;
     lang_noFutureTimesText?: string;
     lang_goToNextAvailableDayText?: string;
+    lang_selectedButtonText?: string;
     format_nextFutureStartTimeAvailableFormatString?: string;
     onNoFutureTimesAvailable?: (selectedDate: Date) => void;
     startTimeListStyle?: 'scroll-list' | 'grid';

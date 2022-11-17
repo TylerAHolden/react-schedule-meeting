@@ -130,10 +130,11 @@ export type StartTimeEvent = {
 export type StartTimeEventEmit = StartTimeEvent & {
   splitTimeslot?: [SplitTimeslot, SplitTimeslot];
   resetDate: () => void;
-  resetConfirmState: () => void;
+  resetSelectedTimeState: () => void;
 };
 
 type Props = {
+  skipConfirmCheck?: boolean;
   eventDurationInMinutes: number;
   eventStartTimeSpreadInMinutes?: number;
   availableTimeslots: AvailableTimeslot[];
@@ -152,6 +153,7 @@ type Props = {
   lang_cancelButtonText?: string;
   lang_noFutureTimesText?: string;
   lang_goToNextAvailableDayText?: string;
+  lang_selectedButtonText?: string;
   format_nextFutureStartTimeAvailableFormatString?: string;
   onNoFutureTimesAvailable?: (selectedDate: Date) => void;
   startTimeListStyle?: 'scroll-list' | 'grid';
@@ -177,15 +179,18 @@ export const ScheduleMeeting: React.FC<Props> = ({
   lang_cancelButtonText = 'Cancel',
   lang_noFutureTimesText = 'No future times available',
   lang_goToNextAvailableDayText = 'Next Available',
+  lang_selectedButtonText = 'Selected:',
   format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
   onNoFutureTimesAvailable,
   startTimeListStyle = 'grid',
   locale,
+  skipConfirmCheck = false,
 }) => {
   const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
   const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
   const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
 
+  const [selectedStartTime, setSelectedStartTime] = React.useState<number | undefined>();
   const [selectedDay, setSelectedDay] = React.useState(new Date());
   const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
   const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
@@ -238,14 +243,16 @@ export const ScheduleMeeting: React.FC<Props> = ({
     return splitTimeslots;
   };
 
-  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => {
+  const _onStartTimeSelect = (startTimeEvent: StartTimeEvent) => {
     const splitTimeslots = splitTimeslot(startTimeEvent);
     const startTimeEventEmitObject: StartTimeEventEmit = {
       ...startTimeEvent,
       splitTimeslot: splitTimeslots,
       resetDate: () => setSelectedDay(defaultDate || new Date()),
-      resetConfirmState,
+      resetSelectedTimeState: () => setSelectedStartTime(undefined),
     };
+
+    setSelectedStartTime(startTimeEvent.startTime.getTime());
 
     if (onStartTimeSelect) {
       onStartTimeSelect(startTimeEventEmitObject);
@@ -401,6 +408,9 @@ export const ScheduleMeeting: React.FC<Props> = ({
               </ArrowButton>
             </Header>
             <StartTimeList
+              skipConfirmCheck={skipConfirmCheck}
+              selectedDay={selectedDay}
+              selectedStartTime={selectedStartTime}
               locale={locale}
               format_nextFutureStartTimeAvailableFormatString={format_nextFutureStartTimeAvailableFormatString}
               nextFutureStartTimeAvailable={nextFutureStartTimeAvailable}
@@ -410,6 +420,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               lang_confirmButtonText={lang_confirmButtonText}
               lang_cancelButtonText={lang_cancelButtonText}
               lang_emptyListText={lang_emptyListText}
+              lang_selectedButtonText={lang_selectedButtonText}
               primaryColorFaded={primaryColorFaded}
               primaryColor={primaryColorRGB}
               borderRadius={borderRadius}
@@ -418,6 +429,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               startTimeListItems={selectedDayStartTimeEventsList}
               format_startTimeFormatString={format_startTimeFormatString}
               startTimeListStyle={startTimeListStyle}
+              setSelectedStartTime={setSelectedStartTime}
             />
           </StartTimeListContainerAbsolute>
         </StartTimeListContainer>

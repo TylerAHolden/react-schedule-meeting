@@ -9,6 +9,7 @@ type Props = {
   onStartTimeSelect: () => void;
   startTimeEvent: StartTimeEvent;
   selected?: boolean;
+  confirmState?: boolean;
   onCancelClicked: () => void;
   borderRadius: number;
   primaryColor: string;
@@ -16,6 +17,7 @@ type Props = {
   format_startTimeFormatString: string;
   lang_confirmButtonText: string;
   lang_cancelButtonText: string;
+  lang_selectedButtonText: string;
   locale?: Locale;
 };
 
@@ -45,6 +47,7 @@ const CancelButton = styled.button<{ borderRadius: number }>`
 `;
 
 const StartTimeListItem: React.FC<Props> = ({
+  confirmState,
   onStartTimeSelect,
   startTimeEvent,
   selected,
@@ -55,6 +58,7 @@ const StartTimeListItem: React.FC<Props> = ({
   format_startTimeFormatString,
   lang_confirmButtonText,
   lang_cancelButtonText,
+  lang_selectedButtonText,
   locale
 }) => {
   return (
@@ -62,16 +66,17 @@ const StartTimeListItem: React.FC<Props> = ({
       <ThemedButton
         type="button"
         className="rsm-confirm-button"
-        selected={Boolean(selected)}
+        selected={Boolean(selected || confirmState)}
         borderRadius={borderRadius}
         primaryColorFaded={primaryColorFaded}
         primaryColor={primaryColor}
         onClick={onStartTimeSelect}
       >
-        {selected && `${lang_confirmButtonText} `}
+        {confirmState && !selected && `${lang_confirmButtonText} `}
+        {selected && `${lang_selectedButtonText} `}
         {format(startTimeEvent.startTime, format_startTimeFormatString, {locale})}
       </ThemedButton>
-      {selected && (
+      {(confirmState || selected) && (
       <CancelButton type="button" className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
           {lang_cancelButtonText}
         </CancelButton>

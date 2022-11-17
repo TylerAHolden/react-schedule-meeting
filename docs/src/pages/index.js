@@ -13,7 +13,8 @@ function Home() {
   const [eventStartTimeSpreadInMinutes, setEventStartTimeSpreadInMinutes] = useState(10);
   const [borderRadius, setBorderRadius] = useState(10);
   const [resetDate, setResetDate] = useState(false);
-  const [resetConfirmState, setResetConfirmState] = useState(false);
+  const [skipConfirmCheck, setSkipConfirmCheck] = useState(false);
+  const [resetSelectedTimeState, setResetSelectedTimeState] = useState(false);
   const [primaryColor, setPrimaryColor] = useState('#3f5b85');
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
@@ -30,8 +31,8 @@ function Home() {
     if (resetDate) {
       startTimeEventEmit.resetDate();
     }
-    if (resetConfirmState) {
-      startTimeEventEmit.resetConfirmState();
+    if (resetSelectedTimeState) {
+      startTimeEventEmit.resetSelectedTimeState();
     }
     alert(`Time selected: ${format(startTimeEventEmit.startTime, 'cccc, LLLL do h:mm a')}`);
   };
@@ -53,6 +54,7 @@ function Home() {
                 onStartTimeSelect={handleTimeslotClicked}
                 onNoFutureTimesAvailable={console.log}
                 startTimeListStyle={startTimeListStyle}
+                skipConfirmCheck={skipConfirmCheck}
               />
             </div>
             <div className="options-container">
@@ -140,20 +142,35 @@ function Home() {
                 <p>After a time slot has been selected, you can reset the date with onStartTimeSelect.resetDate()</p>
               </div>
               <div className="custom-card">
-                <h5>resetConfirmState (onStartTimeSelect)</h5>
+                <h5>resetSelectedTimeState (onStartTimeSelect)</h5>
                 <ToggleButtonGroup
                   color="primary"
-                  value={resetConfirmState ? 'YES' : 'NO'}
+                  value={resetSelectedTimeState ? 'YES' : 'NO'}
                   exclusive
-                  onChange={(_, value) => setResetConfirmState(value === 'YES')}
+                  onChange={(_, value) => setResetSelectedTimeState(value === 'YES')}
                 >
                   <ToggleButton value="YES">YES</ToggleButton>
                   <ToggleButton value="NO">NO</ToggleButton>
                 </ToggleButtonGroup>
                 <p>
-                  After a time slot has been selected, you can reset the confirm state with
-                  onStartTimeSelect.resetConfirmState(). This action is only visible with the scroll-list
-                  startTimeListStyle
+                  After a time slot has been selected, you can reset the selected state with
+                  onStartTimeSelect.resetSelectedTimeState().
+                </p>
+              </div>
+              <div className="custom-card">
+                <h5>skipConfirmCheck</h5>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={skipConfirmCheck ? 'YES' : 'NO'}
+                  exclusive
+                  onChange={(_, value) => setSkipConfirmCheck(value === 'YES')}
+                >
+                  <ToggleButton value="YES">YES</ToggleButton>
+                  <ToggleButton value="NO">NO</ToggleButton>
+                </ToggleButtonGroup>
+                <p>
+                  This is only relevant when startTimeListStyle is set to &quot;scroll-list&quot;. When set to true, the
+                  user will not be prompted to confirm their selection.
                 </p>
               </div>
               <div className="view-all-props">

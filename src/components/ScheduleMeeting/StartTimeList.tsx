@@ -9,8 +9,12 @@ import styled from 'styled-components';
 
 // @TODO okay this is getting a little silly maybe its time to consider context.
 type Props = {
+  skipConfirmCheck: boolean;
+  selectedDay: Date;
+  setSelectedStartTime: (value: number | undefined) => void;
+  selectedStartTime?: number;
   startTimeListItems?: StartTimeEvent[];
-  onStartTimeSelect: (startTimeEvent: StartTimeEvent, resetConfirmState: () => void) => void;
+  onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
   emptyListContentEl?: React.ElementType;
   borderRadius: number;
   primaryColor: string;
@@ -21,6 +25,7 @@ type Props = {
   lang_cancelButtonText: string;
   lang_goToNextAvailableDayText: string;
   lang_noFutureTimesText: string;
+  lang_selectedButtonText: string;
   onGoToNextAvailableDayClick: () => void;
   nextFutureStartTimeAvailable: undefined | Date;
   format_nextFutureStartTimeAvailableFormatString: string;
@@ -44,6 +49,11 @@ const GridContainer = styled.div`
   overflow-y: scroll;
   align-items: stretch;
   justify-content: flex-start;
+  &.has-selection {
+    ${StartTimeGridItemButton}:not(.is-selected) {
+      opacity: 0.5;
+    }
+  }
 `;
 
 const ScrollEdgeFade = styled.div`
@@ -121,6 +131,9 @@ const NoFutureTimesText = styled(StyledP)<{ borderRadius: number }>`
 `;
 
 const StartTimeList: React.FC<Props> = ({
+  skipConfirmCheck,
+  selectedDay,
+  selectedStartTime,
   startTimeListItems = [],
   onStartTimeSelect,
   emptyListContentEl,
@@ -133,17 +146,24 @@ const StartTimeList: React.FC<Props> = ({
   lang_cancelButtonText,
   lang_goToNextAvailableDayText,
   lang_noFutureTimesText,
+  lang_selectedButtonText,
   onGoToNextAvailableDayClick,
   nextFutureStartTimeAvailable,
   format_nextFutureStartTimeAvailableFormatString,
   startTimeListStyle,
+  setSelectedStartTime,
   locale,
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
+  React.useEffect(() => {
+    setSelectedItemIndex(-1);
+  }, [selectedDay]);
+
   const _onStartTimeSelect = (startTimeEvent: StartTimeEvent, index: number) => {
-    if (selectedItemIndex === index) {
-      onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1));
+    if (skipConfirmCheck || selectedItemIndex === index) {
+      onStartTimeSelect(startTimeEvent);
+      setSelectedItemIndex(-1);
     } else {
       setSelectedItemIndex(index);
     }
@@ -178,6 +198,13 @@ const StartTimeList: React.FC<Props> = ({
     </NoTimesAvailableContainer>
   );
 
+  const handleCancelClicked = (startTimeEvent: StartTimeEvent) => {
+    setSelectedItemIndex(-1);
+    if (selectedStartTime && startTimeEvent.startTime.getTime() === selectedStartTime) {
+      setSelectedStartTime(undefined);
+    }
+  };
+
   return (
     <>
       {startTimeListItems.length === 0 ? (
@@ -191,14 +218,16 @@ const StartTimeList: React.FC<Props> = ({
               <React.Fragment key={i}>
                 <EventListItem
                   locale={locale}
+                  lang_selectedButtonText={lang_selectedButtonText}
                   lang_confirmButtonText={lang_confirmButtonText}
                   lang_cancelButtonText={lang_cancelButtonText}
                   format_startTimeFormatString={format_startTimeFormatString}
                   primaryColorFaded={primaryColorFaded}
                   borderRadius={borderRadius}
                   primaryColor={primaryColor}
-                  onCancelClicked={() => setSelectedItemIndex(-1)}
-                  selected={i === selectedItemIndex}
+                  onCancelClicked={() => handleCancelClicked(startTimeEvent)}
+                  selected={Boolean(selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime())}
+                  confirmState={i === selectedItemIndex}
                   startTimeEvent={startTimeEvent}
                   onStartTimeSelect={() => _onStartTimeSelect(startTimeEvent, i)}
                 />
@@ -210,15 +239,18 @@ const StartTimeList: React.FC<Props> = ({
           </ScrollListContainer>
         </>
       ) : (
-        <GridContainer>
-          {startTimeListItems.map((startTimeEvent: any, i: number) => (
+        <GridContainer className={selectedStartTime ? 'has-selection' : ''}>
+          {startTimeListItems.map((startTimeEvent: StartTimeEvent, i: number) => (
             <StartTimeGridItemButton
               key={i}
               type="button"
+              className={
+                selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime() ? 'is-selected' : ''
+              }
               primaryColorFaded={primaryColorFaded}
               borderRadius={borderRadius}
               primaryColor={primaryColor}
-              onClick={() => onStartTimeSelect(startTimeEvent, () => setSelectedItemIndex(-1))}
+              onClick={() => onStartTimeSelect(startTimeEvent)}
             >
               {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
             </StartTimeGridItemButton>
