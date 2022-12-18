@@ -5,7 +5,7 @@ import { Arrow } from '../ArrowSVG';
 import EventListItem from './StartTimeListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
 import { format } from 'date-fns';
-import styled from 'styled-components';
+import { styled } from 'goober';
 
 // @TODO okay this is getting a little silly maybe its time to consider context.
 type Props = {
@@ -33,7 +33,7 @@ type Props = {
   locale?: Locale;
 };
 
-const ScrollListContainer = styled.div`
+const ScrollListContainer = styled('div')`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ const ScrollListContainer = styled.div`
   padding-top: 16px;
 `;
 
-const GridContainer = styled.div`
+const GridContainer = styled('div')<any>`
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -50,13 +50,13 @@ const GridContainer = styled.div`
   align-items: stretch;
   justify-content: flex-start;
   &.has-selection {
-    ${StartTimeGridItemButton}:not(.is-selected) {
+    button:not(.is-selected) {
       opacity: 0.5;
     }
   }
 `;
 
-const ScrollEdgeFade = styled.div`
+const ScrollEdgeFade = styled('div')`
   position: absolute;
   width: 100%;
   height: 24px;
@@ -74,7 +74,7 @@ const ScrollEdgeFade = styled.div`
   }
 `;
 
-const ListItemDivider = styled.div<any>`
+const ListItemDivider = styled('div')<any>`
   flex-shrink: 0;
   flex: 1;
   padding: 0.5px;
@@ -83,14 +83,14 @@ const ListItemDivider = styled.div<any>`
   background: ${({ makeTransparent }) => (makeTransparent ? `transparent` : `rgba(0, 0, 0, 0.05)`)};
 `;
 
-const StyledP = styled.p`
+const StyledP = styled('p')`
   margin: 0;
   opacity: 0.5;
   margin-bottom: 24px;
   font-size: 18px;
 `;
 
-const NoTimesAvailableContainer = styled.div`
+const NoTimesAvailableContainer = styled('div')`
   height: 100%;
   flex: 1;
   width: 100%;

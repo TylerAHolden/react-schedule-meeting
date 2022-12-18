@@ -3,12 +3,13 @@ import { isValid, getDay, format, startOfMonth, differenceInMinutes, addMinutes,
 import * as React from 'react';
 import React__default, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+import { setup, styled } from 'goober';
 import rgba from 'color-rgba';
-import styled from 'styled-components';
 
 const Arrow = ({ direction }) => (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", viewBox: "0 0 512 512" },
     React.createElement("path", { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "48", d: direction === 'back' ? 'M328 112L184 256l144 144' : 'M184.001 400L328.001 256L184.001 112' })));
 
+setup(React__default.createElement);
 const StyledCalendar = styled(Calendar) `
   &.react-calendar,
   &.react-calendar *,
@@ -230,7 +231,7 @@ const ScheduleCalendar = ({ availableTimeslots, onDaySelected, selectedDay, bord
     return (React__default.createElement(StyledCalendar, { borderRadius: borderRadius, primaryColor: primaryColor, primaryColorFaded: primaryColorFaded, primaryColorToday: primaryColorToday, defaultView: 'month', onClickDay: _onClickDay, showNavigation: false, tileDisabled: _isTileDisabled, tileClassName: _renderClassName, value: selectedDay, activeStartDate: startOfMonth(selectedDay) }));
 };
 
-const ThemedButton = styled.button `
+const ThemedButton = styled('button') `
   padding: 16px;
   border: none;
   color: ${({ selected }) => (selected ? `rgb(255, 255, 255)` : `rgb(20,20,20)`)};
@@ -246,7 +247,7 @@ const ThemedButton = styled.button `
     background-color: ${({ selected, primaryColor, primaryColorFaded }) => selected ? primaryColor : primaryColorFaded};
   }
 `;
-const StartTimeGridItemButton = styled.button `
+const StartTimeGridItemButton = styled('button') `
   padding: 12px 16px;
   margin: 4px;
   border: none;
@@ -265,13 +266,12 @@ const StartTimeGridItemButton = styled.button `
   }
 `;
 
-/* eslint-disable  */
-const Container$1 = styled.div `
+const Container$1 = styled('div') `
   display: flex;
   width: 100%;
   align-items: center;
 `;
-const CancelButton = styled.button `
+const CancelButton = styled('button') `
   padding: 8px 24px;
   border: none;
   background-color: rgb(0, 0, 0, 0);
@@ -289,7 +289,7 @@ const CancelButton = styled.button `
     background-color: rgba(0, 0, 0, 0.03);
   }
 `;
-const StartTimeListItem = ({ confirmState, onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, lang_selectedButtonText, locale }) => {
+const StartTimeListItem = ({ confirmState, onStartTimeSelect, startTimeEvent, selected, onCancelClicked, borderRadius, primaryColor, primaryColorFaded, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, lang_selectedButtonText, locale, }) => {
     return (React__default.createElement(Container$1, { className: "rsm-start-time-item" },
         React__default.createElement(ThemedButton, { type: "button", className: "rsm-confirm-button", selected: Boolean(selected || confirmState), borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onStartTimeSelect },
             confirmState && !selected && `${lang_confirmButtonText} `,
@@ -298,7 +298,7 @@ const StartTimeListItem = ({ confirmState, onStartTimeSelect, startTimeEvent, se
         (confirmState || selected) && (React__default.createElement(CancelButton, { type: "button", className: "rsm-cancel-button", borderRadius: borderRadius, onClick: onCancelClicked }, lang_cancelButtonText))));
 };
 
-const ScrollListContainer = styled.div `
+const ScrollListContainer = styled('div') `
   position: relative;
   display: flex;
   flex-direction: column;
@@ -306,7 +306,7 @@ const ScrollListContainer = styled.div `
   padding-bottom: 24px;
   padding-top: 16px;
 `;
-const GridContainer = styled.div `
+const GridContainer = styled('div') `
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -314,12 +314,12 @@ const GridContainer = styled.div `
   align-items: stretch;
   justify-content: flex-start;
   &.has-selection {
-    ${StartTimeGridItemButton}:not(.is-selected) {
+    button:not(.is-selected) {
       opacity: 0.5;
     }
   }
 `;
-const ScrollEdgeFade = styled.div `
+const ScrollEdgeFade = styled('div') `
   position: absolute;
   width: 100%;
   height: 24px;
@@ -336,7 +336,7 @@ const ScrollEdgeFade = styled.div `
     background: linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
   }
 `;
-const ListItemDivider = styled.div `
+const ListItemDivider = styled('div') `
   flex-shrink: 0;
   flex: 1;
   padding: 0.5px;
@@ -344,13 +344,13 @@ const ListItemDivider = styled.div `
   position: relative;
   background: ${({ makeTransparent }) => (makeTransparent ? `transparent` : `rgba(0, 0, 0, 0.05)`)};
 `;
-const StyledP = styled.p `
+const StyledP = styled('p') `
   margin: 0;
   opacity: 0.5;
   margin-bottom: 24px;
   font-size: 18px;
 `;
-const NoTimesAvailableContainer = styled.div `
+const NoTimesAvailableContainer = styled('div') `
   height: 100%;
   flex: 1;
   width: 100%;
@@ -423,13 +423,13 @@ const StartTimeList = ({ skipConfirmCheck, selectedDay, selectedStartTime, start
             i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 })))))))) : (React__default.createElement(GridContainer, { className: selectedStartTime ? 'has-selection' : '' }, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(StartTimeGridItemButton, { key: i, type: "button", className: selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime() ? 'is-selected' : '', primaryColorFaded: primaryColorFaded, borderRadius: borderRadius, primaryColor: primaryColor, onClick: () => onStartTimeSelect(startTimeEvent) }, format(startTimeEvent.startTime, format_startTimeFormatString, { locale }))))))));
 };
 
-const Container = styled.div `
+const Container = styled('div') `
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
-const Inner = styled.div `
+const Inner = styled('div') `
   display: flex;
   border-radius: ${({ borderRadius }) => borderRadius}px;
   box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
@@ -445,7 +445,7 @@ const Inner = styled.div `
     margin: 8px;
   }
 `;
-const Divider = styled.div `
+const Divider = styled('div') `
   width: 1px;
   background: rgba(0, 0, 0, 0.1);
   margin: 16px;
@@ -454,10 +454,10 @@ const Divider = styled.div `
     height: 1px;
   }
 `;
-const CalendarContainer = styled.div `
+const CalendarContainer = styled('div') `
   flex: 1;
 `;
-const StartTimeListContainer = styled.div `
+const StartTimeListContainer = styled('div') `
   flex: 1;
   overflow: hidden;
   position: relative;
@@ -465,27 +465,27 @@ const StartTimeListContainer = styled.div `
     min-height: 301px;
   }
 `;
-const StartTimeListContainerAbsolute = styled.div `
+const StartTimeListContainerAbsolute = styled('div') `
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
-const SelectedDayTitle = styled.h3 `
+const SelectedDayTitle = styled('h3') `
   margin: 0;
   padding: 0;
   font-weight: 700;
   font-size: 24px;
 `;
-const Header = styled.div `
+const Header = styled('div') `
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
 `;
-const ArrowButton = styled.button `
+const ArrowButton = styled('button') `
   outline: none;
   background: none;
   border: none;

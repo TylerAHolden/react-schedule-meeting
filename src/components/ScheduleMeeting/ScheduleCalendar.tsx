@@ -1,10 +1,12 @@
 import Calendar, { CalendarTileProperties } from 'react-calendar';
 import { Locale, format, getDay, isValid, startOfMonth } from 'date-fns';
 import React, { useEffect, useState } from 'react';
+import { setup, styled } from 'goober';
 
 import { AvailableTimeslot } from './ScheduleMeeting';
 import rgba from 'color-rgba';
-import styled from 'styled-components';
+
+setup(React.createElement);
 
 type CalendarStyleProps = {
   borderRadius: number;

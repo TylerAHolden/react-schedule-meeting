@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Slider, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { setup, styled } from 'goober';
 
 import { CirclePicker } from 'react-color';
 import Layout from '@theme/Layout';
 import { ScheduleMeeting } from '../reactComponentLib';
 import { format } from 'date-fns';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+setup(React.createElement);
+
+const MainContent = styled('main')``;
 
 function Home() {
   const [startTimeListStyle, setStartTimeListStyle] = useState('grid');
@@ -39,7 +44,7 @@ function Home() {
 
   return (
     <Layout title={`React Schedule Meeting Example`} description="A simplistic agnostic UI for scheduling">
-      <main>
+      <MainContent>
         <div className="main-example-container">
           <div className="main-content">
             <div className="main-content-inner">
@@ -179,7 +184,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </main>
+      </MainContent>
     </Layout>
   );
 }
