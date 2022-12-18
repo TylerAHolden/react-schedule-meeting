@@ -1,9 +1,8 @@
-/* eslint-disable  */
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
 import { ThemedButton } from '../ThemedButton';
 import { format } from 'date-fns';
-import styled from 'styled-components';
+import { styled } from 'goober';
 
 type Props = {
   onStartTimeSelect: () => void;
@@ -21,13 +20,13 @@ type Props = {
   locale?: Locale;
 };
 
-const Container = styled.div`
+const Container = styled('div')`
   display: flex;
   width: 100%;
   align-items: center;
 `;
 
-const CancelButton = styled.button<{ borderRadius: number }>`
+const CancelButton = styled('button')<{ borderRadius: number }>`
   padding: 8px 24px;
   border: none;
   background-color: rgb(0, 0, 0, 0);
@@ -59,7 +58,7 @@ const StartTimeListItem: React.FC<Props> = ({
   lang_confirmButtonText,
   lang_cancelButtonText,
   lang_selectedButtonText,
-  locale
+  locale,
 }) => {
   return (
     <Container className="rsm-start-time-item">
@@ -74,10 +73,10 @@ const StartTimeListItem: React.FC<Props> = ({
       >
         {confirmState && !selected && `${lang_confirmButtonText} `}
         {selected && `${lang_selectedButtonText} `}
-        {format(startTimeEvent.startTime, format_startTimeFormatString, {locale})}
+        {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
       </ThemedButton>
       {(confirmState || selected) && (
-      <CancelButton type="button" className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
+        <CancelButton type="button" className="rsm-cancel-button" borderRadius={borderRadius} onClick={onCancelClicked}>
           {lang_cancelButtonText}
         </CancelButton>
       )}
