@@ -17,7 +17,6 @@ export default [
       visualizer(),
     ],
     output: [
-      { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'esm' },
       {
         file: 'docs/src/reactComponentLib/index.js',
