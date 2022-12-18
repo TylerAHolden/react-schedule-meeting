@@ -19,16 +19,16 @@ import { Arrow } from '../ArrowSVG';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
 import rgba from 'color-rgba';
-import styled from 'styled-components';
+import { styled } from 'goober';
 
-const Container = styled.div`
+const Container = styled('div')`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const Inner = styled.div<{ borderRadius: number }>`
+const Inner = styled('div')<{ borderRadius: number }>`
   display: flex;
   border-radius: ${({ borderRadius }) => borderRadius}px;
   box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
@@ -45,7 +45,7 @@ const Inner = styled.div<{ borderRadius: number }>`
   }
 `;
 
-const Divider = styled.div`
+const Divider = styled('div')`
   width: 1px;
   background: rgba(0, 0, 0, 0.1);
   margin: 16px;
@@ -55,11 +55,11 @@ const Divider = styled.div`
   }
 `;
 
-const CalendarContainer = styled.div`
+const CalendarContainer = styled('div')`
   flex: 1;
 `;
 
-const StartTimeListContainer = styled.div`
+const StartTimeListContainer = styled('div')`
   flex: 1;
   overflow: hidden;
   position: relative;
@@ -68,7 +68,7 @@ const StartTimeListContainer = styled.div`
   }
 `;
 
-const StartTimeListContainerAbsolute = styled.div`
+const StartTimeListContainerAbsolute = styled('div')`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -76,14 +76,14 @@ const StartTimeListContainerAbsolute = styled.div`
   flex-direction: column;
 `;
 
-const SelectedDayTitle = styled.h3`
+const SelectedDayTitle = styled('h3')`
   margin: 0;
   padding: 0;
   font-weight: 700;
   font-size: 24px;
 `;
 
-const Header = styled.div`
+const Header = styled('div')`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -91,7 +91,7 @@ const Header = styled.div`
   margin-bottom: 6px;
 `;
 
-const ArrowButton = styled.button<{ borderRadius: number }>`
+const ArrowButton = styled('button')<{ borderRadius: number }>`
   outline: none;
   background: none;
   border: none;

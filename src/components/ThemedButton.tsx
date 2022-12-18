@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'goober';
 
 type ButtonProps = {
   selected?: boolean;
@@ -7,7 +7,7 @@ type ButtonProps = {
   primaryColorFaded: string;
 };
 
-export const ThemedButton = styled.button<ButtonProps>`
+export const ThemedButton = styled('button')<ButtonProps>`
   padding: 16px;
   border: none;
   color: ${({ selected }) => (selected ? `rgb(255, 255, 255)` : `rgb(20,20,20)`)};
@@ -25,7 +25,7 @@ export const ThemedButton = styled.button<ButtonProps>`
   }
 `;
 
-export const StartTimeGridItemButton = styled.button<ButtonProps>`
+export const StartTimeGridItemButton = styled('button')<ButtonProps>`
   padding: 12px 16px;
   margin: 4px;
   border: none;
