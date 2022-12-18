@@ -9,6 +9,29 @@ module.exports = {
   organizationName: 'TylerAHolden', // Usually your GitHub org/user name.
   projectName: 'react-schedule-meeting', // Usually your repo name.
   themeConfig: {
+    algolia: {
+      // The application ID provided by Algolia
+      appId: '3GB2NBNB7F',
+
+      // Public API key: it is safe to commit it
+      apiKey: 'a6318355d98f4b5f19bf48bb12e54a3b',
+
+      indexName: 'react-schedule-meeting',
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+      // externalUrlRegex: 'external\\.com|domain\\.com',
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      // Optional: path for search page that enabled by default (`false` to disable it)
+      searchPagePath: 'search',
+
+      //... other Algolia params
+    },
     announcementBar: {
       id: 'supportus',
       backgroundColor: '#222',
