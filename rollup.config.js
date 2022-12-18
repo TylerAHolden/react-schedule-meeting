@@ -1,6 +1,7 @@
 import pkg from './package.json';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default [
   {
@@ -13,6 +14,7 @@ export default [
       typescript({
         typescript: require('typescript'),
       }),
+      visualizer(),
     ],
     output: [
       { file: pkg.main, format: 'cjs' },
