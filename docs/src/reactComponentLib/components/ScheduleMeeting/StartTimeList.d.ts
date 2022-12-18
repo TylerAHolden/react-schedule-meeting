@@ -1,6 +1,6 @@
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
-declare type Props = {
+type Props = {
     skipConfirmCheck: boolean;
     selectedDay: Date;
     setSelectedStartTime: (value: number | undefined) => void;

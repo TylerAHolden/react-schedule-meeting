@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { isValid, getDay, format, startOfMonth, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, isAfter, isToday, subMonths, addMonths, subDays, addDays } from 'date-fns';
+import { isValid, getDay, startOfMonth, format, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, isAfter, isToday, subMonths, addMonths, subDays, addDays } from 'date-fns';
 import * as React from 'react';
 import React__default, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
@@ -402,13 +402,14 @@ const StartTimeList = ({ skipConfirmCheck, selectedDay, selectedStartTime, start
         }
     };
     const emptyListElement = (React__default.createElement(NoTimesAvailableContainer, null,
-        emptyListContentEl || React__default.createElement(StyledP, { className: "rsm-empty-list-text" }, lang_emptyListText),
-        nextFutureStartTimeAvailable ? (React__default.createElement(GoToNextAvailableDayButton, { type: "button", selected: true, className: "rsm-next-available-date-button", borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onGoToNextAvailableDayClick },
-            React__default.createElement("p", null,
-                React__default.createElement("small", null, lang_goToNextAvailableDayText),
-                React__default.createElement("br", null),
-                format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })),
-            React__default.createElement(Arrow, { direction: "forward" }))) : (React__default.createElement(NoFutureTimesText, { borderRadius: borderRadius, className: "rsm-no-future-times-text" }, lang_noFutureTimesText))));
+        React__default.createElement(React__default.Fragment, null,
+            emptyListContentEl || React__default.createElement(StyledP, { className: "rsm-empty-list-text" }, lang_emptyListText),
+            nextFutureStartTimeAvailable ? (React__default.createElement(GoToNextAvailableDayButton, { type: "button", selected: true, className: "rsm-next-available-date-button", borderRadius: borderRadius, primaryColorFaded: primaryColorFaded, primaryColor: primaryColor, onClick: onGoToNextAvailableDayClick },
+                React__default.createElement("p", null,
+                    React__default.createElement("small", null, lang_goToNextAvailableDayText),
+                    React__default.createElement("br", null),
+                    format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })),
+                React__default.createElement(Arrow, { direction: "forward" }))) : (React__default.createElement(NoFutureTimesText, { borderRadius: borderRadius, className: "rsm-no-future-times-text" }, lang_noFutureTimesText)))));
     const handleCancelClicked = (startTimeEvent) => {
         setSelectedItemIndex(-1);
         if (selectedStartTime && startTimeEvent.startTime.getTime() === selectedStartTime) {

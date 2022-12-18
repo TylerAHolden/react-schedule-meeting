@@ -171,30 +171,32 @@ const StartTimeList: React.FC<Props> = ({
 
   const emptyListElement = (
     <NoTimesAvailableContainer>
-      {emptyListContentEl || <StyledP className="rsm-empty-list-text">{lang_emptyListText}</StyledP>}
-      {nextFutureStartTimeAvailable ? (
-        <GoToNextAvailableDayButton
-          type="button"
-          selected
-          className="rsm-next-available-date-button"
-          borderRadius={borderRadius}
-          primaryColorFaded={primaryColorFaded}
-          primaryColor={primaryColor}
-          onClick={onGoToNextAvailableDayClick}
-        >
-          <p>
-            <small>{lang_goToNextAvailableDayText}</small>
-            <br />
-            {format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })}
-          </p>
+      <>
+        {emptyListContentEl || <StyledP className="rsm-empty-list-text">{lang_emptyListText}</StyledP>}
+        {nextFutureStartTimeAvailable ? (
+          <GoToNextAvailableDayButton
+            type="button"
+            selected
+            className="rsm-next-available-date-button"
+            borderRadius={borderRadius}
+            primaryColorFaded={primaryColorFaded}
+            primaryColor={primaryColor}
+            onClick={onGoToNextAvailableDayClick}
+          >
+            <p>
+              <small>{lang_goToNextAvailableDayText}</small>
+              <br />
+              {format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })}
+            </p>
 
-          <Arrow direction="forward" />
-        </GoToNextAvailableDayButton>
-      ) : (
-        <NoFutureTimesText borderRadius={borderRadius} className="rsm-no-future-times-text">
-          {lang_noFutureTimesText}
-        </NoFutureTimesText>
-      )}
+            <Arrow direction="forward" />
+          </GoToNextAvailableDayButton>
+        ) : (
+          <NoFutureTimesText borderRadius={borderRadius} className="rsm-no-future-times-text">
+            {lang_noFutureTimesText}
+          </NoFutureTimesText>
+        )}
+      </>
     </NoTimesAvailableContainer>
   );
 

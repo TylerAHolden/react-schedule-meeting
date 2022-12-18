@@ -1,24 +1,24 @@
 import { Locale } from 'date-fns';
 import React from 'react';
-export declare type AvailableTimeslot = {
+export type AvailableTimeslot = {
     startTime: Date | string;
     endTime: Date | string;
     id?: string | number | undefined;
 };
-export declare type SplitTimeslot = null | ModifiedTimeslot;
-export declare type ModifiedTimeslot = AvailableTimeslot & {
+export type SplitTimeslot = null | ModifiedTimeslot;
+export type ModifiedTimeslot = AvailableTimeslot & {
     oldId: string | number | undefined;
 };
-export declare type StartTimeEvent = {
+export type StartTimeEvent = {
     availableTimeslot: AvailableTimeslot;
     startTime: Date;
 };
-export declare type StartTimeEventEmit = StartTimeEvent & {
+export type StartTimeEventEmit = StartTimeEvent & {
     splitTimeslot?: [SplitTimeslot, SplitTimeslot];
     resetDate: () => void;
     resetSelectedTimeState: () => void;
 };
-declare type Props = {
+type Props = {
     skipConfirmCheck?: boolean;
     eventDurationInMinutes: number;
     eventStartTimeSpreadInMinutes?: number;
