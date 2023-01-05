@@ -6,10 +6,6 @@ description: Introduction's are for getting to know a few important things befor
 slug: /
 ---
 
-## Disclaimer
-
-React Schedule Meeting is **still being developed**. Helpful feedback & suggestions are welcome!
-
 ## Motivation
 
 We wanted a UI that was agnostic to any scheduling logic after the user has selected their slot. The intention is to have an extremely simple component that accepts available time slots and returns a selected time slot.

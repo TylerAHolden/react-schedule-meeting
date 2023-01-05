@@ -4,18 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { setup, styled } from 'goober';
 
 import { AvailableTimeslot } from './ScheduleMeeting';
-import rgba from 'color-rgba';
 
 setup(React.createElement);
 
-type CalendarStyleProps = {
-  borderRadius: number;
-  primaryColor: string;
-  primaryColorFaded: string;
-  primaryColorToday: string;
-};
-
-const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
+const StyledCalendar = styled(Calendar)`
   &.react-calendar,
   &.react-calendar *,
   &.react-calendar *:before,
@@ -42,10 +34,10 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
   }
   .react-calendar__navigation button:enabled:hover,
   .react-calendar__navigation button:enabled:focus {
-    background-color: #e6e6e6;
+    background-color: hsl(0, 0%, 90.19607843137256%);
   }
   .react-calendar__navigation button[disabled] {
-    background-color: #f0f0f0;
+    background-color: hsl(0, 0%, 94.11764705882352%);
   }
   .react-calendar__month-view__weekdays {
     text-align: center;
@@ -85,7 +77,7 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
     @media (max-width: 768px) {
       height: 45px;
     }
-    color: rgb(167, 167, 167);
+    color: rgba(var(--text-color-rgb), .9);
     padding: 5px;
     position: relative;
     z-index: 1;
@@ -106,7 +98,7 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
   }
 
   .react-calendar__month-view__days__day--neighboringMonth {
-    color: rgb(218, 218, 218);
+    color: rgba(var(--text-color-rgb), .6);
   }
 
   button {
@@ -116,10 +108,10 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
 
   .active-day-tile {
     &::after {
-      background: ${({ primaryColorFaded }) => primaryColorFaded};
-      border-radius: ${({ borderRadius }) => borderRadius}px;
+      background: rgba(var(--primary-color-rgb), 0.222);
+      border-radius: var(--border-radius);
     }
-    color: ${({ primaryColor }) => primaryColor};
+    color: rgba(var(--primary-color-text-shade-rgb), 1);
   }
 
   .active-day-tile:hover {
@@ -127,48 +119,48 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
   }
 
   .react-calendar__tile:disabled.day-tile {
-    background-color: #fff;
+    background: rgba(var(--background-color-rgb), 1);
   }
 
   .react-calendar__tile--now.day-tile {
-    background: #fff;
+    background: rgba(var(--background-color-rgb), 1);
     &::after {
-      border-radius: ${({ borderRadius }) => borderRadius}px;
-      background: ${({ primaryColorToday }) => primaryColorToday};
+      border-radius: var(--border-radius);
+      background: rgba(var(--primary-color-rgb), 0.111);
     }
   }
 
   .react-calendar__tile--now:hover.day-tile {
-    background: #fff;
+    background: rgba(var(--background-color-rgb), 1);
     &::after {
-      border-radius: ${({ borderRadius }) => borderRadius}px;
-      background: ${({ primaryColorToday }) => primaryColorToday};
+      border-radius: var(--border-radius);
+      background: rgba(var(--primary-color-rgb), 0.111);
     }
   }
 
   .react-calendar__tile:hover.day-tile {
-    background: #fff;
+    background: rgba(var(--background-color-rgb), 1);
   }
 
   .react-calendar__tile--active.day-tile {
-    background: #fff;
-    color: ${({ primaryColor }) => primaryColor};
+    background: rgba(var(--background-color-rgb), 1);
+    color: rgba(var(--primary-color-text-shade-rgb), 1);
     &::after {
-      border-radius: ${({ borderRadius }) => borderRadius}px;
-      border: solid ${({ primaryColorToday }) => primaryColorToday} 1px;
+      border-radius: var(--border-radius);
+      border: solid rgba(var(--primary-color-rgb), 0.111) 1px;
     }
   }
 
   .react-calendar__tile--active:enabled.day-tile,
   .react-calendar__tile--active:enabled:focus.day-tile {
     &::after {
-      background: ${({ primaryColorFaded }) => primaryColorFaded};
-      border-radius: ${({ borderRadius }) => borderRadius}px;
-      border: solid ${({ primaryColor }) => primaryColor} 1px;
+      background: rgba(var(--primary-color-rgb), 0.222)
+      border-radius: var(--border-radius);
+      border: solid rgba(var(--primary-color-rgb), 1) 1px;
     }
     &.react-calendar__tile--now {
       &::after {
-        background: ${({ primaryColorToday }) => primaryColorToday};
+        background: rgba(var(--primary-color-rgb), 0.111);
       }
     }
   }
@@ -177,13 +169,13 @@ const StyledCalendar = styled(Calendar)<CalendarStyleProps>`
   .react-calendar__month-view__weekdays__weekday abbr {
     text-decoration: none;
     font-weight: normal;
-    color: #333;
+    color: rgba(var(--text-color-rgb), 1);
     font-size: 14px;
     font-weight: 700;
   }
 
   .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
-    color: #333;
+    color: rgba(var(--text-color-rgb), 1);
   }
 
   /* calendar styles */
@@ -203,9 +195,6 @@ type CalendarProps = {
   availableTimeslots: Array<AvailableTimeslot>;
   onDaySelected: (day: Date) => void;
   selectedDay: Date;
-  borderRadius: number;
-  primaryColor: string;
-  primaryColorFaded: string;
   locale?: Locale;
 };
 
@@ -213,18 +202,8 @@ const formatDate = (date: Date, locale?: Locale) => {
   return format(date, 'MM/dd/yyyy', { locale });
 };
 
-const ScheduleCalendar: React.FC<CalendarProps> = ({
-  availableTimeslots,
-  onDaySelected,
-  selectedDay,
-  borderRadius,
-  primaryColor,
-  primaryColorFaded,
-  locale,
-}) => {
+const ScheduleCalendar: React.FC<CalendarProps> = ({ availableTimeslots, onDaySelected, selectedDay, locale }) => {
   const [daysAvailable, setDaysAvailable] = useState<Array<any>>([]);
-  const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
-  const primaryColorToday = `rgba(${r},${g},${b},${alpha / 4.5})`;
 
   useEffect(() => {
     const daysInTimeslots: string[] = [];
@@ -258,10 +237,6 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({
 
   return (
     <StyledCalendar
-      borderRadius={borderRadius}
-      primaryColor={primaryColor}
-      primaryColorFaded={primaryColorFaded}
-      primaryColorToday={primaryColorToday}
       defaultView={'month'}
       onClickDay={_onClickDay}
       showNavigation={false}

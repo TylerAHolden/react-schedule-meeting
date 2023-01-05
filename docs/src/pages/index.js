@@ -12,6 +12,8 @@ setup(React.createElement);
 
 const MainContent = styled('main')``;
 
+const StyledScheduleMeeting = styled(ScheduleMeeting)``;
+
 function Home() {
   const [startTimeListStyle, setStartTimeListStyle] = useState('grid');
   const [eventDurationInMinutes, setEventDurationInMinutes] = useState(30);
@@ -21,6 +23,8 @@ function Home() {
   const [skipConfirmCheck, setSkipConfirmCheck] = useState(false);
   const [resetSelectedTimeState, setResetSelectedTimeState] = useState(false);
   const [primaryColor, setPrimaryColor] = useState('#3f5b85');
+  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
+
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
 
@@ -50,10 +54,11 @@ function Home() {
             <div className="main-content-inner">
               <h1>React Schedule Meeting</h1>
               <p>{siteConfig.tagline}</p>
-              <ScheduleMeeting
+              <StyledScheduleMeeting
                 eventStartTimeSpreadInMinutes={eventStartTimeSpreadInMinutes}
                 borderRadius={borderRadius}
                 primaryColor={primaryColor}
+                backgroundColor={backgroundColor}
                 eventDurationInMinutes={eventDurationInMinutes}
                 availableTimeslots={availableTimeslots}
                 onStartTimeSelect={handleTimeslotClicked}
@@ -132,6 +137,16 @@ function Home() {
                   onChange={(newValue) => setPrimaryColor(newValue.hex)}
                 />
                 <p>The primary color setting that restyles the entire UI.</p>
+              </div>
+              <div className="custom-card">
+                <h5>backgroundColor</h5>
+                <CirclePicker
+                  colors={['#ffffff', '#EEEEEE', '#E1E5EE', '#000', '#222', '#2F2E36', '#252D38', '#332A2A']}
+                  value={backgroundColor}
+                  color={backgroundColor}
+                  onChange={(newValue) => setBackgroundColor(newValue.hex)}
+                />
+                <p>The background color setting that restyles the entire UI.</p>
               </div>
               <div className="custom-card">
                 <h5>resetDate (onStartTimeSelect)</h5>

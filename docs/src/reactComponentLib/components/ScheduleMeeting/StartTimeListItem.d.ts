@@ -6,9 +6,6 @@ type Props = {
     selected?: boolean;
     confirmState?: boolean;
     onCancelClicked: () => void;
-    borderRadius: number;
-    primaryColor: string;
-    primaryColorFaded: string;
     format_startTimeFormatString: string;
     lang_confirmButtonText: string;
     lang_cancelButtonText: string;

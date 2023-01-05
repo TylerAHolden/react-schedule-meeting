@@ -23,7 +23,7 @@
   ],
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@types/color-rgba": "^2.1.0",
+    "@types/color": "^3.0.3",
     "@types/react": "^18",
     "@types/react-calendar": "^3.1.0",
     "@types/react-dom": "^18",
@@ -68,7 +68,7 @@
     "dist"
   ],
   "dependencies": {
-    "color-rgba": "^2.2.3",
+    "color": "^4.2.3",
     "date-fns": "^2.14.0",
     "goober": "^2.1.11",
     "react-calendar": "^3.1.0"

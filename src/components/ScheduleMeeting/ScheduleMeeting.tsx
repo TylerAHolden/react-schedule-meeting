@@ -16,26 +16,44 @@ import {
 import React, { useEffect } from 'react';
 
 import { Arrow } from '../ArrowSVG';
+import Color from 'color';
 import ScheduleCalendar from './ScheduleCalendar';
 import StartTimeList from './StartTimeList';
-import rgba from 'color-rgba';
 import { styled } from 'goober';
 
-const Container = styled('div')`
+type StyleVariables = {
+  borderRadius: number;
+  primaryColorRGB: string;
+  textColorRGB: string;
+  backgroundColorContrastRGB: string;
+  backgroundColorRGB: string;
+  primaryColorContrastRGB: string;
+  calendarColoredTextRGB: string;
+};
+
+const Container = styled('div')<StyleVariables>`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  --text-color-rgb: ${({ textColorRGB }) => textColorRGB};
+  --primary-color-text-shade-rgb: ${({ calendarColoredTextRGB }) => calendarColoredTextRGB};
+  --background-color-rgb: ${({ backgroundColorRGB }) => backgroundColorRGB};
+  --background-color-contrast-rgb: ${({ backgroundColorContrastRGB }) => backgroundColorContrastRGB};
+  --primary-color-rgb: ${({ primaryColorRGB }) => primaryColorRGB};
+  --primary-color-contrast-rgb: ${({ primaryColorContrastRGB }) => primaryColorContrastRGB};
+  --border-radius: ${({ borderRadius }) => borderRadius}px;
 `;
 
-const Inner = styled('div')<{ borderRadius: number }>`
+const Inner = styled('div')`
   display: flex;
-  border-radius: ${({ borderRadius }) => borderRadius}px;
+  border-radius: var(--border-radius);
+  background: rgba(var(--background-color-rgb), 1);
   box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
   flex-direction: column;
-  background: white;
   @media (min-width: 768px) {
     flex-direction: row;
   }
@@ -81,6 +99,7 @@ const SelectedDayTitle = styled('h3')`
   padding: 0;
   font-weight: 700;
   font-size: 24px;
+  color: rgba(var(--text-color-rgb), 1);
 `;
 
 const Header = styled('div')`
@@ -91,11 +110,11 @@ const Header = styled('div')`
   margin-bottom: 6px;
 `;
 
-const ArrowButton = styled('button')<{ borderRadius: number }>`
+const ArrowButton = styled('button')`
   outline: none;
   background: none;
   border: none;
-  border-radius: ${({ borderRadius }) => borderRadius}px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -103,10 +122,10 @@ const ArrowButton = styled('button')<{ borderRadius: number }>`
   padding: 8px;
   opacity: 0.4;
   margin: 0;
-  color: #222320;
+  color: rgba(var(--text-color-rgb), 0.7);
   &:hover {
     opacity: 0.7;
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(var(--background-color-contrast-rgb), 0.06);
   }
 `;
 
@@ -134,63 +153,75 @@ export type StartTimeEventEmit = StartTimeEvent & {
 };
 
 type Props = {
-  skipConfirmCheck?: boolean;
+  availableTimeslots: AvailableTimeslot[];
+  backgroundColor?: string;
+  borderRadius?: number;
+  className?: string;
+  defaultDate?: Date;
+  emptyListContentEl?: React.ElementType;
   eventDurationInMinutes: number;
   eventStartTimeSpreadInMinutes?: number;
-  availableTimeslots: AvailableTimeslot[];
+  format_nextFutureStartTimeAvailableFormatString?: string;
+  format_selectedDateDayTitleFormatString?: string;
+  format_selectedDateMonthTitleFormatString?: string;
+  format_startTimeFormatString?: string;
+  lang_cancelButtonText?: string;
+  lang_confirmButtonText?: string;
+  lang_emptyListText?: string;
+  lang_goToNextAvailableDayText?: string;
+  lang_noFutureTimesText?: string;
+  lang_selectedButtonText?: string;
+  locale?: Locale;
+  onNoFutureTimesAvailable?: (selectedDate: Date) => void;
   onSelectedDayChange?: (day: Date) => void;
   onStartTimeSelect?: (startTimeEventEmit: StartTimeEventEmit) => void;
-  scheduleMeetingStyles?: React.CSSProperties;
-  emptyListContentEl?: React.ElementType;
-  borderRadius?: number;
   primaryColor?: string;
-  defaultDate?: Date;
-  format_selectedDateMonthTitleFormatString?: string;
-  format_selectedDateDayTitleFormatString?: string;
-  format_startTimeFormatString?: string;
-  lang_emptyListText?: string;
-  lang_confirmButtonText?: string;
-  lang_cancelButtonText?: string;
-  lang_noFutureTimesText?: string;
-  lang_goToNextAvailableDayText?: string;
-  lang_selectedButtonText?: string;
-  format_nextFutureStartTimeAvailableFormatString?: string;
-  onNoFutureTimesAvailable?: (selectedDate: Date) => void;
-  startTimeListStyle?: 'scroll-list' | 'grid';
-  locale?: Locale;
+  scheduleMeetingStyles?: React.CSSProperties;
   selectedStartTime?: Date;
+  skipConfirmCheck?: boolean;
+  startTimeListStyle?: 'scroll-list' | 'grid';
+  textColor?: string;
 };
 
 export const ScheduleMeeting: React.FC<Props> = ({
-  selectedStartTime: _selectedStartTime,
   availableTimeslots = [],
+  backgroundColor = '#ffffff',
   borderRadius = 0,
-  primaryColor = '#3f5b85',
-  emptyListContentEl,
-  lang_emptyListText = 'No times available',
-  eventStartTimeSpreadInMinutes = 0,
-  eventDurationInMinutes = 30,
-  onSelectedDayChange,
-  onStartTimeSelect,
-  scheduleMeetingStyles,
+  className,
   defaultDate,
+  emptyListContentEl,
+  eventDurationInMinutes = 30,
+  eventStartTimeSpreadInMinutes = 0,
+  format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
   format_selectedDateDayTitleFormatString = 'cccc, LLLL do',
   format_selectedDateMonthTitleFormatString = 'LLLL yyyy',
   format_startTimeFormatString = 'h:mm a',
-  lang_confirmButtonText = 'Confirm',
   lang_cancelButtonText = 'Cancel',
-  lang_noFutureTimesText = 'No future times available',
+  lang_confirmButtonText = 'Confirm',
+  lang_emptyListText = 'No times available',
   lang_goToNextAvailableDayText = 'Next Available',
+  lang_noFutureTimesText = 'No future times available',
   lang_selectedButtonText = 'Selected:',
-  format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do',
-  onNoFutureTimesAvailable,
-  startTimeListStyle = 'grid',
   locale,
+  onNoFutureTimesAvailable,
+  onSelectedDayChange,
+  onStartTimeSelect,
+  primaryColor = '#3f5b85',
+  scheduleMeetingStyles,
+  selectedStartTime: _selectedStartTime,
   skipConfirmCheck = false,
+  startTimeListStyle = 'grid',
+  textColor,
 }) => {
-  const [r, g, b, alpha] = rgba(primaryColor) || [0, 0, 0, 1];
-  const primaryColorRGB = `rgba(${r},${g},${b},${alpha})`;
-  const primaryColorFaded = `rgba(${r},${g},${b},${alpha / 9})`;
+  const primaryColorRGB = Color(primaryColor).rgb().array().join(',');
+  const backgroundColorRGB = Color(backgroundColor).rgb().array().join(',');
+  const isBackgroundColorDark = Color(backgroundColor).isDark();
+  const textColorRGB = textColor || (isBackgroundColorDark ? '255, 255, 255' : '34, 34, 34');
+  const primaryColorContrastRGB = Color(primaryColor).isDark() ? '255, 255, 255' : '34, 34, 34';
+  const backgroundColorContrastRGB = isBackgroundColorDark ? '255, 255, 255' : '34, 34, 34';
+  const calendarColoredTextRGB = isBackgroundColorDark
+    ? Color(primaryColor).lighten(0.5).rgb().array().join(',')
+    : Color(primaryColor).darken(0.5).rgb().array().join(',');
 
   const [selectedStartTime, setSelectedStartTime] = React.useState<number | undefined>(
     _selectedStartTime ? _selectedStartTime.getTime() : undefined,
@@ -367,32 +398,34 @@ export const ScheduleMeeting: React.FC<Props> = ({
   };
 
   return (
-    <Container>
-      <Inner borderRadius={borderRadius} style={scheduleMeetingStyles}>
+    <Container
+      className={className}
+      primaryColorRGB={primaryColorRGB}
+      borderRadius={borderRadius}
+      style={scheduleMeetingStyles}
+      backgroundColorContrastRGB={backgroundColorContrastRGB}
+      textColorRGB={textColorRGB}
+      backgroundColorRGB={backgroundColorRGB}
+      primaryColorContrastRGB={primaryColorContrastRGB}
+      calendarColoredTextRGB={calendarColoredTextRGB}
+    >
+      <Inner>
         <CalendarContainer>
           <Header>
-            <ArrowButton
-              type="button"
-              className="rsm-arrow-button"
-              borderRadius={borderRadius}
-              onClick={goToPreviousMonth}
-            >
+            <ArrowButton type="button" className="rsm-arrow-button" onClick={goToPreviousMonth}>
               <Arrow direction="back" />
             </ArrowButton>
             <SelectedDayTitle className="rsm-date-title">
               {format(selectedDay, format_selectedDateMonthTitleFormatString, { locale })}
             </SelectedDayTitle>
-            <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextMonth}>
+            <ArrowButton type="button" className="rsm-arrow-button" onClick={goToNextMonth}>
               <Arrow direction="forward" />
             </ArrowButton>
           </Header>
           <ScheduleCalendar
             locale={locale}
-            borderRadius={borderRadius}
-            primaryColor={primaryColorRGB}
             selectedDay={selectedDay}
             availableTimeslots={orderedAvailableTimeslots}
-            primaryColorFaded={primaryColorFaded}
             onDaySelected={onDaySelected}
           />
         </CalendarContainer>
@@ -400,18 +433,13 @@ export const ScheduleMeeting: React.FC<Props> = ({
         <StartTimeListContainer>
           <StartTimeListContainerAbsolute>
             <Header>
-              <ArrowButton
-                type="button"
-                className="rsm-arrow-button"
-                borderRadius={borderRadius}
-                onClick={goToPreviousDay}
-              >
+              <ArrowButton type="button" className="rsm-arrow-button" onClick={goToPreviousDay}>
                 <Arrow direction="back" />
               </ArrowButton>
               <SelectedDayTitle className="rsm-date-title">
                 {format(selectedDay, format_selectedDateDayTitleFormatString, { locale })}
               </SelectedDayTitle>
-              <ArrowButton type="button" className="rsm-arrow-button" borderRadius={borderRadius} onClick={goToNextDay}>
+              <ArrowButton type="button" className="rsm-arrow-button" onClick={goToNextDay}>
                 <Arrow direction="forward" />
               </ArrowButton>
             </Header>
@@ -429,9 +457,6 @@ export const ScheduleMeeting: React.FC<Props> = ({
               lang_cancelButtonText={lang_cancelButtonText}
               lang_emptyListText={lang_emptyListText}
               lang_selectedButtonText={lang_selectedButtonText}
-              primaryColorFaded={primaryColorFaded}
-              primaryColor={primaryColorRGB}
-              borderRadius={borderRadius}
               emptyListContentEl={emptyListContentEl}
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}

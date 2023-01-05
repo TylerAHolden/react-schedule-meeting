@@ -8,8 +8,8 @@
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #5d7fb3;
-  --ifm-color-primary-dark:  rgb(52, 76, 109);
-  --ifm-color-primary-darker:rgb(40, 56, 79);
+  --ifm-color-primary-dark: rgb(52, 76, 109);
+  --ifm-color-primary-darker: rgb(40, 56, 79);
   --ifm-color-primary-darkest: rgb(33, 44, 60);
   --ifm-color-primary-light: rgb(66, 97, 143);
   --ifm-color-primary-lighter: rgb(74, 108, 160);
@@ -34,7 +34,6 @@ nav.navbar {
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
 }
-
 
 .main-content {
   display: flex;
@@ -73,7 +72,6 @@ nav.navbar {
   color: #2c3749;
 }
 
-
 .main-content-inner > p {
   color: #2c3749;
   text-align: center;
@@ -82,27 +80,27 @@ nav.navbar {
 }
 
 .options-container {
-  background: rgba(255,255,255,.48);
+  background: rgba(255, 255, 255, 0.48);
   border-radius: 12px;
   padding: 14px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin : 12px;
+  margin: 12px;
   margin-bottom: 10vh;
   max-width: 1200px;
 }
 
 .options-container h3 {
- width: 100%;
- margin : 12px;
+  width: 100%;
+  margin: 12px;
 }
 
 .custom-card {
-  background: rgba(255,255,255,.5);
+  background: rgba(255, 255, 255, 0.5);
   padding: 24px;
-  margin : 8px;
+  margin: 8px;
   border-radius: 12px;
 }
 

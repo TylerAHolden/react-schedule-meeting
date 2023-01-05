@@ -65,7 +65,6 @@ module.exports = {
           label: 'Docs',
           position: 'right',
         },
-        // {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/TylerAHolden/react-schedule-meeting',
           label: 'GitHub',
@@ -98,6 +97,7 @@ module.exports = {
             },
           ],
         },
+
         {
           title: 'Overview',
           items: [
@@ -108,23 +108,6 @@ module.exports = {
             {
               label: 'Contributing',
               to: 'docs/contributing',
-            },
-          ],
-        },
-        {
-          title: 'Creators',
-          items: [
-            {
-              label: 'Tyler Holden',
-              to: 'https://github.com/TylerAHolden',
-            },
-            {
-              label: 'Justin Mozley',
-              to: 'https://github.com/jtmozley',
-            },
-            {
-              label: 'Devion Villegas',
-              to: 'https://github.com/d3vhound',
             },
           ],
         },

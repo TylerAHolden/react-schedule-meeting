@@ -8,9 +8,6 @@ type Props = {
     startTimeListItems?: StartTimeEvent[];
     onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
     emptyListContentEl?: React.ElementType;
-    borderRadius: number;
-    primaryColor: string;
-    primaryColorFaded: string;
     format_startTimeFormatString: string;
     lang_emptyListText: string;
     lang_confirmButtonText: string;

@@ -16,9 +16,6 @@ type Props = {
   startTimeListItems?: StartTimeEvent[];
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
   emptyListContentEl?: React.ElementType;
-  borderRadius: number;
-  primaryColor: string;
-  primaryColorFaded: string;
   format_startTimeFormatString: string;
   lang_emptyListText: string;
   lang_confirmButtonText: string;
@@ -65,22 +62,23 @@ const ScrollEdgeFade = styled('div')`
   z-index: 12;
   pointer-events: none;
   &.top {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
+    background: linear-gradient(180deg, rgba(var(--background-color-rgb), 1), rgba(var(--background-color-rgb), 0));
     top: 42px;
   }
   &.bottom {
     bottom: 0;
-    background: linear-gradient(0deg, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
+    background: linear-gradient(0deg, rgba(var(--background-color-rgb), 1), rgba(var(--background-color-rgb), 0));
   }
 `;
 
-const ListItemDivider = styled('div')<any>`
+const ListItemDivider = styled('div')<{ makeTransparent: boolean }>`
   flex-shrink: 0;
   flex: 1;
   padding: 0.5px;
   margin: 0px 8px;
   position: relative;
-  background: ${({ makeTransparent }) => (makeTransparent ? `transparent` : `rgba(0, 0, 0, 0.05)`)};
+  background: ${({ makeTransparent }) =>
+    makeTransparent ? `transparent` : `rgba(var(--background-color-contrast-rgb), 0.05)`};
 `;
 
 const StyledP = styled('p')`
@@ -88,6 +86,7 @@ const StyledP = styled('p')`
   opacity: 0.5;
   margin-bottom: 24px;
   font-size: 18px;
+  color: rgba(var(--text-color-rgb), 1);
 `;
 
 const NoTimesAvailableContainer = styled('div')`
@@ -122,12 +121,12 @@ const GoToNextAvailableDayButton = styled(ThemedButton)`
   }
 `;
 
-const NoFutureTimesText = styled(StyledP)<{ borderRadius: number }>`
+const NoFutureTimesText = styled(StyledP)`
   font-size: 90%;
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: ${({ borderRadius }) => borderRadius}px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(var(--background-color-contrast-rgb), 0.5);
 `;
 
 const StartTimeList: React.FC<Props> = ({
@@ -138,9 +137,6 @@ const StartTimeList: React.FC<Props> = ({
   onStartTimeSelect,
   emptyListContentEl,
   lang_emptyListText,
-  borderRadius,
-  primaryColorFaded,
-  primaryColor,
   format_startTimeFormatString,
   lang_confirmButtonText,
   lang_cancelButtonText,
@@ -178,9 +174,6 @@ const StartTimeList: React.FC<Props> = ({
             type="button"
             selected
             className="rsm-next-available-date-button"
-            borderRadius={borderRadius}
-            primaryColorFaded={primaryColorFaded}
-            primaryColor={primaryColor}
             onClick={onGoToNextAvailableDayClick}
           >
             <p>
@@ -192,9 +185,7 @@ const StartTimeList: React.FC<Props> = ({
             <Arrow direction="forward" />
           </GoToNextAvailableDayButton>
         ) : (
-          <NoFutureTimesText borderRadius={borderRadius} className="rsm-no-future-times-text">
-            {lang_noFutureTimesText}
-          </NoFutureTimesText>
+          <NoFutureTimesText className="rsm-no-future-times-text">{lang_noFutureTimesText}</NoFutureTimesText>
         )}
       </>
     </NoTimesAvailableContainer>
@@ -224,9 +215,6 @@ const StartTimeList: React.FC<Props> = ({
                   lang_confirmButtonText={lang_confirmButtonText}
                   lang_cancelButtonText={lang_cancelButtonText}
                   format_startTimeFormatString={format_startTimeFormatString}
-                  primaryColorFaded={primaryColorFaded}
-                  borderRadius={borderRadius}
-                  primaryColor={primaryColor}
                   onCancelClicked={() => handleCancelClicked(startTimeEvent)}
                   selected={Boolean(selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime())}
                   confirmState={i === selectedItemIndex}
@@ -249,9 +237,6 @@ const StartTimeList: React.FC<Props> = ({
               className={
                 selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime() ? 'is-selected' : ''
               }
-              primaryColorFaded={primaryColorFaded}
-              borderRadius={borderRadius}
-              primaryColor={primaryColor}
               onClick={() => onStartTimeSelect(startTimeEvent)}
             >
               {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
