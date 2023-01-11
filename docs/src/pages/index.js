@@ -43,7 +43,13 @@ function Home() {
     if (resetSelectedTimeState) {
       startTimeEventEmit.resetSelectedTimeState();
     }
-    alert(`Time selected: ${format(startTimeEventEmit.startTime, 'cccc, LLLL do h:mm a')}`);
+    console.log('startTimeEventEmit', startTimeEventEmit);
+    alert(
+      `Time selected: ${format(
+        startTimeEventEmit.startTime,
+        'cccc, LLLL do h:mm a',
+      )} \rCheck the console for more info returned in the StartTimeEventEmit object.`,
+    );
   };
 
   return (
