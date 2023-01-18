@@ -13,7 +13,7 @@ import {
   subDays,
   subMonths,
 } from 'date-fns';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Arrow } from '../ArrowSVG';
 import Color from 'color';
@@ -22,14 +22,14 @@ import StartTimeList from './StartTimeList';
 import { styled } from 'goober';
 
 type StyleVariables = {
-  borderRadius: number;
-  primaryColorRGB: string;
-  textColorRGB: string;
-  backgroundColorContrastRGB: string;
-  backgroundColorRGB: string;
-  primaryColorContrastRGB: string;
-  calendarColoredTextRGB: string;
-};
+  $borderRadius: number;
+  $primaryColorRGB: string;
+  $textColorRGB: string;
+  $backgroundColorContrastRGB: string;
+  $backgroundColorRGB: string;
+  $primaryColorContrastRGB: string;
+  $calendarColoredTextRGB: string;
+}; 
 
 const Container = styled('div')<StyleVariables>`
   width: 100%;
@@ -37,13 +37,13 @@ const Container = styled('div')<StyleVariables>`
   align-items: center;
   justify-content: center;
 
-  --text-color-rgb: ${({ textColorRGB }) => textColorRGB};
-  --primary-color-text-shade-rgb: ${({ calendarColoredTextRGB }) => calendarColoredTextRGB};
-  --background-color-rgb: ${({ backgroundColorRGB }) => backgroundColorRGB};
-  --background-color-contrast-rgb: ${({ backgroundColorContrastRGB }) => backgroundColorContrastRGB};
-  --primary-color-rgb: ${({ primaryColorRGB }) => primaryColorRGB};
-  --primary-color-contrast-rgb: ${({ primaryColorContrastRGB }) => primaryColorContrastRGB};
-  --border-radius: ${({ borderRadius }) => borderRadius}px;
+  --text-color-rgb: ${({ $textColorRGB }) => $textColorRGB};
+  --primary-color-text-shade-rgb: ${({ $calendarColoredTextRGB }) => $calendarColoredTextRGB};
+  --background-color-rgb: ${({ $backgroundColorRGB }) => $backgroundColorRGB};
+  --background-color-contrast-rgb: ${({ $backgroundColorContrastRGB }) => $backgroundColorContrastRGB};
+  --primary-color-rgb: ${({ $primaryColorRGB }) => $primaryColorRGB};
+  --primary-color-contrast-rgb: ${({ $primaryColorContrastRGB }) => $primaryColorContrastRGB};
+  --border-radius: ${({ $borderRadius }) => $borderRadius}px;
 `;
 
 const Inner = styled('div')`
@@ -223,15 +223,15 @@ export const ScheduleMeeting: React.FC<Props> = ({
     ? Color(primaryColor).lighten(0.5).rgb().array().join(',')
     : Color(primaryColor).darken(0.5).rgb().array().join(',');
 
-  const [selectedStartTime, setSelectedStartTime] = React.useState<number | undefined>(
+  const [selectedStartTime, setSelectedStartTime] = useState<number | undefined>(
     _selectedStartTime ? _selectedStartTime.getTime() : undefined,
   );
-  const [selectedDay, setSelectedDay] = React.useState(new Date());
-  const [startTimeEventsList, setStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
-  const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React.useState([] as StartTimeEvent[]);
-  const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React.useState<undefined | Date>();
+  const [selectedDay, setSelectedDay] = useState(new Date());
+  const [startTimeEventsList, setStartTimeEventsList] = useState([] as StartTimeEvent[]);
+  const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = useState([] as StartTimeEvent[]);
+  const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = useState<undefined | Date>();
 
-  const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React.useState<AvailableTimeslot[]>([]);
+  const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = useState<AvailableTimeslot[]>([]);
 
   useEffect(() => {
     setSelectedStartTime(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
@@ -400,14 +400,14 @@ export const ScheduleMeeting: React.FC<Props> = ({
   return (
     <Container
       className={className}
-      primaryColorRGB={primaryColorRGB}
-      borderRadius={borderRadius}
+      $primaryColorRGB={primaryColorRGB}
+      $borderRadius={borderRadius}
       style={scheduleMeetingStyles}
-      backgroundColorContrastRGB={backgroundColorContrastRGB}
-      textColorRGB={textColorRGB}
-      backgroundColorRGB={backgroundColorRGB}
-      primaryColorContrastRGB={primaryColorContrastRGB}
-      calendarColoredTextRGB={calendarColoredTextRGB}
+      $backgroundColorContrastRGB={backgroundColorContrastRGB}
+      $textColorRGB={textColorRGB}
+      $backgroundColorRGB={backgroundColorRGB}
+      $primaryColorContrastRGB={primaryColorContrastRGB}
+      $calendarColoredTextRGB={calendarColoredTextRGB}
     >
       <Inner>
         <CalendarContainer>

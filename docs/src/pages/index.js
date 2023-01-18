@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { ScheduleMeeting, timeSlotDifference } from '../reactComponentLib';
 import { Slider, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { setup, styled } from 'goober';
 
 import { CirclePicker } from 'react-color';
 import Layout from '@theme/Layout';
-import { ScheduleMeeting } from '../reactComponentLib';
 import { format } from 'date-fns';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 

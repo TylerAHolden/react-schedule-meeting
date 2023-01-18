@@ -1,5 +1,7 @@
+import cleanup from 'rollup-plugin-cleanup';
 import pkg from './package.json';
 import postcss from 'rollup-plugin-postcss';
+import terser from '@rollup/plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -14,6 +16,8 @@ export default [
       typescript({
         typescript: require('typescript'),
       }),
+      cleanup({extensions: ['ts', 'tsx']}),
+      terser(),
       visualizer(),
     ],
     output: [

@@ -1,16 +1,4 @@
-/* eslint-disable */
-import { isValid, getDay, startOfMonth, format, differenceInMinutes, addMinutes, isSameDay, isSameMinute, isPast, isAfter, isToday, subMonths, addMonths, subDays, addDays, isBefore, isEqual } from 'date-fns';
-import * as React from 'react';
-import React__default, { useState, useEffect } from 'react';
-import Color from 'color';
-import Calendar from 'react-calendar';
-import { setup, styled } from 'goober';
-
-const Arrow = ({ direction }) => (React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", viewBox: "0 0 512 512" },
-    React.createElement("path", { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "48", d: direction === 'back' ? 'M328 112L184 256l144 144' : 'M184.001 400L328.001 256L184.001 112' })));
-
-setup(React__default.createElement);
-const StyledCalendar = styled(Calendar) `
+import{isValid as e,getDay as t,startOfMonth as r,format as a,differenceInMinutes as o,addMinutes as n,isSameDay as i,isSameMinute as l,isPast as c,isAfter as d,isToday as s,subMonths as m,addMonths as g,subDays as b,addDays as u,isBefore as p,isEqual as x}from"date-fns";import*as v from"react";import T,{useState as f,useEffect as y}from"react";import h from"color";import _ from"react-calendar";import{setup as w,styled as k}from"goober";import{shouldForwardProp as E}from"goober/should-forward-prop";const S=({direction:e})=>v.createElement("svg",{xmlns:"http://www.w3.org/2000/svg",width:"26",height:"26",viewBox:"0 0 512 512"},v.createElement("path",{fill:"none",stroke:"currentColor",strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:"48",d:"back"===e?"M328 112L184 256l144 144":"M184.001 400L328.001 256L184.001 112"}));w(T.createElement,void 0,void 0,E((e=>"$"!==e[0])));const C=k(_)`
   &.react-calendar,
   &.react-calendar *,
   &.react-calendar *:before,
@@ -192,48 +180,11 @@ const StyledCalendar = styled(Calendar) `
       min-height: 302px;
     }
   }
-`;
-const formatDate = (date, locale) => {
-    return format(date, 'MM/dd/yyyy', { locale });
-};
-const ScheduleCalendar = ({ availableTimeslots, onDaySelected, selectedDay, locale }) => {
-    const [daysAvailable, setDaysAvailable] = useState([]);
-    useEffect(() => {
-        const daysInTimeslots = [];
-        availableTimeslots.map((slot) => {
-            if (!isValid(new Date(slot.startTime)))
-                throw new Error(`Invalid date for start time on slot ${slot.id}`);
-            if (!isValid(new Date(slot.endTime)))
-                throw new Error(`Invalid date for end time on slot ${slot.id}`);
-            const startTimeDay = getDay(new Date(slot.startTime));
-            const endTimeDay = getDay(new Date(slot.endTime));
-            if (startTimeDay !== endTimeDay) {
-                daysInTimeslots.push(formatDate(new Date(slot.endTime), locale));
-            }
-            daysInTimeslots.push(formatDate(new Date(slot.startTime), locale));
-            return null;
-        });
-        setDaysAvailable([...new Set(daysInTimeslots)]);
-    }, [availableTimeslots]);
-    const _onClickDay = (day) => {
-        onDaySelected(day);
-    };
-    const _isTileDisabled = (props) => {
-        return props.view === 'month' && !daysAvailable.some((date) => date === formatDate(props.date, locale));
-    };
-    const _renderClassName = (props) => {
-        if (daysAvailable.some((date) => date === formatDate(props.date, locale)))
-            return ['day-tile', 'active-day-tile'];
-        return (props.view === 'month' && 'day-tile') || null;
-    };
-    return (React__default.createElement(StyledCalendar, { defaultView: 'month', onClickDay: _onClickDay, showNavigation: false, tileDisabled: _isTileDisabled, tileClassName: _renderClassName, value: selectedDay, activeStartDate: startOfMonth(selectedDay) }));
-};
-
-const ThemedButton = styled('button') `
+`,D=(e,t)=>a(e,"MM/dd/yyyy",{locale:t}),N=({availableTimeslots:a,onDaySelected:o,selectedDay:n,locale:i})=>{const[l,c]=f([]);y((()=>{const r=[];a.map((a=>{if(!e(new Date(a.startTime)))throw new Error(`Invalid date for start time on slot ${a.id}`);if(!e(new Date(a.endTime)))throw new Error(`Invalid date for end time on slot ${a.id}`);return t(new Date(a.startTime))!==t(new Date(a.endTime))&&r.push(D(new Date(a.endTime),i)),r.push(D(new Date(a.startTime),i)),null})),c([...new Set(r)])}),[a]);return T.createElement(C,{defaultView:"month",onClickDay:e=>{o(e)},showNavigation:!1,tileDisabled:e=>"month"===e.view&&!l.some((t=>t===D(e.date,i))),tileClassName:e=>l.some((t=>t===D(e.date,i)))?["day-tile","active-day-tile"]:"month"===e.view?"day-tile":null,value:n,activeStartDate:r(n)})},B=k("button")`
   padding: 16px;
   border: none;
-  color: ${({ selected }) => selected ? `rgba(var(--primary-color-contrast-rgb), 1)` : `rgba(var(--text-color-rgb), 1)`};
-  background-color: ${({ selected }) => (selected ? 'rgba(var(--primary-color-rgb), 1)' : `rgba(0,0,0,0)`)};
+  color: ${({selected:e})=>e?"rgba(var(--primary-color-contrast-rgb), 1)":"rgba(var(--text-color-rgb), 1)"};
+  background-color: ${({selected:e})=>e?"rgba(var(--primary-color-rgb), 1)":"rgba(0,0,0,0)"};
   border-radius: var(--border-radius);
   outline: none;
   width: 100%;
@@ -242,10 +193,9 @@ const ThemedButton = styled('button') `
   opacity: 1;
   &:hover {
     opacity: 0.8;
-    background-color: ${({ selected }) => selected ? 'rgba(var(--primary-color-rgb), 1)' : 'rgba(var(--background-color-contrast-rgb), 0.06)'};
+    background-color: ${({selected:e})=>e?"rgba(var(--primary-color-rgb), 1)":"rgba(var(--background-color-contrast-rgb), 0.06)"};
   }
-`;
-const StartTimeGridItemButton = styled('button') `
+`,$=k("button")`
   padding: 12px 16px;
   margin: 4px;
   border: none;
@@ -262,14 +212,11 @@ const StartTimeGridItemButton = styled('button') `
   :hover {
     opacity: 0.8;
   }
-`;
-
-const Container$1 = styled('div') `
+`,L=k("div")`
   display: flex;
   width: 100%;
   align-items: center;
-`;
-const CancelButton = styled('button') `
+`,F=k("button")`
   padding: 8px 24px;
   border: none;
   background-color: rgb(0, 0, 0, 0);
@@ -286,25 +233,14 @@ const CancelButton = styled('button') `
   &:hover {
     background-color: rgba(var(--background-color-contrast-rgb), 0.06);
   }
-`;
-const StartTimeListItem = ({ confirmState, onStartTimeSelect, startTimeEvent, selected, onCancelClicked, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, lang_selectedButtonText, locale, }) => {
-    return (React__default.createElement(Container$1, { className: "rsm-start-time-item" },
-        React__default.createElement(ThemedButton, { type: "button", className: "rsm-confirm-button", selected: Boolean(selected || confirmState), onClick: onStartTimeSelect },
-            confirmState && !selected && `${lang_confirmButtonText} `,
-            selected && `${lang_selectedButtonText} `,
-            format(startTimeEvent.startTime, format_startTimeFormatString, { locale })),
-        (confirmState || selected) && (React__default.createElement(CancelButton, { type: "button", className: "rsm-cancel-button", onClick: onCancelClicked }, lang_cancelButtonText))));
-};
-
-const ScrollListContainer = styled('div') `
+`,z=({confirmState:e,onStartTimeSelect:t,startTimeEvent:r,selected:o,onCancelClicked:n,format_startTimeFormatString:i,lang_confirmButtonText:l,lang_cancelButtonText:c,lang_selectedButtonText:d,locale:s})=>T.createElement(L,{className:"rsm-start-time-item"},T.createElement(B,{type:"button",className:"rsm-confirm-button",selected:Boolean(o||e),onClick:t},e&&!o&&`${l} `,o&&`${d} `,a(r.startTime,i,{locale:s})),(e||o)&&T.createElement(F,{type:"button",className:"rsm-cancel-button",onClick:n},c)),j=k("div")`
   position: relative;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   padding-bottom: 24px;
   padding-top: 16px;
-`;
-const GridContainer = styled('div') `
+`,R=k("div")`
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -316,8 +252,7 @@ const GridContainer = styled('div') `
       opacity: 0.5;
     }
   }
-`;
-const ScrollEdgeFade = styled('div') `
+`,G=k("div")`
   position: absolute;
   width: 100%;
   height: 24px;
@@ -333,23 +268,20 @@ const ScrollEdgeFade = styled('div') `
     bottom: 0;
     background: linear-gradient(0deg, rgba(var(--background-color-rgb), 1), rgba(var(--background-color-rgb), 0));
   }
-`;
-const ListItemDivider = styled('div') `
+`,A=k("div")`
   flex-shrink: 0;
   flex: 1;
   padding: 0.5px;
   margin: 0px 8px;
   position: relative;
-  background: ${({ makeTransparent }) => makeTransparent ? `transparent` : `rgba(var(--background-color-contrast-rgb), 0.05)`};
-`;
-const StyledP = styled('p') `
+  background: ${({makeTransparent:e})=>e?"transparent":"rgba(var(--background-color-contrast-rgb), 0.05)"};
+`,I=k("p")`
   margin: 0;
   opacity: 0.5;
   margin-bottom: 24px;
   font-size: 18px;
   color: rgba(var(--text-color-rgb), 1);
-`;
-const NoTimesAvailableContainer = styled('div') `
+`,M=k("div")`
   height: 100%;
   flex: 1;
   width: 100%;
@@ -357,8 +289,7 @@ const NoTimesAvailableContainer = styled('div') `
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
-const GoToNextAvailableDayButton = styled(ThemedButton) `
+`,O=k(B)`
   border: none;
   padding: 6px 18px;
   width: auto;
@@ -378,66 +309,26 @@ const GoToNextAvailableDayButton = styled(ThemedButton) `
     margin-left: 14px;
     margin-right: -4px;
   }
-`;
-const NoFutureTimesText = styled(StyledP) `
+`,U=k(I)`
   font-size: 90%;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: var(--border-radius);
   border: 1px solid rgba(var(--background-color-contrast-rgb), 0.5);
-`;
-const StartTimeList = ({ skipConfirmCheck, selectedDay, selectedStartTime, startTimeListItems = [], onStartTimeSelect, emptyListContentEl, lang_emptyListText, format_startTimeFormatString, lang_confirmButtonText, lang_cancelButtonText, lang_goToNextAvailableDayText, lang_noFutureTimesText, lang_selectedButtonText, onGoToNextAvailableDayClick, nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, startTimeListStyle, setSelectedStartTime, locale, }) => {
-    const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
-    React__default.useEffect(() => {
-        setSelectedItemIndex(-1);
-    }, [selectedDay]);
-    const _onStartTimeSelect = (startTimeEvent, index) => {
-        if (skipConfirmCheck || selectedItemIndex === index) {
-            onStartTimeSelect(startTimeEvent);
-            setSelectedItemIndex(-1);
-        }
-        else {
-            setSelectedItemIndex(index);
-        }
-    };
-    const emptyListElement = (React__default.createElement(NoTimesAvailableContainer, null,
-        React__default.createElement(React__default.Fragment, null,
-            emptyListContentEl || React__default.createElement(StyledP, { className: "rsm-empty-list-text" }, lang_emptyListText),
-            nextFutureStartTimeAvailable ? (React__default.createElement(GoToNextAvailableDayButton, { type: "button", selected: true, className: "rsm-next-available-date-button", onClick: onGoToNextAvailableDayClick },
-                React__default.createElement("p", null,
-                    React__default.createElement("small", null, lang_goToNextAvailableDayText),
-                    React__default.createElement("br", null),
-                    format(nextFutureStartTimeAvailable, format_nextFutureStartTimeAvailableFormatString, { locale })),
-                React__default.createElement(Arrow, { direction: "forward" }))) : (React__default.createElement(NoFutureTimesText, { className: "rsm-no-future-times-text" }, lang_noFutureTimesText)))));
-    const handleCancelClicked = (startTimeEvent) => {
-        setSelectedItemIndex(-1);
-        if (selectedStartTime && startTimeEvent.startTime.getTime() === selectedStartTime) {
-            setSelectedStartTime(undefined);
-        }
-    };
-    return (React__default.createElement(React__default.Fragment, null, startTimeListItems.length === 0 ? (emptyListElement) : startTimeListStyle === 'scroll-list' ? (React__default.createElement(React__default.Fragment, null,
-        React__default.createElement(ScrollEdgeFade, { className: "top" }),
-        React__default.createElement(ScrollEdgeFade, { className: "bottom" }),
-        React__default.createElement(ScrollListContainer, null, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(React__default.Fragment, { key: i },
-            React__default.createElement(StartTimeListItem, { locale: locale, lang_selectedButtonText: lang_selectedButtonText, lang_confirmButtonText: lang_confirmButtonText, lang_cancelButtonText: lang_cancelButtonText, format_startTimeFormatString: format_startTimeFormatString, onCancelClicked: () => handleCancelClicked(startTimeEvent), selected: Boolean(selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime()), confirmState: i === selectedItemIndex, startTimeEvent: startTimeEvent, onStartTimeSelect: () => _onStartTimeSelect(startTimeEvent, i) }),
-            i !== startTimeListItems.length - 1 && (React__default.createElement(ListItemDivider, { makeTransparent: selectedItemIndex === i || selectedItemIndex === i + 1 })))))))) : (React__default.createElement(GridContainer, { className: selectedStartTime ? 'has-selection' : '' }, startTimeListItems.map((startTimeEvent, i) => (React__default.createElement(StartTimeGridItemButton, { key: i, type: "button", className: selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime() ? 'is-selected' : '', onClick: () => onStartTimeSelect(startTimeEvent) }, format(startTimeEvent.startTime, format_startTimeFormatString, { locale }))))))));
-};
-
-const Container = styled('div') `
+`,H=({skipConfirmCheck:e,selectedDay:t,selectedStartTime:r,startTimeListItems:o=[],onStartTimeSelect:n,emptyListContentEl:i,lang_emptyListText:l,format_startTimeFormatString:c,lang_confirmButtonText:d,lang_cancelButtonText:s,lang_goToNextAvailableDayText:m,lang_noFutureTimesText:g,lang_selectedButtonText:b,onGoToNextAvailableDayClick:u,nextFutureStartTimeAvailable:p,format_nextFutureStartTimeAvailableFormatString:x,startTimeListStyle:v,setSelectedStartTime:h,locale:_})=>{const[w,k]=f(-1);y((()=>{k(-1)}),[t]);const E=T.createElement(M,null,T.createElement(T.Fragment,null,i||T.createElement(I,{className:"rsm-empty-list-text"},l),p?T.createElement(O,{type:"button",selected:!0,className:"rsm-next-available-date-button",onClick:u},T.createElement("p",null,T.createElement("small",null,m),T.createElement("br",null),a(p,x,{locale:_})),T.createElement(S,{direction:"forward"})):T.createElement(U,{className:"rsm-no-future-times-text"},g)));return T.createElement(T.Fragment,null,0===o.length?E:"scroll-list"===v?T.createElement(T.Fragment,null,T.createElement(G,{className:"top"}),T.createElement(G,{className:"bottom"}),T.createElement(j,null,o.map(((t,a)=>T.createElement(T.Fragment,{key:a},T.createElement(z,{locale:_,lang_selectedButtonText:b,lang_confirmButtonText:d,lang_cancelButtonText:s,format_startTimeFormatString:c,onCancelClicked:()=>(e=>{k(-1),r&&e.startTime.getTime()===r&&h(void 0)})(t),selected:Boolean(r&&r===t.startTime.getTime()),confirmState:a===w,startTimeEvent:t,onStartTimeSelect:()=>((t,r)=>{e||w===r?(n(t),k(-1)):k(r)})(t,a)}),a!==o.length-1&&T.createElement(A,{makeTransparent:w===a||w===a+1})))))):T.createElement(R,{className:r?"has-selection":""},o.map(((e,t)=>T.createElement($,{key:t,type:"button",className:r&&r===e.startTime.getTime()?"is-selected":"",onClick:()=>n(e)},a(e.startTime,c,{locale:_}))))))},V=k("div")`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  --text-color-rgb: ${({ textColorRGB }) => textColorRGB};
-  --primary-color-text-shade-rgb: ${({ calendarColoredTextRGB }) => calendarColoredTextRGB};
-  --background-color-rgb: ${({ backgroundColorRGB }) => backgroundColorRGB};
-  --background-color-contrast-rgb: ${({ backgroundColorContrastRGB }) => backgroundColorContrastRGB};
-  --primary-color-rgb: ${({ primaryColorRGB }) => primaryColorRGB};
-  --primary-color-contrast-rgb: ${({ primaryColorContrastRGB }) => primaryColorContrastRGB};
-  --border-radius: ${({ borderRadius }) => borderRadius}px;
-`;
-const Inner = styled('div') `
+  --text-color-rgb: ${({$textColorRGB:e})=>e};
+  --primary-color-text-shade-rgb: ${({$calendarColoredTextRGB:e})=>e};
+  --background-color-rgb: ${({$backgroundColorRGB:e})=>e};
+  --background-color-contrast-rgb: ${({$backgroundColorContrastRGB:e})=>e};
+  --primary-color-rgb: ${({$primaryColorRGB:e})=>e};
+  --primary-color-contrast-rgb: ${({$primaryColorContrastRGB:e})=>e};
+  --border-radius: ${({$borderRadius:e})=>e}px;
+`,W=k("div")`
   display: flex;
   border-radius: var(--border-radius);
   background: rgba(var(--background-color-rgb), 1);
@@ -452,8 +343,7 @@ const Inner = styled('div') `
     padding: 8px;
     margin: 8px;
   }
-`;
-const Divider = styled('div') `
+`,q=k("div")`
   width: 1px;
   background: rgba(0, 0, 0, 0.1);
   margin: 16px;
@@ -461,40 +351,34 @@ const Divider = styled('div') `
     width: auto;
     height: 1px;
   }
-`;
-const CalendarContainer = styled('div') `
+`,J=k("div")`
   flex: 1;
-`;
-const StartTimeListContainer = styled('div') `
+`,K=k("div")`
   flex: 1;
   overflow: hidden;
   position: relative;
   @media (max-width: 768px) {
     min-height: 301px;
   }
-`;
-const StartTimeListContainerAbsolute = styled('div') `
+`,P=k("div")`
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-`;
-const SelectedDayTitle = styled('h3') `
+`,Q=k("h3")`
   margin: 0;
   padding: 0;
   font-weight: 700;
   font-size: 24px;
   color: rgba(var(--text-color-rgb), 1);
-`;
-const Header = styled('div') `
+`,X=k("div")`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6px;
-`;
-const ArrowButton = styled('button') `
+`,Y=k("button")`
   outline: none;
   background: none;
   border: none;
@@ -511,240 +395,4 @@ const ArrowButton = styled('button') `
     opacity: 0.7;
     background: rgba(var(--background-color-contrast-rgb), 0.06);
   }
-`;
-const ScheduleMeeting = ({ availableTimeslots = [], backgroundColor = '#ffffff', borderRadius = 0, className, defaultDate, emptyListContentEl, eventDurationInMinutes = 30, eventStartTimeSpreadInMinutes = 0, format_nextFutureStartTimeAvailableFormatString = 'cccc, LLLL do', format_selectedDateDayTitleFormatString = 'cccc, LLLL do', format_selectedDateMonthTitleFormatString = 'LLLL yyyy', format_startTimeFormatString = 'h:mm a', lang_cancelButtonText = 'Cancel', lang_confirmButtonText = 'Confirm', lang_emptyListText = 'No times available', lang_goToNextAvailableDayText = 'Next Available', lang_noFutureTimesText = 'No future times available', lang_selectedButtonText = 'Selected:', locale, onNoFutureTimesAvailable, onSelectedDayChange, onStartTimeSelect, primaryColor = '#3f5b85', scheduleMeetingStyles, selectedStartTime: _selectedStartTime, skipConfirmCheck = false, startTimeListStyle = 'grid', textColor, }) => {
-    const primaryColorRGB = Color(primaryColor).rgb().array().join(',');
-    const backgroundColorRGB = Color(backgroundColor).rgb().array().join(',');
-    const isBackgroundColorDark = Color(backgroundColor).isDark();
-    const textColorRGB = textColor || (isBackgroundColorDark ? '255, 255, 255' : '34, 34, 34');
-    const primaryColorContrastRGB = Color(primaryColor).isDark() ? '255, 255, 255' : '34, 34, 34';
-    const backgroundColorContrastRGB = isBackgroundColorDark ? '255, 255, 255' : '34, 34, 34';
-    const calendarColoredTextRGB = isBackgroundColorDark
-        ? Color(primaryColor).lighten(0.5).rgb().array().join(',')
-        : Color(primaryColor).darken(0.5).rgb().array().join(',');
-    const [selectedStartTime, setSelectedStartTime] = React__default.useState(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
-    const [selectedDay, setSelectedDay] = React__default.useState(new Date());
-    const [startTimeEventsList, setStartTimeEventsList] = React__default.useState([]);
-    const [selectedDayStartTimeEventsList, setSelectedDayStartTimeEventsList] = React__default.useState([]);
-    const [nextFutureStartTimeAvailable, setNextFutureStartTimeAvailable] = React__default.useState();
-    const [orderedAvailableTimeslots, setOrderedAvailableTimeslots] = React__default.useState([]);
-    useEffect(() => {
-        setSelectedStartTime(_selectedStartTime ? _selectedStartTime.getTime() : undefined);
-    }, [_selectedStartTime]);
-    useEffect(() => {
-        const _orderedAvailableTimeslots = [...availableTimeslots];
-        _orderedAvailableTimeslots.sort((a, b) => {
-            return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
-        });
-        setOrderedAvailableTimeslots(_orderedAvailableTimeslots);
-    }, [availableTimeslots]);
-    const onDaySelected = (day) => {
-        setSelectedDay(day);
-        onSelectedDayChange && onSelectedDayChange(day);
-    };
-    const splitTimeslot = (startTimeEvent) => {
-        const splitTimeslots = [null, null];
-        const minutesIntoTimeslotEventWillStart = differenceInMinutes(startTimeEvent.startTime, new Date(startTimeEvent.availableTimeslot.startTime));
-        if (minutesIntoTimeslotEventWillStart !== 0) {
-            const newFirstTimeslot = {
-                oldId: startTimeEvent.availableTimeslot.id,
-                startTime: startTimeEvent.availableTimeslot.startTime,
-                endTime: addMinutes(new Date(startTimeEvent.availableTimeslot.startTime), minutesIntoTimeslotEventWillStart),
-            };
-            splitTimeslots[0] = newFirstTimeslot;
-        }
-        const startTimeOfEndingSplitTimeslot = addMinutes(new Date(startTimeEvent.availableTimeslot.startTime), minutesIntoTimeslotEventWillStart + eventDurationInMinutes);
-        if (differenceInMinutes(startTimeOfEndingSplitTimeslot, new Date(startTimeEvent.availableTimeslot.endTime)) !== 0) {
-            const newSecondTimeslot = {
-                oldId: startTimeEvent.availableTimeslot.id,
-                startTime: startTimeOfEndingSplitTimeslot,
-                endTime: startTimeEvent.availableTimeslot.endTime,
-            };
-            splitTimeslots[1] = newSecondTimeslot;
-        }
-        return splitTimeslots;
-    };
-    const _onStartTimeSelect = (startTimeEvent) => {
-        const splitTimeslots = splitTimeslot(startTimeEvent);
-        const startTimeEventEmitObject = Object.assign(Object.assign({}, startTimeEvent), { splitTimeslot: splitTimeslots, resetDate: () => setSelectedDay(defaultDate || new Date()), resetSelectedTimeState: () => setSelectedStartTime(undefined) });
-        setSelectedStartTime(startTimeEvent.startTime.getTime());
-        if (onStartTimeSelect) {
-            onStartTimeSelect(startTimeEventEmitObject);
-        }
-    };
-    useEffect(() => {
-        // compile a list of all possible event start times given all timeslots
-        const startTimeEvents = [];
-        // iterate through all available timeslots
-        for (const availableTimeslot of orderedAvailableTimeslots) {
-            const timeslotDuration = differenceInMinutes(new Date(availableTimeslot.endTime), new Date(availableTimeslot.startTime));
-            // this prevents start times from being created where the event duration runs past the available timeslot
-            let startTimesPossible = Math.floor(timeslotDuration / (eventDurationInMinutes + eventStartTimeSpreadInMinutes)) - 1;
-            while (startTimesPossible >= 0) {
-                const newStartTimeEvent = {
-                    availableTimeslot,
-                    startTime: addMinutes(new Date(availableTimeslot.startTime), startTimesPossible * (eventDurationInMinutes + eventStartTimeSpreadInMinutes)),
-                };
-                startTimeEvents.push(newStartTimeEvent);
-                startTimesPossible--;
-            }
-        }
-        // set initial display date
-        if (defaultDate) {
-            setSelectedDay(defaultDate);
-        }
-        setStartTimeEventsList(startTimeEvents);
-    }, [orderedAvailableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
-    useEffect(() => {
-        var _a;
-        const startTimeEventsToDisplay = [];
-        // filter out startTimeEvents so we get the list of ones to display next to the calendar
-        for (const startTimeEvent of startTimeEventsList) {
-            // make sure its the same day as the selected day
-            if (isSameDay(startTimeEvent.startTime, selectedDay)) {
-                // prevents duplicate times (in case there are multiple overlapping shifts)
-                if (startTimeEventsToDisplay.filter((item) => isSameMinute(item.startTime, startTimeEvent.startTime)).length === 0) {
-                    if (!isPast(startTimeEvent.startTime)) {
-                        startTimeEventsToDisplay.push(startTimeEvent);
-                    }
-                }
-            }
-        }
-        // order the events by first in the day
-        const orderedEvents = startTimeEventsToDisplay.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
-        const _nextFutureStartTimeAvailable = (_a = startTimeEventsList.find((startTime) => isAfter(startTime.startTime, selectedDay) && !isToday(startTime.startTime))) === null || _a === void 0 ? void 0 : _a.startTime;
-        if (startTimeEventsList.length > 0 &&
-            onNoFutureTimesAvailable &&
-            !_nextFutureStartTimeAvailable &&
-            orderedEvents.length === 0) {
-            onNoFutureTimesAvailable(selectedDay);
-        }
-        setNextFutureStartTimeAvailable(_nextFutureStartTimeAvailable);
-        setSelectedDayStartTimeEventsList(orderedEvents);
-    }, [selectedDay, startTimeEventsList]);
-    const goToPreviousMonth = () => {
-        setSelectedDay(subMonths(selectedDay, 1));
-    };
-    const goToNextMonth = () => {
-        setSelectedDay(addMonths(selectedDay, 1));
-    };
-    const goToPreviousDay = () => {
-        setSelectedDay(subDays(selectedDay, 1));
-    };
-    const goToNextDay = () => {
-        setSelectedDay(addDays(selectedDay, 1));
-    };
-    const handleGoToNextAvailableDay = () => {
-        if (nextFutureStartTimeAvailable) {
-            setSelectedDay(nextFutureStartTimeAvailable);
-        }
-    };
-    return (React__default.createElement(Container, { className: className, primaryColorRGB: primaryColorRGB, borderRadius: borderRadius, style: scheduleMeetingStyles, backgroundColorContrastRGB: backgroundColorContrastRGB, textColorRGB: textColorRGB, backgroundColorRGB: backgroundColorRGB, primaryColorContrastRGB: primaryColorContrastRGB, calendarColoredTextRGB: calendarColoredTextRGB },
-        React__default.createElement(Inner, null,
-            React__default.createElement(CalendarContainer, null,
-                React__default.createElement(Header, null,
-                    React__default.createElement(ArrowButton, { type: "button", className: "rsm-arrow-button", onClick: goToPreviousMonth },
-                        React__default.createElement(Arrow, { direction: "back" })),
-                    React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, format_selectedDateMonthTitleFormatString, { locale })),
-                    React__default.createElement(ArrowButton, { type: "button", className: "rsm-arrow-button", onClick: goToNextMonth },
-                        React__default.createElement(Arrow, { direction: "forward" }))),
-                React__default.createElement(ScheduleCalendar, { locale: locale, selectedDay: selectedDay, availableTimeslots: orderedAvailableTimeslots, onDaySelected: onDaySelected })),
-            React__default.createElement(Divider, null),
-            React__default.createElement(StartTimeListContainer, null,
-                React__default.createElement(StartTimeListContainerAbsolute, null,
-                    React__default.createElement(Header, null,
-                        React__default.createElement(ArrowButton, { type: "button", className: "rsm-arrow-button", onClick: goToPreviousDay },
-                            React__default.createElement(Arrow, { direction: "back" })),
-                        React__default.createElement(SelectedDayTitle, { className: "rsm-date-title" }, format(selectedDay, format_selectedDateDayTitleFormatString, { locale })),
-                        React__default.createElement(ArrowButton, { type: "button", className: "rsm-arrow-button", onClick: goToNextDay },
-                            React__default.createElement(Arrow, { direction: "forward" }))),
-                    React__default.createElement(StartTimeList, { skipConfirmCheck: skipConfirmCheck, selectedDay: selectedDay, selectedStartTime: selectedStartTime, locale: locale, format_nextFutureStartTimeAvailableFormatString: format_nextFutureStartTimeAvailableFormatString, nextFutureStartTimeAvailable: nextFutureStartTimeAvailable, lang_goToNextAvailableDayText: lang_goToNextAvailableDayText, lang_noFutureTimesText: lang_noFutureTimesText, onGoToNextAvailableDayClick: handleGoToNextAvailableDay, lang_confirmButtonText: lang_confirmButtonText, lang_cancelButtonText: lang_cancelButtonText, lang_emptyListText: lang_emptyListText, lang_selectedButtonText: lang_selectedButtonText, emptyListContentEl: emptyListContentEl, onStartTimeSelect: _onStartTimeSelect, startTimeListItems: selectedDayStartTimeEventsList, format_startTimeFormatString: format_startTimeFormatString, startTimeListStyle: startTimeListStyle, setSelectedStartTime: setSelectedStartTime }))))));
-};
-
-/**
- * @param {TimeSlot[]} availableTimeSlots
- * @param {TimeSlot[]} unavailableTimeSlots
- * @returns {TimeSlot[]} Available TimeSlots less the intersecting unavailable TimeSlots
- */
-const timeSlotDifference = (availableTimeSlots, unavailableTimeSlots) => {
-    if (!availableTimeSlots || !unavailableTimeSlots)
-        return [];
-    const _orderedAvailableTimeSlots = [...availableTimeSlots];
-    const _unavailableTimeSlots = [...unavailableTimeSlots];
-    _orderedAvailableTimeSlots.sort((a, b) => {
-        return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
-    });
-    let cursorIndex = 0;
-    while (cursorIndex < _orderedAvailableTimeSlots.length) {
-        const availableSlot = _orderedAvailableTimeSlots[cursorIndex];
-        try {
-            const availableSlotStartTime = new Date(availableSlot.startTime);
-            const availableSlotEndTime = new Date(availableSlot.endTime);
-            // go ahead and make sure everything has a proper date object
-            if (typeof availableSlot.startTime === 'string') {
-                availableSlot.startTime = availableSlotStartTime;
-            }
-            if (typeof availableSlot.endTime === 'string') {
-                availableSlot.endTime = availableSlotEndTime;
-            }
-            for (const unavailableSlot of _unavailableTimeSlots) {
-                try {
-                    const unavailableSlotStartTime = new Date(unavailableSlot.startTime);
-                    const unavailableSlotEndTime = new Date(unavailableSlot.endTime);
-                    // go ahead and make sure everything has a proper date object
-                    if (typeof unavailableSlot.startTime === 'string') {
-                        unavailableSlot.startTime = unavailableSlotStartTime;
-                    }
-                    if (typeof unavailableSlot.endTime === 'string') {
-                        unavailableSlot.endTime = unavailableSlotEndTime;
-                    }
-                    if (isBefore(unavailableSlotStartTime, availableSlotStartTime) ||
-                        isEqual(unavailableSlotStartTime, availableSlotStartTime)) {
-                        if (isBefore(availableSlotStartTime, unavailableSlotEndTime)) {
-                            if (isBefore(unavailableSlotEndTime, availableSlotEndTime)) {
-                                // |--------[-availableSlot-]---------|
-                                // |-[---unavailable----]-------------|
-                                availableSlot.startTime = unavailableSlotEndTime;
-                            }
-                            else {
-                                // |--------[-availableSlot-]---------|
-                                // |----[----unavailable-------]------|
-                                _orderedAvailableTimeSlots.splice(cursorIndex, 1);
-                                // subtract if we split or splice
-                                cursorIndex--;
-                            }
-                        }
-                    }
-                    else if (isBefore(unavailableSlotStartTime, availableSlotEndTime)) {
-                        if (isBefore(unavailableSlotEndTime, availableSlotEndTime)) {
-                            // |------[---availableSlot----]------|
-                            // |-------[--unavailable---]---------|???????
-                            const newSlot = Object.assign(Object.assign({}, availableSlot), { startTime: unavailableSlotEndTime });
-                            availableSlot.endTime = unavailableSlotStartTime;
-                            _orderedAvailableTimeSlots.splice(cursorIndex + 1, 0, newSlot);
-                            // subtract if we split or splice
-                            cursorIndex--;
-                        }
-                        else {
-                            // |-----[----availableSlot----]------|
-                            // |-------[----unavailable-------]---|
-                            availableSlot.endTime = unavailableSlotStartTime;
-                        }
-                    }
-                }
-                catch (err) {
-                    console.error('Invalid Date for unavailable slot: ', unavailableSlot);
-                    throw err;
-                }
-            }
-        }
-        catch (err) {
-            console.error('Invalid Date for available slot: ', availableSlot);
-            throw err;
-        }
-        cursorIndex++;
-    }
-    return _orderedAvailableTimeSlots;
-};
-
-export { ScheduleMeeting, timeSlotDifference };
+`,Z=({availableTimeslots:e=[],backgroundColor:t="#ffffff",borderRadius:r=0,className:p,defaultDate:x,emptyListContentEl:v,eventDurationInMinutes:_=30,eventStartTimeSpreadInMinutes:w=0,format_nextFutureStartTimeAvailableFormatString:k="cccc, LLLL do",format_selectedDateDayTitleFormatString:E="cccc, LLLL do",format_selectedDateMonthTitleFormatString:C="LLLL yyyy",format_startTimeFormatString:D="h:mm a",lang_cancelButtonText:B="Cancel",lang_confirmButtonText:$="Confirm",lang_emptyListText:L="No times available",lang_goToNextAvailableDayText:F="Next Available",lang_noFutureTimesText:z="No future times available",lang_selectedButtonText:j="Selected:",locale:R,onNoFutureTimesAvailable:G,onSelectedDayChange:A,onStartTimeSelect:I,primaryColor:M="#3f5b85",scheduleMeetingStyles:O,selectedStartTime:U,skipConfirmCheck:Z=!1,startTimeListStyle:ee="grid",textColor:te})=>{const re=h(M).rgb().array().join(","),ae=h(t).rgb().array().join(","),oe=h(t).isDark(),ne=te||(oe?"255, 255, 255":"34, 34, 34"),ie=h(M).isDark()?"255, 255, 255":"34, 34, 34",le=oe?"255, 255, 255":"34, 34, 34",ce=oe?h(M).lighten(.5).rgb().array().join(","):h(M).darken(.5).rgb().array().join(","),[de,se]=f(U?U.getTime():void 0),[me,ge]=f(new Date),[be,ue]=f([]),[pe,xe]=f([]),[ve,Te]=f(),[fe,ye]=f([]);y((()=>{se(U?U.getTime():void 0)}),[U]),y((()=>{const t=[...e];t.sort(((e,t)=>new Date(e.startTime).getTime()-new Date(t.startTime).getTime())),ye(t)}),[e]);y((()=>{const e=[];for(const t of fe){const r=o(new Date(t.endTime),new Date(t.startTime));let a=Math.floor(r/(_+w))-1;for(;a>=0;){const r={availableTimeslot:t,startTime:n(new Date(t.startTime),a*(_+w))};e.push(r),a--}}x&&ge(x),ue(e)}),[fe,_,w,x]),y((()=>{var e;const t=[];for(const e of be)i(e.startTime,me)&&0===t.filter((t=>l(t.startTime,e.startTime))).length&&(c(e.startTime)||t.push(e));const r=t.sort(((e,t)=>e.startTime.getTime()-t.startTime.getTime())),a=null===(e=be.find((e=>d(e.startTime,me)&&!s(e.startTime))))||void 0===e?void 0:e.startTime;be.length>0&&G&&!a&&0===r.length&&G(me),Te(a),xe(r)}),[me,be]);return T.createElement(V,{className:p,$primaryColorRGB:re,$borderRadius:r,style:O,$backgroundColorContrastRGB:le,$textColorRGB:ne,$backgroundColorRGB:ae,$primaryColorContrastRGB:ie,$calendarColoredTextRGB:ce},T.createElement(W,null,T.createElement(J,null,T.createElement(X,null,T.createElement(Y,{type:"button",className:"rsm-arrow-button",onClick:()=>{ge(m(me,1))}},T.createElement(S,{direction:"back"})),T.createElement(Q,{className:"rsm-date-title"},a(me,C,{locale:R})),T.createElement(Y,{type:"button",className:"rsm-arrow-button",onClick:()=>{ge(g(me,1))}},T.createElement(S,{direction:"forward"}))),T.createElement(N,{locale:R,selectedDay:me,availableTimeslots:fe,onDaySelected:e=>{ge(e),A&&A(e)}})),T.createElement(q,null),T.createElement(K,null,T.createElement(P,null,T.createElement(X,null,T.createElement(Y,{type:"button",className:"rsm-arrow-button",onClick:()=>{ge(b(me,1))}},T.createElement(S,{direction:"back"})),T.createElement(Q,{className:"rsm-date-title"},a(me,E,{locale:R})),T.createElement(Y,{type:"button",className:"rsm-arrow-button",onClick:()=>{ge(u(me,1))}},T.createElement(S,{direction:"forward"}))),T.createElement(H,{skipConfirmCheck:Z,selectedDay:me,selectedStartTime:de,locale:R,format_nextFutureStartTimeAvailableFormatString:k,nextFutureStartTimeAvailable:ve,lang_goToNextAvailableDayText:F,lang_noFutureTimesText:z,onGoToNextAvailableDayClick:()=>{ve&&ge(ve)},lang_confirmButtonText:$,lang_cancelButtonText:B,lang_emptyListText:L,lang_selectedButtonText:j,emptyListContentEl:v,onStartTimeSelect:e=>{const t=(e=>{const t=[null,null],r=o(e.startTime,new Date(e.availableTimeslot.startTime));if(0!==r){const a={oldId:e.availableTimeslot.id,startTime:e.availableTimeslot.startTime,endTime:n(new Date(e.availableTimeslot.startTime),r)};t[0]=a}const a=n(new Date(e.availableTimeslot.startTime),r+_);if(0!==o(a,new Date(e.availableTimeslot.endTime))){const r={oldId:e.availableTimeslot.id,startTime:a,endTime:e.availableTimeslot.endTime};t[1]=r}return t})(e),r=Object.assign(Object.assign({},e),{splitTimeslot:t,resetDate:()=>ge(x||new Date),resetSelectedTimeState:()=>se(void 0)});se(e.startTime.getTime()),I&&I(r)},startTimeListItems:pe,format_startTimeFormatString:D,startTimeListStyle:ee,setSelectedStartTime:se})))))};function ee(e,t){if(!e||!t)return[];const r=[...e],a=[...t];r.sort(((e,t)=>new Date(e.startTime).getTime()-new Date(t.startTime).getTime()));let o=0;for(;o<r.length;){const e=r[o];try{const t=new Date(e.startTime),n=new Date(e.endTime);"string"==typeof e.startTime&&(e.startTime=t),"string"==typeof e.endTime&&(e.endTime=n);for(const i of a)try{const a=new Date(i.startTime),l=new Date(i.endTime);if("string"==typeof i.startTime&&(i.startTime=a),"string"==typeof i.endTime&&(i.endTime=l),p(a,t)||x(a,t))p(t,l)&&(p(l,n)?e.startTime=l:(r.splice(o,1),o--));else if(p(a,n))if(p(l,n)){const t=Object.assign(Object.assign({},e),{startTime:l});e.endTime=a,r.splice(o+1,0,t),o--}else e.endTime=a}catch(e){throw console.error("Invalid Date for unavailable slot: ",i),e}}catch(t){throw console.error("Invalid Date for available slot: ",e),t}o++}return r}export{Z as ScheduleMeeting,ee as timeSlotDifference};

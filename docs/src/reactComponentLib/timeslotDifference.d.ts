@@ -8,4 +8,4 @@ export type TimeSlot = {
  * @param {TimeSlot[]} unavailableTimeSlots
  * @returns {TimeSlot[]} Available TimeSlots less the intersecting unavailable TimeSlots
  */
-export declare const timeSlotDifference: (availableTimeSlots: TimeSlot[], unavailableTimeSlots: TimeSlot[]) => TimeSlot[];
+export declare function timeSlotDifference(availableTimeSlots: TimeSlot[], unavailableTimeSlots: TimeSlot[]): TimeSlot[];

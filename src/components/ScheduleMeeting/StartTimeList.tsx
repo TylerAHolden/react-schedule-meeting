@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StartTimeGridItemButton, ThemedButton } from '../ThemedButton';
 
 import { Arrow } from '../ArrowSVG';
@@ -152,7 +152,7 @@ const StartTimeList: React.FC<Props> = ({
 }) => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSelectedItemIndex(-1);
   }, [selectedDay]);
 

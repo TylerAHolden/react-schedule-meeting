@@ -11,7 +11,7 @@ export type TimeSlot = {
  * @param {TimeSlot[]} unavailableTimeSlots
  * @returns {TimeSlot[]} Available TimeSlots less the intersecting unavailable TimeSlots
  */
-export const timeSlotDifference = (availableTimeSlots: TimeSlot[], unavailableTimeSlots: TimeSlot[]): TimeSlot[] => {
+export function timeSlotDifference (availableTimeSlots: TimeSlot[], unavailableTimeSlots: TimeSlot[]): TimeSlot[] {
   if (!availableTimeSlots || !unavailableTimeSlots) return [];
   const _orderedAvailableTimeSlots = [...availableTimeSlots];
   const _unavailableTimeSlots = [...unavailableTimeSlots];

@@ -4,8 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { setup, styled } from 'goober';
 
 import { AvailableTimeslot } from './ScheduleMeeting';
+import { shouldForwardProp } from 'goober/should-forward-prop';
 
-setup(React.createElement);
+setup(React.createElement,undefined, undefined, shouldForwardProp((prop) => {
+  // Do NOT forward props that start with `$` symbol
+  return prop['0'] !== '$';
+}));
 
 const StyledCalendar = styled(Calendar)`
   &.react-calendar,
