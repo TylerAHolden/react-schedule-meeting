@@ -28,7 +28,7 @@ function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
 
-  const availableTimeslots = [0, 1, 2, 3, 4, 5].map((id) => {
+  const availableTimeSlots = [0, 1, 2, 3, 4, 5].map((id) => {
     return {
       id,
       startTime: new Date(new Date(new Date().setDate(new Date().getDate() + id)).setHours(9, 0, 0, 0)),
@@ -36,7 +36,7 @@ function Home() {
     };
   });
 
-  const handleTimeslotClicked = (startTimeEventEmit) => {
+  const handleTimeSlotClicked = (startTimeEventEmit) => {
     if (resetDate) {
       startTimeEventEmit.resetDate();
     }
@@ -66,8 +66,8 @@ function Home() {
                 primaryColor={primaryColor}
                 backgroundColor={backgroundColor}
                 eventDurationInMinutes={eventDurationInMinutes}
-                availableTimeslots={availableTimeslots}
-                onStartTimeSelect={handleTimeslotClicked}
+                availableTimeslots={availableTimeSlots}
+                onStartTimeSelect={handleTimeSlotClicked}
                 onNoFutureTimesAvailable={console.log}
                 startTimeListStyle={startTimeListStyle}
                 skipConfirmCheck={skipConfirmCheck}
