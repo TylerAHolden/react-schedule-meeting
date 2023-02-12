@@ -17,6 +17,7 @@ type Props = {
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
   emptyListContentEl?: React.ElementType;
   format_startTimeFormatString: string;
+  format_startTimeTextString: string;
   lang_emptyListText: string;
   lang_confirmButtonText: string;
   lang_cancelButtonText: string;
@@ -138,6 +139,7 @@ const StartTimeList: React.FC<Props> = ({
   emptyListContentEl,
   lang_emptyListText,
   format_startTimeFormatString,
+  format_startTimeTextString,
   lang_confirmButtonText,
   lang_cancelButtonText,
   lang_goToNextAvailableDayText,
@@ -198,6 +200,10 @@ const StartTimeList: React.FC<Props> = ({
     }
   };
 
+  const parseString = (str: string, startTime: string, endTime: string) => {
+    return str.replace(/\$startTime/g, startTime).replace(/\$endTime/g, endTime);
+  }
+
   return (
     <>
       {startTimeListItems.length === 0 ? (
@@ -215,6 +221,7 @@ const StartTimeList: React.FC<Props> = ({
                   lang_confirmButtonText={lang_confirmButtonText}
                   lang_cancelButtonText={lang_cancelButtonText}
                   format_startTimeFormatString={format_startTimeFormatString}
+                  format_startTimeTextString={format_startTimeTextString}
                   onCancelClicked={() => handleCancelClicked(startTimeEvent)}
                   selected={Boolean(selectedStartTime && selectedStartTime === startTimeEvent.startTime.getTime())}
                   confirmState={i === selectedItemIndex}
@@ -239,7 +246,7 @@ const StartTimeList: React.FC<Props> = ({
               }
               onClick={() => onStartTimeSelect(startTimeEvent)}
             >
-              {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
+              {format_startTimeTextString !== "" ? parseString(format_startTimeTextString,format(startTimeEvent.startTime, format_startTimeFormatString, { locale }), format(startTimeEvent.endTime, format_startTimeFormatString, { locale }) ) : format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
             </StartTimeGridItemButton>
           ))}
         </GridContainer>

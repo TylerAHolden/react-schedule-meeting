@@ -9,6 +9,7 @@ type Props = {
     onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
     emptyListContentEl?: React.ElementType;
     format_startTimeFormatString: string;
+    format_startTimeTextString: string;
     lang_emptyListText: string;
     lang_confirmButtonText: string;
     lang_cancelButtonText: string;
