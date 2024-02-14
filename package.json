@@ -1,6 +1,6 @@
 {
   "name": "react-schedule-meeting",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "homepage": "https://react-schedule-meeting.netlify.app",

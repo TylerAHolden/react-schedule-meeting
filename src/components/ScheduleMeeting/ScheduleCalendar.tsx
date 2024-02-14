@@ -1,5 +1,5 @@
 import Calendar, { CalendarTileProperties } from 'react-calendar';
-import { Locale, format, getDay, isValid, startOfMonth } from 'date-fns';
+import { Locale, eachDayOfInterval, format, isValid, startOfMonth } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { setup, styled } from 'goober';
 
@@ -214,12 +214,12 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ availableTimeslots, onDaySe
     availableTimeslots.map((slot) => {
       if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.id}`);
       if (!isValid(new Date(slot.endTime))) throw new Error(`Invalid date for end time on slot ${slot.id}`);
-      const startTimeDay = getDay(new Date(slot.startTime));
-      const endTimeDay = getDay(new Date(slot.endTime));
-      if (startTimeDay !== endTimeDay) {
-        daysInTimeslots.push(formatDate(new Date(slot.endTime), locale));
-      }
-      daysInTimeslots.push(formatDate(new Date(slot.startTime), locale));
+      eachDayOfInterval({
+        start: new Date(slot.startTime),
+        end: new Date(slot.endTime),
+      }).map((day) => {
+        daysInTimeslots.push(formatDate(day, locale));
+      });
       return null;
     });
 
