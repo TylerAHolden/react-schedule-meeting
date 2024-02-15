@@ -11,6 +11,7 @@ type Props = {
   confirmState?: boolean;
   onCancelClicked: () => void;
   format_startTimeFormatString: string;
+  format_startTimeTextString: string;
   lang_confirmButtonText: string;
   lang_cancelButtonText: string;
   lang_selectedButtonText: string;
@@ -49,11 +50,16 @@ const StartTimeListItem: React.FC<Props> = ({
   selected,
   onCancelClicked,
   format_startTimeFormatString,
+  format_startTimeTextString,
   lang_confirmButtonText,
   lang_cancelButtonText,
   lang_selectedButtonText,
   locale,
 }) => {
+  const parseString = (str: string, startTime: string, endTime: string) => {
+    return str.replace(/\$startTime/g, startTime).replace(/\$endTime/g, endTime);
+  }
+
   return (
     <Container className="rsm-start-time-item">
       <ThemedButton
@@ -64,7 +70,7 @@ const StartTimeListItem: React.FC<Props> = ({
       >
         {confirmState && !selected && `${lang_confirmButtonText} `}
         {selected && `${lang_selectedButtonText} `}
-        {format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
+        {format_startTimeTextString !== "" ? parseString(format_startTimeTextString, format(startTimeEvent.startTime, format_startTimeFormatString, { locale }), format(startTimeEvent.endTime, format_startTimeFormatString, { locale }) ) : format(startTimeEvent.startTime, format_startTimeFormatString, { locale })}
       </ThemedButton>
       {(confirmState || selected) && (
         <CancelButton type="button" className="rsm-cancel-button" onClick={onCancelClicked}>

@@ -7,6 +7,7 @@ type Props = {
     confirmState?: boolean;
     onCancelClicked: () => void;
     format_startTimeFormatString: string;
+    format_startTimeTextString: string;
     lang_confirmButtonText: string;
     lang_cancelButtonText: string;
     lang_selectedButtonText: string;
