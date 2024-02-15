@@ -425,7 +425,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
           <ScheduleCalendar
             locale={locale}
             selectedDay={selectedDay}
-            availableTimeslots={orderedAvailableTimeslots}
+            startTimeEventsList={startTimeEventsList}
             onDaySelected={onDaySelected}
           />
         </CalendarContainer>

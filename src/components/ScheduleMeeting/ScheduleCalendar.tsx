@@ -1,9 +1,9 @@
 import Calendar, { CalendarTileProperties } from 'react-calendar';
-import { Locale, eachDayOfInterval, format, isValid, startOfMonth } from 'date-fns';
+import { Locale, format, isValid, startOfMonth } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { setup, styled } from 'goober';
 
-import { AvailableTimeslot } from './ScheduleMeeting';
+import { StartTimeEvent } from './ScheduleMeeting';
 import { shouldForwardProp } from 'goober/should-forward-prop';
 
 setup(React.createElement,undefined, undefined, shouldForwardProp((prop) => {
@@ -196,7 +196,7 @@ const StyledCalendar = styled(Calendar)`
 `;
 
 type CalendarProps = {
-  availableTimeslots: Array<AvailableTimeslot>;
+  startTimeEventsList: StartTimeEvent[];
   onDaySelected: (day: Date) => void;
   selectedDay: Date;
   locale?: Locale;
@@ -206,25 +206,22 @@ const formatDate = (date: Date, locale?: Locale) => {
   return format(date, 'MM/dd/yyyy', { locale });
 };
 
-const ScheduleCalendar: React.FC<CalendarProps> = ({ availableTimeslots, onDaySelected, selectedDay, locale }) => {
+const ScheduleCalendar: React.FC<CalendarProps> = ({ startTimeEventsList, onDaySelected, selectedDay, locale }) => {
   const [daysAvailable, setDaysAvailable] = useState<Array<any>>([]);
 
   useEffect(() => {
     const daysInTimeslots: string[] = [];
-    availableTimeslots.map((slot) => {
-      if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.id}`);
-      if (!isValid(new Date(slot.endTime))) throw new Error(`Invalid date for end time on slot ${slot.id}`);
-      eachDayOfInterval({
-        start: new Date(slot.startTime),
-        end: new Date(slot.endTime),
-      }).map((day) => {
-        daysInTimeslots.push(formatDate(day, locale));
-      });
+    startTimeEventsList.map((slot) => {
+      if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.availableTimeslot.id}`);
+      const date = formatDate(slot.startTime, locale);
+      if (daysInTimeslots.indexOf(date) === -1) {
+        daysInTimeslots.push(date);
+      }
       return null;
     });
 
-    setDaysAvailable([...new Set(daysInTimeslots)]);
-  }, [availableTimeslots]);
+    setDaysAvailable(daysInTimeslots);
+  }, [startTimeEventsList]);
 
   const _onClickDay = (day: Date) => {
     onDaySelected(day);

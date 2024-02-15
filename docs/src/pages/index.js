@@ -28,12 +28,18 @@ function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
 
-  const availableTimeSlots = [0, 1, 2, 3, 4, 5].map((id) => {
+  const availableTimeSlots = [0, 1, 2].map((id) => {
     return {
       id,
       startTime: new Date(new Date(new Date().setDate(new Date().getDate() + id)).setHours(9, 0, 0, 0)),
       endTime: new Date(new Date(new Date().setDate(new Date().getDate() + id)).setHours(17, 0, 0, 0)),
     };
+  });
+
+  availableTimeSlots.push({
+    id: 5,
+    startTime: new Date(new Date(new Date().setDate(new Date().getDate() + 5)).setHours(9, 0, 0, 0)),
+    endTime: new Date(new Date(new Date().setDate(new Date().getDate() + 8)).setHours(0, 0, 0, 0)),
   });
 
   const handleTimeSlotClicked = (startTimeEventEmit) => {

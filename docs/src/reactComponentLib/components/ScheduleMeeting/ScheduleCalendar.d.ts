@@ -1,8 +1,8 @@
 import { Locale } from 'date-fns';
 import React from 'react';
-import { AvailableTimeslot } from './ScheduleMeeting';
+import { StartTimeEvent } from './ScheduleMeeting';
 type CalendarProps = {
-    availableTimeslots: Array<AvailableTimeslot>;
+    startTimeEventsList: StartTimeEvent[];
     onDaySelected: (day: Date) => void;
     selectedDay: Date;
     locale?: Locale;
