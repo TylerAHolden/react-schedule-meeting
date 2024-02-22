@@ -330,7 +330,12 @@ export const ScheduleMeeting: React.FC<Props> = ({
     if (defaultDate) {
       setSelectedDay(defaultDate);
     }
-    setStartTimeEventsList(startTimeEvents);
+
+    const orderedStartTimeEvents = startTimeEvents.sort(
+      (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
+    );
+
+    setStartTimeEventsList(orderedStartTimeEvents);
   }, [orderedAvailableTimeslots, eventDurationInMinutes, eventStartTimeSpreadInMinutes, defaultDate]);
 
   useEffect(() => {
@@ -359,7 +364,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
     );
 
     const _nextFutureStartTimeAvailable = startTimeEventsList.find(
-      (startTime) => isAfter(startTime.startTime, selectedDay) && !isToday(startTime.startTime),
+      (startTime) => isAfter(startTime.startTime, selectedDay) ,
     )?.startTime;
 
     if (
