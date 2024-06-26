@@ -25,8 +25,18 @@ We wanted a UI that was agnostic to any scheduling logic after the user has sele
 1. Pass in an array of date ranges that are available for meetings
 1. The ScheduleMeeting component will split them into start times based on the event duration prop
 1. When a user confirms a start time, the component returns:
-   - The start time selected 
+   - The start time selected
    - The original time slot that was used
    - The original time slot now split into two separate time slots _(in case you need to keep track of availabilities)_
 
 [Example & Documentation](https://react-schedule-meeting.netlify.app)
+
+## TODO LIST
+
+> For someday when I have time to work on this again. Feel free to contribute!
+
+- [ ] Dark mode based on system settings #77
+- [ ] Customize Language and text #66
+- [ ] Customize slot lengths #76
+- [ ] Column display option #75
+- [ ] Enhance timezone support #70
