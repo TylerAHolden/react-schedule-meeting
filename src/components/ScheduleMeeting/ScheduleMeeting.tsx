@@ -144,6 +144,7 @@ export type ModifiedTimeslot = AvailableTimeslot & {
 export type StartTimeEvent = {
   availableTimeslot: AvailableTimeslot;
   startTime: Date;
+  endTime: Date;
 };
 
 export type StartTimeEventEmit = StartTimeEvent & {
@@ -165,6 +166,7 @@ type Props = {
   format_selectedDateDayTitleFormatString?: string;
   format_selectedDateMonthTitleFormatString?: string;
   format_startTimeFormatString?: string;
+  format_startTimeTextString?: string;
   lang_cancelButtonText?: string;
   lang_confirmButtonText?: string;
   lang_emptyListText?: string;
@@ -196,6 +198,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
   format_selectedDateDayTitleFormatString = 'cccc, LLLL do',
   format_selectedDateMonthTitleFormatString = 'LLLL yyyy',
   format_startTimeFormatString = 'h:mm a',
+  format_startTimeTextString = '',
   lang_cancelButtonText = 'Cancel',
   lang_confirmButtonText = 'Confirm',
   lang_emptyListText = 'No times available',
@@ -314,12 +317,15 @@ export const ScheduleMeeting: React.FC<Props> = ({
         Math.floor(timeslotDuration / (eventDurationInMinutes + eventStartTimeSpreadInMinutes)) - 1;
 
       while (startTimesPossible >= 0) {
+
+        var startDateTime = addMinutes(
+          new Date(availableTimeslot.startTime),
+          startTimesPossible * (eventDurationInMinutes + eventStartTimeSpreadInMinutes),
+        )
         const newStartTimeEvent: StartTimeEvent = {
           availableTimeslot,
-          startTime: addMinutes(
-            new Date(availableTimeslot.startTime),
-            startTimesPossible * (eventDurationInMinutes + eventStartTimeSpreadInMinutes),
-          ),
+          startTime: startDateTime,
+          endTime: addMinutes(startDateTime, eventDurationInMinutes)
         };
         startTimeEvents.push(newStartTimeEvent);
         startTimesPossible--;
@@ -466,6 +472,7 @@ export const ScheduleMeeting: React.FC<Props> = ({
               onStartTimeSelect={_onStartTimeSelect}
               startTimeListItems={selectedDayStartTimeEventsList}
               format_startTimeFormatString={format_startTimeFormatString}
+              format_startTimeTextString={format_startTimeTextString}
               startTimeListStyle={startTimeListStyle}
               setSelectedStartTime={setSelectedStartTime}
             />

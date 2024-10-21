@@ -12,6 +12,7 @@ export type ModifiedTimeslot = AvailableTimeslot & {
 export type StartTimeEvent = {
     availableTimeslot: AvailableTimeslot;
     startTime: Date;
+    endTime: Date;
 };
 export type StartTimeEventEmit = StartTimeEvent & {
     splitTimeslot?: [SplitTimeslot, SplitTimeslot];
@@ -31,6 +32,7 @@ type Props = {
     format_selectedDateDayTitleFormatString?: string;
     format_selectedDateMonthTitleFormatString?: string;
     format_startTimeFormatString?: string;
+    format_startTimeTextString?: string;
     lang_cancelButtonText?: string;
     lang_confirmButtonText?: string;
     lang_emptyListText?: string;
