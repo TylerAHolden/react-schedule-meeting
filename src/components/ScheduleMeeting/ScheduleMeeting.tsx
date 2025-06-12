@@ -9,7 +9,6 @@ import {
   isPast,
   isSameDay,
   isSameMinute,
-  isToday,
   subDays,
   subMonths,
 } from 'date-fns';
@@ -29,7 +28,7 @@ type StyleVariables = {
   $backgroundColorRGB: string;
   $primaryColorContrastRGB: string;
   $calendarColoredTextRGB: string;
-}; 
+};
 
 const Container = styled('div')<StyleVariables>`
   width: 100%;
@@ -50,7 +49,9 @@ const Inner = styled('div')`
   display: flex;
   border-radius: var(--border-radius);
   background: rgba(var(--background-color-rgb), 1);
-  box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
+  box-shadow:
+    0 5px 22px rgba(20, 21, 21, 0.22),
+    0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
   flex-direction: column;
@@ -158,7 +159,7 @@ type Props = {
   borderRadius?: number;
   className?: string;
   defaultDate?: Date;
-  emptyListContentEl?: React.ElementType;
+  emptyListContentEl?: React.ReactNode;
   eventDurationInMinutes: number;
   eventStartTimeSpreadInMinutes?: number;
   format_nextFutureStartTimeAvailableFormatString?: string;
@@ -363,8 +364,8 @@ export const ScheduleMeeting: React.FC<Props> = ({
       (a: StartTimeEvent, b: StartTimeEvent) => a.startTime.getTime() - b.startTime.getTime(),
     );
 
-    const _nextFutureStartTimeAvailable = startTimeEventsList.find(
-      (startTime) => isAfter(startTime.startTime, selectedDay) ,
+    const _nextFutureStartTimeAvailable = startTimeEventsList.find((startTime) =>
+      isAfter(startTime.startTime, selectedDay),
     )?.startTime;
 
     if (

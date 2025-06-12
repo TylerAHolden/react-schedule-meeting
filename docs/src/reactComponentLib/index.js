@@ -332,7 +332,9 @@ import{isValid as e,startOfMonth as t,format as r,differenceInMinutes as a,addMi
   display: flex;
   border-radius: var(--border-radius);
   background: rgba(var(--background-color-rgb), 1);
-  box-shadow: 0 5px 22px rgba(20, 21, 21, 0.22), 0px 1px 4px rgba(20, 21, 21, 0.14);
+  box-shadow:
+    0 5px 22px rgba(20, 21, 21, 0.22),
+    0px 1px 4px rgba(20, 21, 21, 0.14);
   padding: 16px;
   margin: 16px;
   flex-direction: column;

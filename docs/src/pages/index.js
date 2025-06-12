@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScheduleMeeting, timeSlotDifference } from '../reactComponentLib';
+import { ScheduleMeeting } from '../reactComponentLib';
 import { Slider, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { setup, styled } from 'goober';
 

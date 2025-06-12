@@ -1,7 +1,7 @@
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
 import { ThemedButton } from '../ThemedButton';
-import { format } from 'date-fns';
+import { format, Locale } from 'date-fns';
 import { styled } from 'goober';
 
 type Props = {
