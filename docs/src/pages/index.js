@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScheduleMeeting } from '../reactComponentLib';
 import { Slider, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { setup, styled } from 'goober';
+import { setup } from 'goober';
 
 import { CirclePicker } from 'react-color';
 import Layout from '@theme/Layout';
@@ -9,10 +9,6 @@ import { format } from 'date-fns';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 setup(React.createElement);
-
-const MainContent = styled('main')``;
-
-const StyledScheduleMeeting = styled(ScheduleMeeting)``;
 
 function Home() {
   const [startTimeListStyle, setStartTimeListStyle] = useState('grid');
@@ -60,13 +56,13 @@ function Home() {
 
   return (
     <Layout title={`React Schedule Meeting Example`} description="A simplistic agnostic UI for scheduling">
-      <MainContent>
+      <main>
         <div className="main-example-container">
           <div className="main-content">
             <div className="main-content-inner">
               <h1>React Schedule Meeting</h1>
               <p>{siteConfig.tagline}</p>
-              <StyledScheduleMeeting
+              <ScheduleMeeting
                 eventStartTimeSpreadInMinutes={eventStartTimeSpreadInMinutes}
                 borderRadius={borderRadius}
                 primaryColor={primaryColor}
@@ -77,6 +73,7 @@ function Home() {
                 onNoFutureTimesAvailable={console.log}
                 startTimeListStyle={startTimeListStyle}
                 skipConfirmCheck={skipConfirmCheck}
+                lang='fr'
               />
             </div>
             <div className="options-container">
@@ -211,7 +208,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </MainContent>
+      </main>
     </Layout>
   );
 }

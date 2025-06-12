@@ -248,7 +248,9 @@ export const ScheduleMeeting: React.FC<Props> = ({
 
   const onDaySelected = (day: Date) => {
     setSelectedDay(day);
-    onSelectedDayChange && onSelectedDayChange(day);
+    if (onSelectedDayChange) {
+      onSelectedDayChange(day);
+    }
   };
 
   const splitTimeslot = (startTimeEvent: StartTimeEvent) => {
