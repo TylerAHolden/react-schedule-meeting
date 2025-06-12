@@ -68,7 +68,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 
 Or leave it empty and use the [link text itself].
 
-URLs and URLs in angle brackets will automatically get turned into links. http://www.example.com/ or <http://www.example.com/> and sometimes example.com (but not on GitHub, for example).
+URLs and URLs in angle brackets will automatically get turned into links. http://www.example.com/ or `<http://www.example.com/>` and sometimes example.com (but not on GitHub, for example).
 
 Some text to show that the reference links can follow later.
 
@@ -108,7 +108,7 @@ print(s)
 
 ```
 No language indicated, so no syntax highlighting.
-But let's throw in a <b>tag</b>.
+But let's throw in a &lt;b&gt;tag&lt;/b&gt;.
 ```
 
 ```js {2}
