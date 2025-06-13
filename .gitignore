@@ -5,3 +5,4 @@ dist
 
 # GitHub workflows and configs
 .github/
+.yarn/install-state.gz
