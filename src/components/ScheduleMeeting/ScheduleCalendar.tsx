@@ -251,6 +251,7 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ startTimeEventsList, onDayS
       tileClassName={_renderClassName}
       value={selectedDay}
       activeStartDate={startOfMonth(selectedDay)}
+      locale={locale?.code}
     />
   );
 };

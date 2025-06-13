@@ -73,7 +73,6 @@ function Home() {
                 onNoFutureTimesAvailable={console.log}
                 startTimeListStyle={startTimeListStyle}
                 skipConfirmCheck={skipConfirmCheck}
-                lang='fr'
               />
             </div>
             <div className="options-container">
