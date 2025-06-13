@@ -20,6 +20,10 @@
     {
       "name": "Devion Villegas",
       "url": "https://github.com/d3vhound"
+    },
+    {
+      "name": "Alfredo Ortegón",
+      "url": "https://github.com/Alorse"
     }
   ],
   "types": "dist/index.d.ts",
