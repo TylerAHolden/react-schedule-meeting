@@ -1,4 +1,4 @@
-import Calendar, { CalendarTileProperties } from 'react-calendar';
+import Calendar, { TileArgs } from 'react-calendar';
 import { Locale, format, isValid, startOfMonth } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { setup, styled } from 'goober';
@@ -6,10 +6,15 @@ import { setup, styled } from 'goober';
 import { StartTimeEvent } from './ScheduleMeeting';
 import { shouldForwardProp } from 'goober/should-forward-prop';
 
-setup(React.createElement,undefined, undefined, shouldForwardProp((prop) => {
-  // Do NOT forward props that start with `$` symbol
-  return prop['0'] !== '$';
-}));
+setup(
+  React.createElement,
+  undefined,
+  undefined,
+  shouldForwardProp((prop) => {
+    // Do NOT forward props that start with `$` symbol
+    return prop['0'] !== '$';
+  }),
+);
 
 const StyledCalendar = styled(Calendar)`
   &.react-calendar,
@@ -212,7 +217,8 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ startTimeEventsList, onDayS
   useEffect(() => {
     const daysInTimeslots: string[] = [];
     startTimeEventsList.map((slot) => {
-      if (!isValid(new Date(slot.startTime))) throw new Error(`Invalid date for start time on slot ${slot.availableTimeslot.id}`);
+      if (!isValid(new Date(slot.startTime)))
+        throw new Error(`Invalid date for start time on slot ${slot.availableTimeslot.id}`);
       const date = formatDate(slot.startTime, locale);
       if (daysInTimeslots.indexOf(date) === -1) {
         daysInTimeslots.push(date);
@@ -227,11 +233,11 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ startTimeEventsList, onDayS
     onDaySelected(day);
   };
 
-  const _isTileDisabled = (props: CalendarTileProperties) => {
+  const _isTileDisabled = (props: TileArgs) => {
     return props.view === 'month' && !daysAvailable.some((date) => date === formatDate(props.date, locale));
   };
 
-  const _renderClassName = (props: CalendarTileProperties) => {
+  const _renderClassName = (props: TileArgs) => {
     if (daysAvailable.some((date) => date === formatDate(props.date, locale))) return ['day-tile', 'active-day-tile'];
     return (props.view === 'month' && 'day-tile') || null;
   };
@@ -245,6 +251,7 @@ const ScheduleCalendar: React.FC<CalendarProps> = ({ startTimeEventsList, onDayS
       tileClassName={_renderClassName}
       value={selectedDay}
       activeStartDate={startOfMonth(selectedDay)}
+      locale={locale?.code}
     />
   );
 };

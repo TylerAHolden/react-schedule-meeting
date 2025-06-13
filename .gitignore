@@ -2,3 +2,6 @@
 node_modules
 dist
 .rpt2_cache
+
+# GitHub workflows and configs
+.github/

@@ -24,7 +24,7 @@ type Props = {
     borderRadius?: number;
     className?: string;
     defaultDate?: Date;
-    emptyListContentEl?: React.ElementType;
+    emptyListContentEl?: React.ReactNode;
     eventDurationInMinutes: number;
     eventStartTimeSpreadInMinutes?: number;
     format_nextFutureStartTimeAvailableFormatString?: string;

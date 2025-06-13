@@ -1,5 +1,6 @@
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
+import { Locale } from 'date-fns';
 type Props = {
     skipConfirmCheck: boolean;
     selectedDay: Date;
@@ -7,7 +8,7 @@ type Props = {
     selectedStartTime?: number;
     startTimeListItems?: StartTimeEvent[];
     onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
-    emptyListContentEl?: React.ElementType;
+    emptyListContentEl?: React.ReactNode;
     format_startTimeFormatString: string;
     lang_emptyListText: string;
     lang_confirmButtonText: string;

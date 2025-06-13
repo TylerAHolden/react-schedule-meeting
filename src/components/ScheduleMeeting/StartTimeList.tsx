@@ -4,7 +4,7 @@ import { StartTimeGridItemButton, ThemedButton } from '../ThemedButton';
 import { Arrow } from '../ArrowSVG';
 import EventListItem from './StartTimeListItem';
 import { StartTimeEvent } from './ScheduleMeeting';
-import { format } from 'date-fns';
+import { format, Locale } from 'date-fns';
 import { styled } from 'goober';
 
 // @TODO okay this is getting a little silly maybe its time to consider context.
@@ -15,7 +15,7 @@ type Props = {
   selectedStartTime?: number;
   startTimeListItems?: StartTimeEvent[];
   onStartTimeSelect: (startTimeEvent: StartTimeEvent) => void;
-  emptyListContentEl?: React.ElementType;
+  emptyListContentEl?: React.ReactNode;
   format_startTimeFormatString: string;
   lang_emptyListText: string;
   lang_confirmButtonText: string;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StartTimeEvent } from './ScheduleMeeting';
+import { Locale } from 'date-fns';
 type Props = {
     onStartTimeSelect: () => void;
     startTimeEvent: StartTimeEvent;
